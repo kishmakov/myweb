@@ -1,0 +1,4 @@
+./manage.py runfcgi method=prefork host=127.0.0.1 port=8080 pidfile=/tmp/site.pid
+
+sudo chgrp -R www-data /var/www
+sudo chmod -R g+w /var/www

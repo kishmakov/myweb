@@ -1,0 +1,138 @@
+@import url("reset.css");
+
+html {
+    overflow-y: scroll;
+}
+
+div {
+    overflow: hidden;
+}
+
+img {
+    border: none;
+}
+
+h1, h2, h3 {
+    color: #000066;
+    font-family: Helvetica, sans-serif;
+    font-weight: normal;
+    margin: 20px 0 20px 0;
+}
+
+h1 {
+    font-size: 32px;
+}
+
+h2 {
+    font-size: 22px;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+body {
+    line-height: 1.5em;
+    background: #f0f0ff;
+    padding: 0;
+    margin: 0;
+}
+
+/* general divs */
+
+.fleft {
+    float: left;
+}
+
+.fright {
+    float: right;
+}
+
+.center {
+    text-align: center;
+    margin-left: auto;
+    margin-right:  auto;
+}
+
+
+/* specific divs */
+
+#container {
+    text-align: left;
+    width: 980px;
+    margin: 0 auto;
+    padding: 0;
+    background: white;
+}
+
+div.row {
+    width: 100%;
+    padding: 0 0 30px 0;
+}
+
+div.halfwidth {
+    width: 50%;
+}
+
+div.cell {
+    padding: 0 20px 0 20px;
+    overflow: hidden;
+}
+
+#header {
+    height: 50px;
+    /*background: gray;*/
+}
+
+#footer {
+    height: 50px;
+    /*background-color: black;*/
+}
+
+
+/* table */
+
+table.sparse td {
+    font-family: arial, times;
+    text-align: left;
+    font-size: 14px;
+    padding: 10px 10px 0 10px;
+}
+
+/* text */
+
+.texter {
+    padding: 5px 10px 5px 10px;
+}
+
+.texter p {
+    font-family: Helvetica, sans-serif;
+    font-size: 16px;
+    padding: 5px 0 10px 0;
+}
+
+.texter p.bold {
+    font-weight: bold;
+    padding: 0;
+}
+
+.texter p.gray {
+    color: gray;
+    padding: 0 0 10px 0;
+}
+
+/* Pictures */
+
+.photo {
+    padding: 10px;
+}
+
+.logo {
+    padding: 1px 5px 1px 1px;
+    height: 15px;
+}
+
+.icon {
+    padding: 2px 5px 2px 2px;
+    height: 25px;
+}
