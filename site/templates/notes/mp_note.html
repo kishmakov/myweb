@@ -1,0 +1,39 @@
+{% extends "common.html" %}
+
+{% block title %}
+    <meta name="keywords" content="metaphysics метафизика"/>
+    <title>Metaphysics</title>
+{% endblock %}
+
+{% block container %}
+    <div id="header">
+        <div class="texter fleft">
+            <a href="{{ site_url }}">Main Page &gt;</a>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="texter">
+            <h2>{{ text.title | safe }}</h2>
+            <h3>{{ text.author | safe }}</h3>
+        </div>
+
+        <hr/>
+
+        <div class="texter">
+            {{ text.body | safe }}
+        </div>
+
+        <hr/>
+
+        <div class="texter fleft">
+            <a href="http://arnaut-katalan.narod.ru/kuraev51.html">Оригинал
+                текста</a>
+        </div>
+
+        <div class="texter fright">
+            При оформлении использовался <a href="http://www.artlebedev.ru/tools/typograf/">
+            <img src="lebedev.ico" class="logo">Типограф</a>
+        </div>
+    </div>
+{% endblock %}

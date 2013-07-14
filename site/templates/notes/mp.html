@@ -1,0 +1,39 @@
+{% extends "common.html" %}
+
+{% block title %}
+    <meta name="keywords" content="metaphysics метафизика"/>
+    <title>Metaphysics</title>
+{% endblock %}
+
+{% block container %}
+    <div id="header">
+        <div class="texter fleft">
+            <a href="{{ site_url }}">Main Page &gt;</a>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="texter">
+            <h2>Metaphysical Texts</h2>
+
+            <p>
+                I try to keep some interesting for me texts here. Main
+                language here is russian. You could try <a href="http://translate.yandex.com/"><img src="{{ static_url }}notes/yt.ico" class="logo">Yandex.Translate</a>
+                to get a grasp ot its content.
+            </p>
+        </div>
+
+        <hr/>
+
+        <div class="texter">
+            <ul>
+                {% for text in texts %}
+                <li>
+                    <a href="{{ site_url }}/notes/mp/{{ text.id }}/">{{ text.title | safe }}</a>
+                    <p class="teaser">{{ text.teaser | safe }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

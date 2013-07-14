@@ -7,8 +7,8 @@ TEMPLATE_DEBUG = DEBUG
 
 # absolute path uniquely settled
 PROJECT_LOCATION = os.path.join(os.path.dirname(__file__), '..')
-# SITE_URL = 'http://localhost:8000'
-SITE_URL = 'http://192.168.1.6:8000'
+SITE_URL = 'http://localhost:8000'
+# SITE_URL = 'http://192.168.1.6:8000'
 
 def make_full(relative_path):
     return os.path.join(PROJECT_LOCATION, relative_path).replace('\\','/')
@@ -22,16 +22,19 @@ MANAGERS = ADMINS
 
 # bases
 
-DATABASE_ROUTERS = ['vle.routers.VleRouter']
+DATABASE_ROUTERS = [
+    'common.routers.NotesRouter'
+]
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': make_full('bases/system.db')
+        'NAME': make_full('bases/default.sqlite')
     },
 
-    'fluids': {
+    'notes': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': make_full('bases/vle/fluids.db')
+        'NAME': make_full('bases/notes.sqlite')
     }
 }
 
@@ -54,12 +57,11 @@ STATIC_ROOT = make_full('static')
 # urls
 
 MEDIA_URL = ''
-# STATIC_URL = SITE_URL + '/static/'
 STATIC_URL = SITE_URL + '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Put strings here, like '/home/html/static' or 'C:/www/django/static'.
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
@@ -82,13 +84,15 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
-TEMPLATE_CONTEXT_PROCESSOR = ("django.contrib.auth.context_processors.auth",
- "django.core.context_processors.debug",
- "django.core.context_processors.i18n",
- "django.core.context_processors.media",
- "django.core.context_processors.static",
- "django.core.context_processors.tz",
- "django.contrib.messages.context_processors.messages")
+TEMPLATE_CONTEXT_PROCESSOR = (
+    'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages'
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+)
 
 
 MIDDLEWARE_CLASSES = (
@@ -98,7 +102,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+# 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'common.urls'
@@ -108,19 +112,19 @@ WSGI_APPLICATION = 'common.wsgi.application'
 
 TEMPLATE_DIRS = (
     make_full('templates'),
-    make_full('templates/vle'),
+    make_full('templates/notes'),
 )
 
 INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'vle',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.messages',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.staticfiles',
+    'notes',
 )
 
 # A sample logging configuration. The only tangible logging
