@@ -2,13 +2,16 @@
 
 {% block title %}
     <meta name="keywords" content="metaphysics метафизика"/>
-    <title>Metaphysics</title>
+    <title>{{ text.title | safe }}</title>
 {% endblock %}
 
 {% block container %}
     <div id="header">
         <div class="texter fleft">
             <a href="{{ site_url }}">Main Page &gt;</a>
+        </div>
+        <div class="texter fleft">
+            <a href="{{ site_url }}/notes/mp/">Metaphysics &gt;</a>
         </div>
     </div>
 
@@ -27,13 +30,13 @@
         <hr/>
 
         <div class="texter fleft">
-            <a href="http://arnaut-katalan.narod.ru/kuraev51.html">Оригинал
+            <a href="{{ text.link }}">Оригинал
                 текста</a>
         </div>
 
         <div class="texter fright">
             При оформлении использовался <a href="http://www.artlebedev.ru/tools/typograf/">
-            <img src="lebedev.ico" class="logo">Типограф</a>
+            <img src="{{static_url}}notes/lebedev.ico" class="logo">Типограф</a>
         </div>
     </div>
 {% endblock %}

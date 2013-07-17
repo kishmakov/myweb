@@ -1,0 +1,38 @@
+{% extends "common.html" %}
+
+{% block title %}
+    <meta name="keywords" content="technology technologic"/>
+    <title>Technology</title>
+{% endblock %}
+
+{% block container %}
+    <div id="header">
+        <div class="texter fleft">
+            <a href="{{ site_url }}">Main Page &gt;</a>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="texter">
+            <h2>Technology Related Texts</h2>
+
+            <p>
+                There are some notes, related to my activity, which I consider useful for other people.
+            </p>
+        </div>
+
+        <hr/>
+
+        <div class="texter">
+            <ul>
+                {% for text in texts %}
+                <li>
+                    <a href="{{ site_url }}/notes/th/{{ text.id }}/">{{ text.title | safe }}</a>
+                    <p class="teaser">{{ text.teaser | safe }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+{% endblock %}
