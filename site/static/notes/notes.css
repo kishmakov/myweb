@@ -1,13 +1,25 @@
 @import url("../main.css");
 
-h2, h3, p {
-    text-indent : 15px;
+hr {
+    border: 0;
+    height: 1px;
+    background-color: grey;
+    width: 90%;
 }
 
 ul {
-    list-style-type: circle;
+    list-style-type: square;
 }
 
 li {
     padding: 10px 0 10px 0;
+}
+
+.breadcrumbs {
+    padding: 25px 5px 10px 30px;
+    font-family: Helvetica, sans-serif;
+}
+
+#content {
+    padding: 0 30px 0 30px;
 }
