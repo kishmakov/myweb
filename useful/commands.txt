@@ -1,8 +1,11 @@
 ./manage.py syncdb --database=notes
 ./manage.py runfcgi method=prefork host=127.0.0.1 port=8080 pidfile=/tmp/site.pid
 
+rsync -a -v /home/menato/myweb/site/ /var/www/site/
 sudo chgrp -R www-data /var/www
 sudo chmod -R g+w /var/www
+sudo chown -R www-data /var/www
 
 sqlite3 notes.sqlite .dump > notes.bak
 sqlite3 notes.sqlite < notes.bak
+
