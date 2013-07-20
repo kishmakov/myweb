@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block container %}
-    <div id="header">
+    <div class="row" id="header">
         <div class="fleft breadcrumbs">
             <a href="{{ site_url }}">Main Page &gt;</a>
         </div>
@@ -15,10 +15,10 @@
         </div>
     </div>
 
-    <div id="content">
+    <div class="row" id="content">
         <div class="texter">
             <h2>{{ text.title | safe }}</h2>
-            <h3>{{ text.author | safe }}</h3>
+            <p class="gray">{{ text.author | safe }}</p>
         </div>
 
         <hr/>
@@ -35,8 +35,10 @@
         </div>
 
         <div class="texter fright">
-            При оформлении использовался <a href="http://www.artlebedev.ru/tools/typograf/">
-            <img src="{{static_url}}notes/lebedev.ico" class="logo">Типограф</a>
+            <p class="gray">
+                При оформлении использовался <a href="http://www.artlebedev.ru/tools/typograf/">
+                <img src="{{static_url}}notes/lebedev.ico" class="logo">Типограф</a>
+            </p>
         </div>
     </div>
 {% endblock %}

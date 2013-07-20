@@ -17,8 +17,7 @@
             <h2>Metaphysical Texts</h2>
 
             <p>
-                I try to keep some interesting for me texts here. Main
-                language here is russian. You could try <a href="http://translate.yandex.com/"><img src="{{ static_url }}notes/yt.ico" class="logo">Yandex.Translate</a>
+                I try to keep some interesting for me texts here. Mainly in russian. You could try <a href="http://translate.yandex.com/"><img src="{{ static_url }}notes/yt.ico" class="logo">Yandex.Translate</a>
                 to get a grasp ot its content.
             </p>
         </div>
@@ -29,8 +28,10 @@
             <ul>
                 {% for text in texts %}
                 <li>
-                    <a href="{{ site_url }}/notes/mp/{{ text.id }}/">{{ text.title | safe }}</a>
-                    <p class="teaser">{{ text.teaser | safe }}</p>
+                    <p class="link">
+                        <a href="{{ site_url }}/notes/mp/{{ text.id }}/">{{ text.title | safe }}</a>
+                    </p>
+                    <p class="gray">{{ text.teaser | safe }}</p>
                 </li>
                 {% endfor %}
             </ul>
