@@ -1,0 +1,94 @@
+{% extends "common.html" %}
+
+{% block title %}
+    <meta name="keywords" content="PVT, flash simulation, thermodynamics, hydrocarbon fluids"/>
+    <title>Fluid PVT</title>
+{% endblock %}
+
+{% block container %}
+    <div class="row" id="header">
+        <div class="fleft breadcrumbs">
+            <a href="{{ site_url }}">Main Page &gt;</a>
+        </div>
+    </div>
+
+    <div class="row" id="content">
+        <div class="texter">
+            <h1>Fluid PVT</h1>
+        </div>
+
+        <hr/>
+
+        <div class="texter">
+            <h2>About</h2>
+
+            <p>
+                This resource is intended to provide necessary information for
+                performing PVT simulation and prediction of some physical and
+                thermodynamical properties of hydrocarbon mixtures. For
+                convenience of the user links to the original papers and
+                sources are provided. All found resources are attached as
+                well.
+            </p>
+
+            <p>
+                Simultaneously it serves as comprehensive and interactive documentation
+                for the internal model. Every module is provided with the link to
+                the corresponding description page. The aim of such a documentation
+                are both the simplification of maintaining of the model structure
+                and facilitation of the process of involvement of new person
+                into the subject.
+            </p>
+        </div>
+
+        <hr/>
+
+        <div class="texter">
+            <h2>Disclaimer</h2>
+
+            <p>
+                This information provided "as is". This compilation was done for
+                the simulation needs. It wasn't tested by implementation
+                of some real world engineering application constructed based
+                on data, computed by observed algorithms. If you are interested in
+                using it for a real-world engineering problems, please, do a double
+                check with original sources.
+            </p>
+        </div>
+
+        <hr/>
+
+        <div class="texter">
+            <h2>List of topics</h2>
+
+            <ul>
+                <li>
+                    <p class="link">
+                        <a href="{{ site_url }}/fluid/notations/">Notations</a>
+                    </p>
+                    <p class="gray">Overview of notations involved into description.</p>
+                </li>
+                {% for topic in topics %}
+                <li>
+                    <p class="link">
+                        <a href="{{ site_url }}/fluid/{{ topic.id }}/">{{ topic.title | safe }}</a>
+                    </p>
+                    <p class="gray">{{ topic.title | safe }}</p>
+                </li>
+                {% endfor %}
+                <li>
+                    <p class="link">
+                        <a href="{{ site_url }}/fluid/links/">Links</a>
+                    </p>
+                    <p class="gray">Links to the useful resources.</p>
+                </li>
+                <li>
+                    <p class="link">
+                        <a href="{{ site_url }}/fluid/refs/">References</a>
+                    </p>
+                    <p class="gray">All references cited over the description.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

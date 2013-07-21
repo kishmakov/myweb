@@ -23,7 +23,8 @@ MANAGERS = ADMINS
 # bases
 
 DATABASE_ROUTERS = [
-    'common.routers.NotesRouter'
+    'common.routers.NotesRouter',
+    'common.routers.FluidRouter',
 ]
 
 DATABASES = {
@@ -35,6 +36,11 @@ DATABASES = {
     'notes': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': make_full('bases/notes.sqlite')
+    },
+
+    'fluid': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': make_full('bases/fluid.sqlite')
     }
 }
 
@@ -113,6 +119,7 @@ WSGI_APPLICATION = 'common.wsgi.application'
 TEMPLATE_DIRS = (
     make_full('templates'),
     make_full('templates/notes'),
+    make_full('templates/fluids'),
 )
 
 INSTALLED_APPS = (
@@ -125,6 +132,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'notes',
+    'fluid'
 )
 
 # A sample logging configuration. The only tangible logging

@@ -18,7 +18,7 @@ h1, h2, h3 {
     margin: 20px 0 20px 0;
 }
 
-h1, h2, h3, a {
+h1, h2, h3, a, a:visited {
     color: #000066;
 }
 
@@ -61,6 +61,12 @@ body {
     margin-right:  auto;
 }
 
+hr {
+    border: 0;
+    height: 1px;
+    background-color: gray;
+    width: 90%;
+}
 
 /* specific divs */
 
