@@ -77,20 +77,20 @@ CREATE TABLE "book" (
     "Publisher" varchar(200) NOT NULL,
     "ISBN" varchar(100) NOT NULL
 );
-INSERT INTO "book" VALUES(1,'Phase Behavior of Petroleum Reservoir Fluids','http://vk.com/doc7990_120178336?hash=1edde402ed71c05e63','Book could be considered as a good extension of Calsep internal
+INSERT INTO "book" VALUES(1,'Phase Behavior of Petroleum Reservoir Fluids.','http://vk.com/doc7990_120178336?hash=1edde402ed71c05e63','Book could be considered as a good extension of Calsep internal
 survey and a nice cook-book on hydrocarbon simulation. Provides
 some experimental data.
 ','Pedersen, K. S. and Christensen, P. L.','2006','CRC Press','9780824706944');
-INSERT INTO "book" VALUES(2,'The Properties of Gases and Liquids','http://vk.com/doc7990_118923438?hash=806bf14d1eae45bd31','Comprehensive survey of the literature and methods in
+INSERT INTO "book" VALUES(2,'The Properties of Gases and Liquids.','http://vk.com/doc7990_118923438?hash=806bf14d1eae45bd31','Comprehensive survey of the literature and methods in
 thermodynamics of gases, liquids
 and mixtures. Contains extensive and useful tables of properties
 of 460+ simple components.
 ','Poling, B. E., Prausnitz, J. M. and O''Conell, J. P.','2001','McGraw-Hill Prof Med/Tech','0070116822, 9780070116825');
-INSERT INTO "book" VALUES(3,'Thermodynamics: Fundamentals for Applications','http://vk.com/doc7990_119997193?hash=93b8c54ebfca89a6ba','Detailed and illustrative introduction into thermodynamics
+INSERT INTO "book" VALUES(3,'Thermodynamics: Fundamentals for Applications.','http://vk.com/doc7990_119997193?hash=93b8c54ebfca89a6ba','Detailed and illustrative introduction into thermodynamics
 for engineers.
 Pretty neat both on form and spirit.
 ','Haile, J. M. and O''Connell, J. P.','2005','Cambridge University Press','9780521582063');
-INSERT INTO "book" VALUES(4,'The Properties of Gases and Liquids','http://vk.com/doc7990_123335052?hash=7a743b963d2c80f77e','More like a textbook version of
+INSERT INTO "book" VALUES(4,'The Properties of Gases and Liquids.','http://vk.com/doc7990_123335052?hash=7a743b963d2c80f77e','More like a textbook version of
 Poling Prausnitz and O''Conell books.
 Contains some table for $C_p^0$
 computation by contributional method.
@@ -106,9 +106,7 @@ CREATE TABLE "other" (
     "Authors" varchar(200) NOT NULL,
     "Source" varchar(200) NOT NULL
 );
-INSERT INTO "other" VALUES(1,'Method documentation for PVTsim 16','http://vk.com/doc7990_118883428?hash=3df594bf5a6e18e6bd','Description of the skeleton of the logic of PVTsim 16. Not very detailed,
-but contained a lot of references.
-','Calsep','Internal Survey');
+INSERT INTO "other" VALUES(1,'Method documentation for PVTsim 16','http://vk.com/doc7990_118883428?hash=3df594bf5a6e18e6bd','Description of the skeleton of the logic of PVTsim 16. It is not very detailed, but contains a lot of references.','Calsep','Internal Survey');
 INSERT INTO "other" VALUES(2,'Thermodynamic Properties from Cubic Equation of State.','http://vk.com/doc7990_122304351?hash=1af4c4c17375391f80','Explicit formulas for properties via PR and SRK equation and for
 general cubic pressure-explicit eos as well.
 ','Chung-Nin Mak, P.','Master Thesis at UBC');
@@ -504,7 +502,7 @@ INSERT INTO "subsection" VALUES(9,'General','<p>
     corrections made by the same authors in (1978).
     In what follows we are trying to stick to original
     notations, some of them are described
-    <a href="notations_and_references.html">here</a>.
+    <a href="../notations/">here</a>.
 </p>
 
 <p>
@@ -676,7 +674,7 @@ INSERT INTO "subsection" VALUES(12,'Heat Capacity','<p>
 
 ');
 INSERT INTO "subsection" VALUES(13,'Sonic Speed','<p>
-    According to the section about <a href="sonic_speed.html">sonic speed</a>,
+    According to the section about <a href="../4/">sonic speed</a>,
     in case of PR equation, sonic speed could be expressed in analytic form as
     \[
         u_s = V \sqrt{
@@ -1112,11 +1110,13 @@ CREATE TABLE "chapter" (
     "Id" integer NOT NULL PRIMARY KEY,
     "Title" varchar(200) NOT NULL,
     "Subnodes" text NOT NULL,
+    "Keywords" varchar(200) NOT NULL,
+    "Teaser" text NOT NULL,
     "References" text NOT NULL
 );
-INSERT INTO "chapter" VALUES(1,'Heat Capacities','1 2','o3 o4 o2 p9 p10 p11 p12 b2 b4 b1');
-INSERT INTO "chapter" VALUES(2,'Volume of Compressible Liquid','3 4 5','p14 p15 p16 b2');
-INSERT INTO "chapter" VALUES(3,'Peng–Robinson equation','6 7','o5 p1 p17 o1 b2 p6 b1 p7 p8');
-INSERT INTO "chapter" VALUES(4,'Sonic Speed','8 9','p13 b1 b5');
-INSERT INTO "chapter" VALUES(5,'Vapor-Liquid Equilibrium','10 11 12','o6 o1 p2 p3 b3 b2 b1 p4 p5');
+INSERT INTO "chapter" VALUES(1,'Heat Capacities','1 2', 'heat capacity, heat capacities', 'Equations needed for heat capacity computation and estimation.','o3 o4 o2 p9 p10 p11 p12 b2 b4 b1');
+INSERT INTO "chapter" VALUES(2,'Volume of Compressible Liquid','3 4 5','compressbile liquid volumes','On computation of the volume of compressible liquid.','p14 p15 p16 b2');
+INSERT INTO "chapter" VALUES(3,'Peng–Robinson equation','6 7','Peng-Robinson 1976, Peng, Robinson, Equation of State','Description of the Peng-Robinson equation and formulas for different properties, derived from it.','o5 p1 p17 o1 b2 p6 b1 p7 p8');
+INSERT INTO "chapter" VALUES(4,'Sonic Speed','8 9','speed of the sound, sound speed, sonic speed','On computation of the sonic speed in two phase mixtures.','p13 b1 b5');
+INSERT INTO "chapter" VALUES(5,'Vapor-Liquid Equilibrium','10 11 12','vapor liquid equilibrium, vle','Characterization of the vapor-liquid equilibrium, description of the model and computational approaches.','o6 o1 p2 p3 b3 b2 b1 p4 p5');
 COMMIT;

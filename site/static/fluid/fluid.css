@@ -1,21 +1,39 @@
 @import url("../main.css");
 
+h3 {
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+
 ul {
     padding: 0 0 0 20px;
     list-style-type: square;
 }
 
+ol.citation {
+    list-style-type: decimal;
+    padding: 0 0 0 10px;
+}
+
+ol.citation p, ol.citation {
+    font-size: 15px;
+    font-family: times;
+    line-height: 120%;
+}
+
+ol.citation p i {
+    font-style: italic;
+}
+
 li {
-    padding: 10px 0 10px 0;
+    padding: 0 0 10px 0;
 }
 
 .breadcrumbs {
     padding: 25px 5px 10px 40px;
     font-family: Helvetica, sans-serif;
-}
-
-.teaser {
-    color: #2f2f2f;
 }
 
 #content {

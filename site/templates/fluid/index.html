@@ -1,4 +1,4 @@
-{% extends "common.html" %}
+{% extends "fluid/common.html" %}
 
 {% block title %}
     <meta name="keywords" content="PVT, flash simulation, thermodynamics, hydrocarbon fluids"/>
@@ -73,7 +73,7 @@
                     <p class="link">
                         <a href="{{ site_url }}/fluid/{{ topic.id }}/">{{ topic.title | safe }}</a>
                     </p>
-                    <p class="gray">{{ topic.title | safe }}</p>
+                    <p class="gray">{{ topic.teaser | safe }}</p>
                 </li>
                 {% endfor %}
                 <li>

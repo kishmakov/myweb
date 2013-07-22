@@ -1,4 +1,4 @@
-{% extends "common.html" %}
+{% extends "fluid/common.html" %}
 
 {% block title %}
     <meta name="keywords" content="{{ chapter.keywords }}"/>
@@ -46,6 +46,29 @@
         {% endfor %}
 
         <hr/>
+        <ol class="citation">
+            {% for reference in chapter.references %}
+            <li>
+                <p>
+                {% if not reference.doi and not reference.isbn %}
+                    <a href="{{ reference.link }}">{{ reference.title }}</a>
+                {% elif reference.doi %}
+                    {{ reference.authors | safe }} ({{ reference.year }}).
+                    <a href="{{ reference.link }}">{{ reference.title }}</a>
+                    <i>{% autoescape off %}{{ reference.journal }}{% endautoescape %}</i>
+                    DOI:<a rel="nofollow" class="external text"
+                           href="http://dx.doi.org/{{ reference.doi }}">{{ reference.doi | safe }}</a>
+                {% elif reference.isbn %}
+                    {{ reference.authors | safe }} ({{ reference.year }}).
+                    <a href="{{ reference.link }}">{{ reference.title }}</a>
+                    <i>{% autoescape off %}{{ reference.publisher }}{% endautoescape %}</i>
+                    ISBN:{{ reference.isbn }}
+                {% endif %}
+                </p>
+            </li>
+            {% endfor %}
+        </ol>
+
 
     </div>
 {% endblock %}

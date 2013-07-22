@@ -1,7 +1,7 @@
 import HTMLParser
 from django.db import models
 
-# link representation
+# links representation
 
 class CommonLink(models.Model):
     id = models.AutoField(primary_key=True, db_column='Id')
@@ -32,13 +32,17 @@ class CommonPaper(CommonLink):
     class Meta:
         abstract = True
 
-class Link(CommonLink):
-    class Meta:
-        db_table = 'link'
-
 class Paper(CommonPaper):
     class Meta:
         db_table = 'paper'
+
+class DataPaper(CommonPaper):
+    class Meta:
+        db_table = 'data_paper'
+
+class Link(CommonLink):
+    class Meta:
+        db_table = 'link'
 
 class Book(CommonLink):
     authors = models.CharField(db_column='Authors', max_length=200)
@@ -55,10 +59,6 @@ class Other(CommonLink):
 
     class Meta:
         db_table = 'other'
-
-class DataPaper(CommonPaper):
-    class Meta:
-        db_table = 'data_paper'
 
 # texts representation
 
@@ -90,6 +90,8 @@ class Section(CommonNode):
         db_table = 'section'
 
 class Chapter(CommonNode):
+    keywords = models.CharField(db_column='Keywords', max_length=200)
+    teaser = models.TextField(db_column='Teaser')
     references = models.TextField(db_column='References')
     class Meta:
         db_table = 'chapter'
