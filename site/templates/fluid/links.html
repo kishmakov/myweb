@@ -1,0 +1,55 @@
+{% extends "fluid/common.html" %}
+
+{% block title %}
+    <title>Links</title>
+    <script type="text/javascript"
+            src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+                MathJax.Hub.Config({
+                    extensions: ["tex2jax.js","TeX/noErrors.js","TeX/AMSsymbols.js"],
+                    jax: ["input/TeX","output/HTML-CSS"],
+                    tex2jax: {
+                        inlineMath: [['$','$'],["\\(","\\)"]],
+                        displayMath: [['\\[','\\]'], ['$$','$$']]
+                    },
+                    "HTML-CSS": {availableFonts:["TeX"]}
+                });
+    </script>
+{% endblock %}
+
+{% block container %}
+    <div class="row" id="header">
+        <div class="fleft breadcrumbs">
+            <a href="{{ site_url }}">Main Page &gt;</a>
+        </div>
+        <div class="fleft breadcrumbs">
+            <a href="{{ site_url }}/fluid/">Fluid PVT &gt;</a>
+        </div>
+    </div>
+
+    <div class="row" id="content">
+        <div class="texter">
+            <h1>Links</h1>
+        </div>
+
+        <hr/>
+
+        <div class="texter">
+            <h2>Papers</h2>
+        </div>
+
+        {% for link in links %}
+        <div class="texter">
+            <p>
+                <a rel="nofollow" class="external text" href="{{ link.link }}">
+                    "{{ link.title | safe }}"
+                </a>.
+            </p>
+
+            <p class="gray">
+                {{ link.description | safe }}
+            </p>
+        </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}

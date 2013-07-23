@@ -64,29 +64,28 @@
             <ul>
                 <li>
                     <p class="link">
-                        <a href="{{ site_url }}/fluid/notations/">Notations</a>
+                        <a href="{{ site_url }}/fluid/help/notations/">Notations</a>
                     </p>
                     <p class="gray">Overview of notations involved into description.</p>
                 </li>
                 {% for topic in topics %}
                 <li>
                     <p class="link">
-                        <a href="{{ site_url }}/fluid/{{ topic.id }}/">{{ topic.title | safe }}</a>
+                        <a href="{{ site_url }}/fluid/note/{{ topic.id }}/">{{ topic.title | safe }}</a>
                     </p>
                     <p class="gray">{{ topic.teaser | safe }}</p>
                 </li>
                 {% endfor %}
                 <li>
                     <p class="link">
-                        <a href="{{ site_url }}/fluid/links/">Links</a>
+                        <a href="{{ site_url }}/fluid/help/references/">References</a>,
+                        <a href="{{ site_url }}/fluid/help/data/">Data Papers</a> and
+                        <a href="{{ site_url }}/fluid/help/links/">Links</a>
                     </p>
-                    <p class="gray">Links to the useful resources.</p>
-                </li>
-                <li>
-                    <p class="link">
-                        <a href="{{ site_url }}/fluid/refs/">References</a>
+                    <p class="gray">
+                        All references cited over the chapters,
+                        data sources and links to the useful resources.
                     </p>
-                    <p class="gray">All references cited over the description.</p>
                 </li>
             </ul>
         </div>

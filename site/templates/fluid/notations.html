@@ -1,0 +1,59 @@
+{% extends "fluid/common.html" %}
+
+{% block title %}
+    <title>Notations</title>
+    <script type="text/javascript"
+            src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+                MathJax.Hub.Config({
+                    extensions: ["tex2jax.js","TeX/noErrors.js","TeX/AMSsymbols.js"],
+                    jax: ["input/TeX","output/HTML-CSS"],
+                    tex2jax: {
+                        inlineMath: [['$','$'],["\\(","\\)"]],
+                        displayMath: [['\\[','\\]'], ['$$','$$']]
+                    },
+                    "HTML-CSS": {availableFonts:["TeX"]}
+                });
+    </script>
+{% endblock %}
+
+{% block container %}
+    <div class="row" id="header">
+        <div class="fleft breadcrumbs">
+            <a href="{{ site_url }}">Main Page &gt;</a>
+        </div>
+        <div class="fleft breadcrumbs">
+            <a href="{{ site_url }}/fluid/">Fluid PVT &gt;</a>
+        </div>
+    </div>
+
+    <div class="row" id="content">
+        <div class="texter">
+            <h1>Notations</h1>
+        </div>
+        <hr/>
+
+        <div class="texter">
+            <p>
+                Suppose we are provided with a simple fluid. Let this fluid has
+                the following physical characteristics:
+            </p>
+        </div>
+        <ul>
+            <li>$p, \left[\text{Pa}\right]$ &mdash; [absolute] value of pressure</li>
+            <li>$n, \left[\text{mol}\right]$ &mdash; number of moles of a substance</li>
+            <li>$V, \left[\frac{\text{m}^3}{\text{mol}}\right]$ &mdash; volume of 1 mole of fluid</li>
+            <li>$T, \left[\text{K}\right]$ &mdash; absolute temperature</li>
+            <li>$R = 8.314462175, \left[\frac{\text{J}}{\text{mol} \cdot \text{K}}\right]$ &mdash;
+                <a href="http://en.wikipedia.org/wiki/Gas_constant">ideal gas constant</a></li>
+            <li>$p_c, \left[\text{Pa}\right]$ &mdash; pressure at the critical point</li>
+            <li>$V_c, \left[\frac{\text{m}^3}{\text{mol}}\right]$ &mdash; molar volume at the critical point</li>
+            <li>$T_c, \left[\text{K}\right]$ &mdash; absolute temperature at the critical point</li>
+            <li>$\omega, \left[0\right]$ &mdash; <a href="http://en.wikipedia.org/wiki/Acentric_factor">
+                    acentric factor</a> of the fluid
+            </li>
+            <li>$Z, \left[0\right]$ &mdash; <a href="http://en.wikipedia.org/wiki/Compressibility_factor">
+                    compressibility factor</a> of the fluid
+            </li>
+        </ul>
+    </div>
+{% endblock %}

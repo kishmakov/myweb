@@ -106,3 +106,47 @@ def note(request, num):
     t = get_template('fluid/note.html')
     c = RequestContext(request, dict)
     return HttpResponse(t.render(c))
+
+def notations(request):
+    dict = common_dict()
+    t = get_template('fluid/notations.html')
+    c = RequestContext(request, dict)
+    return HttpResponse(t.render(c))
+
+def get_books():
+    return Book.objects.all()
+
+def get_papers():
+    return Paper.objects.all()
+
+def get_data_papers():
+    return DataPaper.objects.all()
+
+def get_others():
+    return Other.objects.all()
+
+def get_links():
+    return Link.objects.all()
+
+def references(request):
+    dict = common_dict()
+    dict['books'] = get_books()
+    dict['papers'] = get_papers()
+    dict['others'] = get_others()
+    t = get_template('fluid/references.html')
+    c = RequestContext(request, dict)
+    return HttpResponse(t.render(c))
+
+def data_papers(request):
+    dict = common_dict()
+    dict['data_papers'] = get_data_papers()
+    t = get_template('fluid/data_papers.html')
+    c = RequestContext(request, dict)
+    return HttpResponse(t.render(c))
+
+def links(request):
+    dict = common_dict()
+    dict['links'] = get_links()
+    t = get_template('fluid/links.html')
+    c = RequestContext(request, dict)
+    return HttpResponse(t.render(c))

@@ -23,7 +23,7 @@ ol.citation p, ol.citation {
     line-height: 120%;
 }
 
-ol.citation p i {
+ol.citation p i, p i {
     font-style: italic;
 }
 
