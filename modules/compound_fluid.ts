@@ -1,9 +1,27 @@
-class Greeter {
-    constructor(public greeting: string) { }
-    greet() {
-        return "<h1>" + this.greeting + "</h1>";
+class FluidVisualizer {
+    private words_: string[];
+    private size_: number;
+
+    constructor(private div: HTMLElement) {
+        this.size_ = 0;
+        this.words_ = [];
     }
-};
-var greeter = new Greeter("Hello, world!");
-var str = greeter.greet();
-document.body.innerHTML = str;
+
+    add(word: string): void  {
+        this.words_.push(word);
+        this.size_ += 1;
+        this.redraw();
+    }
+
+    redraw(): void {
+        this.div.innerHTML = "";
+        for (var i = 0; i < this.size_; i++) {
+            this.div.innerHTML += "<p>" + this.words_[i] + "</p>";
+        }
+    }
+ }
+
+var FV = new FluidVisualizer(document.getElementById("container"));
+
+
+
