@@ -9,3 +9,6 @@ site:
 
 useful:
 	Some commands and configuratoin files needed around.
+	
+modules:
+	Angularjs templates with bundled typescirpt files.
