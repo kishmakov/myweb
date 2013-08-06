@@ -1128,14 +1128,14 @@ Yandex.Disk is a superb alternative, free from NSA surveillance.','<p>
         <p>
             Install <a href="http://en.wikipedia.org/wiki/Davfs2">davfs2</a> on your system.
         </p>
-        <p class="mono">$ sudo apt-get install davfs2</p>
+        <pre class="brush: bash">$ sudo apt-get install davfs2</pre>
     </li>
     <li>
         <p class="italic">N.B. skip this step if you want higher security.</p>
         <p>
             Add your account information into your secrets. Open it with you editor.
         </p>
-        <p class="mono">$ sudo editor /etc/davfs2/secrets</p>
+        <pre class="brush: bash">$ sudo editor /etc/davfs2/secrets</pre>
         <p>Add next line to it:</p>
         <p class="mono">Yandex.Disk.Directory Yandex.Name Yandex.Password</p>
     </li>
@@ -1143,17 +1143,17 @@ Yandex.Disk is a superb alternative, free from NSA surveillance.','<p>
         <p>
             Configure new file system record in fstab.
         </p>
-        <p class="mono">$ sudo editor /etc/fastab</p>
+        <pre class="brush: bash">$ sudo editor /etc/fastab</pre>
         <p>Add next line to it:</p>
         <p class="mono">https://webdav.yandex.ru:443 Yandex.Disk.Directory davfs noauto,user 0 0</p>
     </li>
     <li>
         <p>Let non-root users mount it.</p>
-        <p class="mono">$ sudo dpkg-reconfigure davfs2</p>
+        <pre class="brush: bash">$ sudo dpkg-reconfigure davfs2</pre>
     </li>
     <li>
         <p>Add yourself to the davfs2 group.</p>
-        <p class="mono">$ sudo gpasswd -a User.Name davfs2</p>
+        <pre class="brush: bash">$ sudo gpasswd -a User.Name davfs2</pre>
     </li>
 </ol>
 
@@ -1161,10 +1161,10 @@ Yandex.Disk is a superb alternative, free from NSA surveillance.','<p>
 
 <p>You could simply mount your Yandex.Disk after these steps with</p>
 
-<p class="mono">$ mount Yandex.Disk.Directory</p>
+<pre class="brush: bash">$ mount Yandex.Disk.Directory</pre>
 
 <p>and unmount it with</p>
 
-<p class="mono">$ umount Yandex.Disk.Directory</p>
+<pre class="brush: bash">$ umount Yandex.Disk.Directory</pre>
 ');
 COMMIT;

@@ -9,3 +9,4 @@ sudo chown -R www-data /var/www
 sqlite3 notes.sqlite .dump > notes.bak
 sqlite3 notes.sqlite < notes.bak
 
+sass --watch file.scss:file.css
