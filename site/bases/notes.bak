@@ -1082,39 +1082,39 @@ INSERT INTO "mp_note" VALUES(2,'no','Зачем каждое воскресен�
 CREATE TABLE "th_note" (
     "Id" integer NOT NULL PRIMARY KEY,
     "Classifier" varchar(30) NOT NULL,
+    "Date" varchar(30) NOT NULL,
     "Title" varchar(100) NOT NULL,
     "Teaser" text NOT NULL,
     "Body" text NOT NULL
 );
-INSERT INTO "th_note" VALUES(1,'no','Setting up Yandex.Disk','Cloud storages are now important part of our life. Snowden revelations
-compromised many players in the area: Dropbox, Google Drive, etc.
-Yandex.Disk is a superb alternative, free from NSA surveillance.','<p>
+INSERT INTO "th_note" VALUES(1,'no','June 18, 2013','How to set up Yandex.Disk',
+'Yandex.Disk is a cloud data storage from Yandex, the leader in the Russian speaking internet.
+It is a highly competitive service with the cheapest upgrade price and uncompromised privacy managment.',
+'<p>
     As it turned out, <a href="http://en.wikipedia.org/wiki/Edward_Snowden#NSA_surveillance_disclosures">NSA
-    stores all the private information</a> which you provide to the major US IT companies, like Google,
-    Microsoft, Dropbox, etc. One should become interested in an alternative to the so needed cloud data storages.
+    stores and automatically analyzes</a> all the [private] information from US based major IT companies.
 </p>
 
 <p>
-    My recommendation is to use <a href="http://disk.yandex.com"><img src="yd.png" class="logo">Yandex.Disk</a>,
-    cloud data storage developed by the biggest Russian search engine <a href="http://yandex.com">Yandex</a>.
+    Unfortunately all the major cloud data storage providers, i.e. Dropbox, Google and Microsoft, are compromised.
+    Those people, who cares about their privacy, should search for an alternative.
 </p>
 
 <p>
-    There are number of pros for such a choice:
+    Hopefully there is a very competitive alternative: <a href="http://disk.yandex.com"><img src="yd.png" class="logo">Yandex.Disk</a>.
+    It is brought by the leader of Russian speaking internet, by <a href="http://yandex.com">Yandex</a>.
 </p>
 
-<ul>
-    <li>it provides 10 Gb of storage</li>
-    <li>it is online for 24/7/365</li>
-    <li>right now it is not monitored by any intelligence agency on regular basis</li>
-    <li>even potentially FSB is not so powerful as CIA</li>
-    <li>FSB will probably never be interested in you ;-)</li>
-</ul>
+<p>
+    Out of the box you would get <b>10 Gb of storage</b>, 24/7/365 availability and Win/Mac clients.
+    If you are Windows or Apple user, all you need to do is to register at
+    <a href="https://passport.yandex.com">Yandex</a> and <a href="https://disk.yandex.com">download</a>
+    official client.
+</p>
 
 <p>
-    In order to get one, you need to register at <a href="https://passport.yandex.com">Yandex</a>.
-    Although there are apps for Windows and MacOS, since Microsoft and Apple were compromised, it is much
-    more secure to use Linux.
+    If you are a Linux user then there is still a possibility to use Yandex.Disk.
+    You could do it via WebDAV.
 </p>
 
 <p>
@@ -1167,4 +1167,41 @@ Yandex.Disk is a superb alternative, free from NSA surveillance.','<p>
 
 <pre class="brush: bash">$ umount Yandex.Disk.Directory</pre>
 ');
+INSERT INTO "th_note" VALUES(2,'no','August 7, 2013','How to use Git Submodules',
+'Git Submodules is essentially the neatest way to include
+in your project third-party library or any git repository.',
+'<p>
+    There is a usual case when one need to incorporate into his project some other
+    person work. If this work is not more than a couple of files, the straightforward
+    way is possibly the best one.
+</p>
+<p>
+    In the case when this work is stored as git repository and consists of a number of
+    files then the best way is to use <a href="http://git-scm.com/book/en/Git-Tools-Submodules">git submodules</a>.
+    It is like source-level equivalent of Debian package system, which has been proven to be extremely useful way
+    to manage software, both for users and for developers.
+</p>
+
+<p>
+    The typical use case is following. Suppose you have your git repository placed in directory A.
+    Let the repository you want to incorporate be at git://some.url/of/repo.git and contains two folders: C, D and E,
+    of which you are not interested in D.
+    If you want to store this submodule at A/B path, then you could do the following actions.
+</p>
+
+<pre class="brush: bash">
+$ cd A
+$ git submodule add git://some.url/of/repo.git B
+# with git version 1.8.4 or higher you could specify "--depth 1" for shallow submodules
+$ cd B
+$ git config core.sparsecheckout true # turning filtering on
+$ echo C > ../.git/modules/B/info/sparse-checkout
+$ echo D >> ../.git/modules/B/info/sparse-checkout
+$ git read-tree -mu HEAD # applying filtering
+</pre>
+
+<p>
+    Thats it. Once you need to change visible directories of submodule, just change submodule <i>sparse-checkout</i> file
+    and repeat last command. Now you could manage your submodule state independently of you main repository.
+</p>');
 COMMIT;
