@@ -1088,8 +1088,8 @@ CREATE TABLE "th_note" (
     "Body" text NOT NULL
 );
 INSERT INTO "th_note" VALUES(1,'no','June 18, 2013','How to set up Yandex.Disk',
-'Yandex.Disk is a cloud data storage from Yandex, the leader in the Russian speaking internet.
-It is a highly competitive service with the cheapest upgrade price and uncompromised privacy managment.',
+'Yandex.Disk is a cloud data storage from Yandex, the leading company in Russian speaking internet.
+It is highly competitive service with cheapest upgrade price and uncompromised privacy managment.',
 '<p>
     As it turned out, <a href="http://en.wikipedia.org/wiki/Edward_Snowden#NSA_surveillance_disclosures">NSA
     stores and automatically analyzes</a> all the [private] information from US based major IT companies.

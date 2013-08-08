@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" href="bootstrap3/css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap3/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="main.css"/>
+
+    <script type="text/javascript" src="jquery/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="bootstrap3/js/bootstrap.js"></script>
+    <script type="text/javascript" src="angular/angular.js"></script>
+    <script type="text/javascript" src="fluid_manager.js"></script>
+    <title>Fluid Manager</title>
+</head>
+
+<body>
+
+<div ng-controller="MyCtrl">
+    <div class="navbar navbar-static-top navbar-fixed-top">
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                   Menu <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a ng-click="greet('home.html')" href="">
+                        <i class="glyphicon glyphicon-home"></i>&nbsp;&nbsp;Home
+                    </a></li>
+                    <li><a ng-click="" href="">
+                        <i class="glyphicon glyphicon-upload"></i>&nbsp;&nbsp;Upload
+                    </a></li>
+                    <li><a ng-click="" href="">
+                        <i class="glyphicon glyphicon-download"></i>&nbsp;&nbsp;Download
+                    </a></li>
+                    <li class="disabled"><a ng-click="" href="">
+                        <i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Open
+                    </a></li>
+                    <li class="disabled"><a ng-click="" href="">
+                        <i class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Save
+                    </a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    Equations <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a ng-click="greet('pr_eq.html')" href="">Peng&ndash;Robinson</a></li>
+                    <li><a ng-click="greet('srk_eq.html')" href="">Redlich&ndash;Kwong</a></li>
+                </ul>
+            </li>
+            <li><a href="#yellow">Experiment Data</a></li>
+            <li class="disabled"><a href="#">Contests</a></li>
+        </ul>
+    </div>
+
+    <div class="raw" ng-include src="panel"></div>
+
+    <!--<div ng-switch="main-panel">-->
+        <!--<div ng-switch-when='t1' ng-include src="template1.html"></div>-->
+        <!--<div ng-switch-when='t2' ng-include src="template2.html"></div>-->
+    <!--</div>-->
+</div>
+</body>
+</html>
