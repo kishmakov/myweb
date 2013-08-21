@@ -2,8 +2,12 @@
     padding-top: 20px;
 }
 
+.totop {
+    margin-top: 5px;
+}
+
 #assign {
-    padding: 0 30px 20px 30px;
+    padding: 0 30px 10px 30px;
 }
 
 table td, table th {
@@ -12,6 +16,8 @@ table td, table th {
 
 table {
     margin-bottom: 20px;
+    border-collapse: separate;
+    border-spacing:2px 0;
 }
 
 .violet {
@@ -30,6 +36,17 @@ table {
     background: #ffff33;
 }
 
-.remove {
+.option {
+    margin-top: 5px;
+    padding: 3px 0 3px 0;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
 
+.option:hover, .option:active {
+    background-color: rgb(50, 118, 177);
+}
+
+.option span {
+    margin-right: 10px;
 }

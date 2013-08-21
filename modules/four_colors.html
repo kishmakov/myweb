@@ -9,10 +9,10 @@
 </head>
 <body>
 
-<div id="container" class="raw">
-    <div class="col-lg-2 col-lg-offset-1" ng-controller="RestrictionsCrtl">
+<div id="container" class="raw" ng-controller="RestrictionsCrtl">
+    <div class="col-lg-2 col-lg-offset-1">
         <div id="assign">
-            <button type="button" class="btn btn-primary btn-default" ng-click="addRestriction()">
+            <button type="button" class="btn btn-primary btn-default" ng-click="assignColors()">
                 <span class="glyphicon glyphicon-refresh"></span>&nbsp;Assign Colors
             </button>
         </div>
@@ -25,31 +25,54 @@
 
         <div id="restrictions">
             <table>
-                <tr ng-repeat="state in restricted_states">
-                    <td><span class="done-{{state.done}}">{{state.name}}</span></td>
+                <tr ng-repeat="state in restrictions">
+                    <td><span>{{state.name}}</span></td>
                     <td class="violet">&nbsp;<input type="checkbox" ng-model="state.violet"></td>
                     <td class="red">&nbsp;<input type="checkbox" ng-model="state.red"></td>
                     <td class="green">&nbsp;<input type="checkbox" ng-model="state.green"></td>
                     <td class="yellow">&nbsp;<input type="checkbox" ng-model="state.yellow"></td>
-                    <td>&nbsp;<button class="btn btn-default btn-xs" ng-click="removeRestriction(state)"><span class="glyphicon glyphicon-remove"></span></button></td>
+                    <td>&nbsp;<button class="btn btn-default btn-xs" ng-click="removeRestriction(state)">
+                        <span class="glyphicon glyphicon-remove"></span></button>
+                    </td>
                 </tr>
             </table>
         </div>
         <div id="restriction-ctrl">
+            <pre>Model: {{selected}}</pre>
             <form id="prescription-form">
-                <input id="new-state" placeholder="Type a country name ..." autocomplete="off" autofocus="">
+                <span class="glyphicon glyphicon-plus"></span>&nbsp;
+                <input placeholder="Type a country name ..." type="text" ng-model="selected" ng-keyup="search(selected)">
             </form>
+            <div ng-repeat="name in chosen_states" class="option" ng-click="addRestriction(name)">
+                <span class="glyphicon glyphicon-chevron-right"></span><span>{{name}}</span>
+            </div>
         </div>
 
     </div>
-    <div class="col-lg-8" style="background: lightblue;">
-        My phrase is "{{phrase}}".
-        My panel is "{{panel}}".
+    <div class="col-lg-8">
+        <div ng-switch on="resultAs">
+            <div ng-switch-when="message">
+                <p>{{message}}</p>
+            </div>
+            <div ng-switch-when="results">
+                <h3 class="totop">Results</h3>
+
+                <table>
+                    <tr ng-repeat="state in all_states">
+                        <td class="violet">&nbsp;&nbsp;</td>
+                        <td>&nbsp;{{state}}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div ng-switch-default>
+            </div>
+        </div>
     </div>
 
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
 <script type="text/javascript" src="four_colors.js"></script>
 </body>
 </html>
