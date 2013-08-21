@@ -1,0 +1,35 @@
+#container {
+    padding-top: 20px;
+}
+
+#assign {
+    padding: 0 30px 20px 30px;
+}
+
+table td, table th {
+    padding: 0 10px 2px 0px;
+}
+
+table {
+    margin-bottom: 20px;
+}
+
+.violet {
+    background: violet;
+}
+
+.red {
+    background: #ff3333;
+}
+
+.green {
+    background: #33ff33;
+}
+
+.yellow {
+    background: #ffff33;
+}
+
+.remove {
+
+}

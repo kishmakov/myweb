@@ -11,5 +11,5 @@
 site/.idea
 site/static/admin
 modules/.idea
-modules/*.js
+modules/*/*.js
 modules/*.map

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="painterApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="four colors political map painter"/>
+    <title>Four Colors Painter</title>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="four_colors.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="container" class="raw">
+    <div class="col-lg-2 col-lg-offset-1" ng-controller="RestrictionsCrtl">
+        <div id="assign">
+            <button type="button" class="btn btn-primary btn-default" ng-click="addRestriction()">
+                <span class="glyphicon glyphicon-refresh"></span>&nbsp;Assign Colors
+            </button>
+        </div>
+
+        <div id="restrictions-heading">
+            <header>
+                <h3>Prescribe Colors</h3>
+            </header>
+        </div>
+
+        <div id="restrictions">
+            <table>
+                <tr ng-repeat="state in restricted_states">
+                    <td><span class="done-{{state.done}}">{{state.name}}</span></td>
+                    <td class="violet">&nbsp;<input type="checkbox" ng-model="state.violet"></td>
+                    <td class="red">&nbsp;<input type="checkbox" ng-model="state.red"></td>
+                    <td class="green">&nbsp;<input type="checkbox" ng-model="state.green"></td>
+                    <td class="yellow">&nbsp;<input type="checkbox" ng-model="state.yellow"></td>
+                    <td>&nbsp;<button class="btn btn-default btn-xs" ng-click="removeRestriction(state)"><span class="glyphicon glyphicon-remove"></span></button></td>
+                </tr>
+            </table>
+        </div>
+        <div id="restriction-ctrl">
+            <form id="prescription-form">
+                <input id="new-state" placeholder="Type a country name ..." autocomplete="off" autofocus="">
+            </form>
+        </div>
+
+    </div>
+    <div class="col-lg-8" style="background: lightblue;">
+        My phrase is "{{phrase}}".
+        My panel is "{{panel}}".
+    </div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+<script type="text/javascript" src="four_colors.js"></script>
+</body>
+</html>
