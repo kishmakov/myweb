@@ -25,19 +25,19 @@ table.result {
 }
 
 .violet {
-    background: violet;
+    background: #990099;
 }
 
 .red {
-    background: #ff3333;
+    background: #CC3300;
 }
 
 .green {
-    background: #33ff33;
+    background: #339900;
 }
 
 .yellow {
-    background: #ffff33;
+    background: #FFCC00;
 }
 
 .option {
@@ -48,7 +48,7 @@ table.result {
 }
 
 .option:hover, .option:active {
-    background-color: rgb(50, 118, 177);
+    background-color: #CCCCCC;
 }
 
 .option span {
