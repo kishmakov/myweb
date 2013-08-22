@@ -56,10 +56,11 @@
             <div ng-switch-when="results">
                 <h3 class="totop">Results</h3>
 
-                <table>
-                    <tr ng-repeat="state in all_states">
-                        <td class="violet">&nbsp;&nbsp;</td>
-                        <td>&nbsp;{{state}}</td>
+                <table class="result">
+                    <tr ng-repeat="coloring_bin in colorings">
+                        <td ng-repeat="coloring in coloring_bin">
+                            <span class="{{coloring.color}}">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;{{coloring.name}}
+                        </td>
                     </tr>
                 </table>
             </div>

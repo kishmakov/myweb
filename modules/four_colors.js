@@ -1,6 +1,6 @@
-var helper = {
-    numberOfBits: function (n) {
-        if (typeof num !== 'number') {
+var algo = {
+    bitsIn: function (n) {
+        if (typeof n != 'number') {
             return -1;
         }
 
@@ -16,8 +16,19 @@ var helper = {
             case 15:
                 return 4;
         }
+    },
+
+    solve: function (borders, patterns) {
+        var colors = [1, 2, 4, 8];
+        var result = {resolution: 'OK', colorings: []};
+
+        for (var i in patterns) {
+            result.colorings.push({num: i, col:colors[Math.floor((Math.random()*4))]});
+        }
+
+        return result;
     }
-}
+};
 
 var painterApp = angular.module('painterApp', []);
 painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
@@ -108,14 +119,6 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
             res[index] = pattern;
         }
 
-        var msg = '';
-
-        for (var i in $scope.all_states) {
-            msg +=  $scope.all_states[i] + ' = ' + res[i] + ((i % 3) == 2 ? '\n' : ', ');
-        }
-
-        alert(msg);
-
         return res;
     };
 
@@ -159,6 +162,7 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
     $scope.restricted_states = $scope.parseRestricted();
     $scope.chosen_states = [];
     $scope.all_borders = $scope.parseBorderings();
+    $scope.colorings = [];
 
     $scope.removeRestriction = function(state) {
         $scope.restricted_states.splice($scope.restricted_states.indexOf(state.name), 1);
@@ -170,8 +174,29 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
         $scope.resultAs = 'message';
 
         var patterns = $scope.parsePatterns();
+        var result = algo.solve($scope.all_borders, patterns);
 
-//        alert($scope.all_states.length);
+        if (result.resolution != 'OK') {
+            $scope.message = 'Couldn\'t find a coloring within provided restrictions.\nTry less restrictions.';
+            return;
+        }
+
+        $scope.colorings = [];
+        var bin = [];
+        for (var i in result.colorings) {
+            var color = '';
+            switch (result.colorings[i].col) {
+                case 1: color = 'yellow'; break;
+                case 2: color = 'green'; break;
+                case 4: color = 'red'; break;
+                case 8: color = 'violet';
+            }
+            bin.push({name:$scope.all_states[result.colorings[i].num], color:color});
+            if (i % 8 == 7) {
+                $scope.colorings.push(bin);
+                bin = [];
+            }
+        }
 
         $scope.resultAs = 'results';
     };

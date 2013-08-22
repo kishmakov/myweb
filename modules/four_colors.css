@@ -20,6 +20,10 @@ table {
     border-spacing:2px 0;
 }
 
+table.result {
+    border-spacing:5px 5px;
+}
+
 .violet {
     background: violet;
 }
