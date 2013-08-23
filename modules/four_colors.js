@@ -60,6 +60,9 @@ var heap = {
 
     relax: function (id, newh) {
         var pos = this.iid[id];
+        if (pos == 0 || pos > this.size) {
+            alert('pos: ' + pos + ', size = ' + this.size);
+        }
         var oldh = this.h[pos];
         this.h[pos] = newh;
 
@@ -104,6 +107,7 @@ var algorithm = {
         this.degree = {};
         this.mdegree = {};
         this.colors = {};
+        this.marked = {};
         heap.size = 0;
 
         for (var i = 0; i < this.n; i++) {
@@ -125,6 +129,7 @@ var algorithm = {
         }
 
         var id = heap.extract();
+        this.marked[id] = true;
 
         for (var c = 1; c <= 8; c <<= 1) {
             if (!(this.pattern[id] & c)) {
@@ -138,6 +143,9 @@ var algorithm = {
 
             for (var j in borders[id]) {
                 var nid = borders[id][j];
+                if (this.marked[nid]) {
+                    continue;
+                }
                 oldPatterns[nid] = this.pattern[nid];
                 this.pattern[nid] &= mask;
                 this.mdegree[nid] += 1;
@@ -155,6 +163,7 @@ var algorithm = {
             }
         }
 
+        this.marked[id] = false;
         heap.insert(id, this.weight(id))
 
         return false;
@@ -235,36 +244,72 @@ var painterApp = angular.module('painterApp', []);
 painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
 
     $scope.restrictions = [
-//        {name:'France', violet:true, red:false, green:false, yellow:false},
-//        {name:'Germany', violet:false, red:false, green:true, yellow:false},
-//        {name:'Russia', violet:false, red:true, green:false, yellow:false}
+        {name:'France', violet:true, red:false, green:false, yellow:false},
+        {name:'Germany', violet:false, red:false, green:true, yellow:false},
+        {name:'Russia', violet:false, red:true, green:false, yellow:false}
     ];
 
     $scope.borderings = [
-        {name:'A', neighbors: ['B', 'E', 'D']},
-        {name:'B', neighbors: ['C', 'E']},
-        {name:'C', neighbors: ['E', 'D']},
-        {name:'D', neighbors: ['E']}
-//        {name:'Argentina', neighbors: ['Bolivia', 'Brazil', 'Chile', 'Paraguay', 'Uruguay']},
-//        {name:'Belarus', neighbors: ['Latvia', 'Lithuania', 'Poland', 'Russia', 'Ukraine']},
-//        {name:'Belgium', neighbors: ['France', 'Luxembourg', 'Netherlands', 'United Kingdom']},
-//        {name:'Bolivia', neighbors: []},
-//        {name:'Brazil', neighbors: []},
-//        {name:'Chile', neighbors: []},
-//        {name:'China', neighbors: []},
-//        {name:'Estonia', neighbors: ['Finland', 'Latvia', 'Russia', 'Sweden']},
-//        {name:'Finland', neighbors: ['Russia', 'Sweden']},
-//        {name:'France', neighbors: ['Germany', 'Italy', 'Luxembourg', 'Spain', 'Switzerland', 'United Kingdom']},
-//        {name:'Germany', neighbors: ['Luxembourg', 'Netherlands', 'Poland', 'Switzerland']},
-//        {name:'Iceland', neighbors: ['Norway', 'United Kingdom']},
-//        {name:'Italy', neighbors: []},
-//        {name:'Netherlands', neighbors: ['United Kingdom']},
-//        {name:'Paraguay', neighbors: []},
-//        {name:'Poland', neighbors: ['Russia', 'Slovakia', 'Ukraine']},
-//        {name:'Russia', neighbors: ['Azerbaijan', 'Belarus', 'China', 'Estonia', 'Finland', 'Georgia', 'Japan', 'Kazakhstan', 'Latvia', 'Lithuania', 'Mongolia', 'North Korea', 'Poland']},
-//        {name:'Spain', neighbors: ['Portugal']},
-//        {name:'Sweden', neighbors: ['Poland']},
-//        {name:'Uruguay', neighbors: []}
+        {name:'Afghanistan', neighbors: ['China', 'Iran', 'Pakistan', 'Tajikistan', 'Turkmenistan', 'Uzbekistan']},
+        {name:'Albania', neighbors: ['Greece', 'Macedonia', 'Montenegro', 'Serbia']},
+        {name:'Algeria', neighbors: ['Libya', 'Mali', 'Mauritania', 'Morocco', 'Niger', 'Western Sahara', 'Tunisia']},
+        {name:'Angola', neighbors: ['Congo', 'Namibia', 'Republic of Congo', 'Zambia']},
+        {name:'Argentina', neighbors: ['Bolivia', 'Brazil', 'Chile', 'Paraguay', 'Uruguay']},
+        {name:'Armenia', neighbors: ['Azerbaijan', 'Georgia', 'Iran', 'Turkey']},
+        {name:'Australia', neighbors: ['Indonesia', 'New Zeland', 'Papua New Guinea']},
+        {name:'Austria', neighbors: ['Czech Republic', 'Hungary', 'Italy','Slovakia', 'Slovenia']},
+        {name:'Azerbaijan', neighbors: ['Georgia','Iran', 'Russia', 'Turkey']},
+        {name:'Bangladesh', neighbors: ['India','Myanmar']},
+        {name:'Belarus', neighbors: ['Latvia', 'Lithuania', 'Poland', 'Russia', 'Ukraine']},
+        {name:'Belgium', neighbors: ['France', 'Luxembourg', 'Netherlands', 'United Kingdom']},
+        {name:'Belize', neighbors: ['Guatemala', 'Mexico']},
+        {name:'Benin', neighbors: ['Burkina Faso', 'Niger', 'Nigeria', 'Togo']},
+        {name:'Bhutan', neighbors: ['China', 'India']},
+        {name:'Bolivia', neighbors: ['Chile', 'Brazil', 'Paraguay', 'Peru']},
+        {name:'Bosnia and Herzegovina', neighbors: ['Croatia', 'Montenegro', 'Serbia']},
+        {name:'Botswana', neighbors: ['Namibia', 'South Africa', 'Zimbabwe']},
+        {name:'Brazil', neighbors: ['Colombia', 'French Guiana', 'Guyana', 'Paraguay', 'Peru', 'Suriname', 'Uruguay', 'Venezuela']},
+        {name:'Bulgaria', neighbors: ['Greece', 'Macedonia', 'Romania', 'Serbia', 'Turkey']},
+        {name:'Burkina Faso', neighbors: ['Ghana','Mali', 'Niger', 'Togo']},
+        {name:'Burundi', neighbors: ['Congo','Rwanda', 'Tanzania']},
+        {name:'Cambodia', neighbors: ['Laos', 'Thailand', 'Vietnam']},
+        {name:'Cameroon', neighbors: ['Central African Republic', 'Chad', 'Equatorial Guinea', 'Gabon', 'Nigeria','Republic of Congo']},
+        {name:'Canada', neighbors: ['Denmark', 'United States']},
+        {name:'Central African Republic', neighbors: ['Chad', 'Congo', 'Republic of Congo', 'Sudan']},
+        {name:'Chad', neighbors: ['Libya', 'Niger', 'Nigeria', 'Sudan']},
+        {name:'Chile', neighbors: ['Peru']},
+        {name:'China', neighbors: ['India', 'Kyrgyzstan', 'Kazakhstan','Laos', 'Mongolia', 'Russia','Myanmar', 'Nepal','North Korea', 'Pakistan', 'Taiwan','Tajikistan','Vietnam']},
+        {name:'Colombia', neighbors: ['Ecuador', 'Panama', 'Peru', 'Venezuela']},
+        {name:'Congo', neighbors: ['Republic of Congo', 'Rwanda', 'Tanzania', 'Uganda', 'Zambia']},
+        {name:'Costa Rica', neighbors: ['Nicaragua', 'Panama']},
+        {name:'Croatia', neighbors: ['Hungary', 'Serbia', 'Slovenia']},
+        {name:'Cuba', neighbors: ['Haiti', 'Mexico', 'United States']},
+        {name:'Cyprus', neighbors: ['Turkey']},
+        {name:'Czech Republic', neighbors: ['Germany', 'Poland', 'Slovakia']},
+        {name:'Denmark', neighbors: ['Germany', 'Norway','Sweden']},
+        {name:'Estonia', neighbors: ['Finland', 'Latvia', 'Russia']},
+        {name:'Finland', neighbors: ['Russia', 'Sweden']},
+        {name:'France', neighbors: ['Germany', 'Italy', 'Luxembourg', 'Spain', 'Switzerland', 'United Kingdom']},
+        {name:'Georgia', neighbors: []},
+        {name:'Germany', neighbors: ['Luxembourg', 'Netherlands', 'Poland', 'Switzerland']},
+        {name:'Iceland', neighbors: ['United Kingdom']},
+        {name:'Italy', neighbors: []},
+        {name:'Ivory Coast', neighbors: ['Liberia', 'Mali']},
+        {name:'Japan', neighbors: ['North Korea', 'South Korea', 'Russia']},
+        {name:'Kazakhstan', neighbors: []},
+        {name:'Latvia', neighbors: ['Lithuania', 'Russia']},
+        {name:'Lithuania', neighbors: ['Polland', 'Russia']},
+        {name:'Mongolia', neighbors: ['Russia']},
+        {name:'Netherlands', neighbors: ['United Kingdom']},
+        {name:'North Korea', neighbors: ['South Korea']},
+        {name:'Norway', neighbors: ['Sweden', 'Russia']},
+        {name:'Paraguay', neighbors: []},
+        {name:'Poland', neighbors: ['Russia', 'Slovakia', 'Ukraine']},
+        {name:'Portugal', neighbors: ['Spain']},
+        {name:'Russia', neighbors: ['Ukraine']},
+        {name:'South Korea', neighbors: ['South Korea']},
+        {name:'Sweden', neighbors: ['Poland']},
+        {name:'Uruguay', neighbors: []}
     ];
 
     $scope.parseAll = function () {
@@ -402,6 +447,13 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
 
         $scope.colorings = [];
         var bin = [];
+        var n = result.colorings.length;
+        var n8 = Math.floor((n + 7) / 8);
+
+        for (var i = 0; i < n8; i++) {
+            $scope.colorings.push([]);
+        }
+
         for (var i in result.colorings) {
             var color = '';
             switch (result.colorings[i].col) {
@@ -410,15 +462,7 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
                 case 4: color = 'red'; break;
                 case 8: color = 'violet';
             }
-            bin.push({name:$scope.all_states[result.colorings[i].num], color:color});
-            if (i % 8 == 7) {
-                $scope.colorings.push(bin);
-                bin = [];
-            }
-        }
-
-        if (bin.length > 0) {
-            $scope.colorings.push(bin);
+            $scope.colorings[i % n8].push({name:$scope.all_states[result.colorings[i].num], color:color});
         }
 
         $scope.resultAs = 'results';
