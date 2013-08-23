@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="painterApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="four colors political map painter"/>
+    <title>Four Colors Painter</title>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ static_url }}notes/four_colors.css" />
+    <link rel="shortcut icon" href="{{ static_url }}favicon.ico" />
+</head>
+<body>
+
+<div id="container" class="raw" ng-controller="RestrictionsCrtl">
+    <div class="col-lg-2 col-lg-offset-1">
+        <div id="assign">
+            <button type="button" class="btn btn-primary btn-default" ng-click="assignColors()">
+                <span class="glyphicon glyphicon-refresh"></span>&nbsp;Assign Colors
+            </button>
+        </div>
+
+        <div id="restrictions-heading">
+            <header>
+                <h3>Prescribe Colors</h3>
+            </header>
+        </div>
+
+        <div id="restrictions">
+            <table>
+                <tr ng-repeat="state in restrictions">
+                    <td><span>{{ng_state_name}}</span></td>
+                    <td class="violet">&nbsp;<input type="checkbox" ng-model="state.violet"></td>
+                    <td class="red">&nbsp;<input type="checkbox" ng-model="state.red"></td>
+                    <td class="green">&nbsp;<input type="checkbox" ng-model="state.green"></td>
+                    <td class="yellow">&nbsp;<input type="checkbox" ng-model="state.yellow"></td>
+                    <td>&nbsp;<button class="btn btn-default btn-xs" ng-click="removeRestriction(state)">
+                        <span class="glyphicon glyphicon-remove"></span></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="restriction-ctrl">
+            <form id="prescription-form">
+                <span class="glyphicon glyphicon-plus"></span>&nbsp;
+                <input placeholder="Type a country name ..." type="text" ng-model="selected" ng-keyup="search(selected)">
+            </form>
+            <div ng-repeat="name in chosen_states" class="option" ng-click="addRestriction(name)">
+                <span class="glyphicon glyphicon-chevron-right"></span><span>{{ng_name}}</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-8">
+        <div ng-switch on="resultAs">
+            <div ng-switch-when="message">
+                <p>{{ng_message}}</p>
+            </div>
+            <div ng-switch-when="results">
+                <h3 class="totop">Results</h3>
+
+                <table class="result">
+                    <tr ng-repeat="coloring_bin in colorings">
+                        <td ng-repeat="coloring in coloring_bin">
+                            <span class="{{ng_coloring_color}}">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;{{ng_coloring_name}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div ng-switch-default>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+<script type="text/javascript" src="{{ static_url }}notes/four_colors.js"></script>
+</body>
+</html>

@@ -19,6 +19,17 @@ def get_text(table_name, id):
     table = table_by_name(table_name)
     return table.objects.get(id=id)
 
+def four_colors(request):
+    dict = common_dict()
+    dict['ng_state_name'] = '{{state.name}}'
+    dict['ng_name'] = '{{name}}'
+    dict['ng_message'] = '{{message}}'
+    dict['ng_coloring_color'] = '{{coloring.color}}'
+    dict['ng_coloring_name'] = '{{coloring.name}}'
+    t = get_template('notes/four_colors.html')
+    c = RequestContext(request, dict)
+    return HttpResponse(t.render(c))
+
 def metaphysics(request):
     dict = common_dict()
     dict['texts'] = get_texts('mp')
