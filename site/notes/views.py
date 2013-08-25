@@ -26,6 +26,7 @@ def four_colors(request):
     dict['ng_message'] = '{{message}}'
     dict['ng_coloring_color'] = '{{coloring.color}}'
     dict['ng_coloring_name'] = '{{coloring.name}}'
+    dict['ng_isocode'] = '{{isocode}}'
     t = get_template('notes/four_colors.html')
     c = RequestContext(request, dict)
     return HttpResponse(t.render(c))

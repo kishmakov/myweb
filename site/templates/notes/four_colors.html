@@ -64,6 +64,24 @@
                         </td>
                     </tr>
                 </table>
+                <hr/>
+                <ul>
+                    <li class="violet">
+                        <span ng-repeat="isocode in color_groups[4]">'{{ng_isocode}}',<span>
+                    </li>
+                    <li class="red">
+                        <span ng-repeat="isocode in color_groups[3]">'{{ng_isocode}}',<span>
+                    </li>
+                    <li class="green">
+                        <span ng-repeat="isocode in color_groups[2]">'{{ng_isocode}}',<span>
+                    </li>
+                    <li class="yellow">
+                        <span ng-repeat="isocode in color_groups[1]">'{{ng_isocode}}',<span>
+                    </li>
+                    <li>
+                        <span ng-repeat="isocode in color_groups[0]">'{{ng_isocode}}',<span>
+                    </li>
+                </ul>
             </div>
 
             <div ng-switch-default>

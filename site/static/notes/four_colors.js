@@ -98,10 +98,6 @@ var algorithm = {
         heap.size = 0;
 
         for (var i = 0; i < this.n; i++) {
-            if (this.bitsIn(pattern[i]) == 0) {
-                return false;
-            }
-
             if (0 == borders[i].length) {
                 continue;
             }
@@ -112,8 +108,6 @@ var algorithm = {
 
             heap.insert(i, this.weight(i));
         }
-
-        return true;
     },
 
     run: function (borders) {
@@ -170,7 +164,9 @@ var algorithm = {
             var added = false;
 
             for (var i = 0; i < patterns.length; i++) {
-                if (!mark[i] && borders[i].length < this.bitsIn(patterns[i])) {
+                var loose = borders[i].length < this.bitsIn(patterns[i]);
+                var excluded = this.bitsIn(patterns[i]) == 0;
+                if (!mark[i] && (loose || excluded)) {
                     added = true;
                     strips.push({num: i, neighbors: borders[i]});
                     for (var j in borders[i]) {
@@ -198,6 +194,11 @@ var algorithm = {
             var id = removed[i].num;
             borders[id] = removed[i].neighbors;
 
+            if (patterns[id] == 0) {
+                this.colors[id] = 0;
+                continue;
+            }
+
             for (var j in borders[id]) {
                 var nid = borders[id][j];
                 borders[nid].push(id);
@@ -219,8 +220,8 @@ var algorithm = {
         this.n = patterns.length;
 
         var removed = this.strip(patterns, borders);
-        var success = this.initiate(borders, patterns);
-        success &= this.run(borders);
+        this.initiate(borders, patterns);
+        var success = this.run(borders);
         this.dress(patterns, borders, removed);
 
         var result = {resolution: success ? 'OK' : 'Nope', colorings: []};
@@ -324,7 +325,7 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
         {name:'Lesotho', neighbors: ['South Africa']},
         {name:'Liberia', neighbors: ['Sierra Leone']},
         {name:'Libya', neighbors: ['Niger', 'Sudan', 'Tunisia']},
-        {name:'Lithuania', neighbors: ['Polland', 'Russia']},
+        {name:'Lithuania', neighbors: ['Poland', 'Russia']},
         {name:'Macedonia', neighbors: ['Serbia']},
         {name:'Madagascar', neighbors: ['Mozambique']},
         {name:'Malawi', neighbors: ['Mozambique', 'Tanzania', 'Zambia']},
@@ -343,7 +344,7 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
         {name:'Niger', neighbors: ['Nigeria']},
         {name:'North Korea', neighbors: ['Russia', 'South Korea']},
         {name:'Norway', neighbors: ['Sweden', 'Russia']},
-        {name:'Oman', neighbors: ['Saudi Arabia', 'U.A.E', 'Yemen']},
+        {name:'Oman', neighbors: ['Saudi Arabia', 'U.A.E.', 'Yemen']},
         {name:'Philippines', neighbors: ['Taiwan', 'Vietnam']},
         {name:'Poland', neighbors: ['Russia', 'Slovakia', 'Ukraine']},
         {name:'Portugal', neighbors: ['Spain']},
@@ -351,7 +352,7 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
         {name:'Romania', neighbors: ['Serbia', 'Ukraine']},
         {name:'Russia', neighbors: ['Ukraine']},
         {name:'Rwanda', neighbors: ['Tanzania', 'Uganda']},
-        {name:'Saudi Arabia', neighbors: ['U.A.E', 'Yemen']},
+        {name:'Saudi Arabia', neighbors: ['U.A.E.', 'Yemen']},
         {name:'Slovakia', neighbors: ['Ukraine']},
         {name:'Somalia', neighbors: ['Yemen']},
         {name:'South Africa', neighbors: ['Swaziland', 'Zimbabwe']},
@@ -361,6 +362,22 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
         {name:'Tanzania', neighbors: ['Uganda']},
         {name:'Turkmenistan', neighbors: ['Uzbekistan']},
         {name:'Zambia', neighbors: ['Zimbabwe']}
+    ];
+
+    $scope.isocodes = [
+        'AF', 'AL', 'DZ', 'AO', 'AR', 'AM', 'AU', 'AT', 'AZ', 'BD', 'BY', 'BE', 'BZ',
+        'BJ', 'BT', 'BO', 'BA', 'BW', 'BR', 'BG', 'BF', 'BI', 'KH', 'CM', 'CA', 'CF',
+        'TD', 'CL', 'CN', 'CO', 'CD', 'CR', 'HR', 'CU', 'CY', 'CZ', 'DK', 'DJ', 'DO',
+        'EC', 'EG', 'SV', 'GQ', 'ER', 'EE', 'ET', 'FI', 'FR', 'GF', 'GA', 'GE', 'DE',
+        'GH', 'GR', 'GT', 'GN', 'GW', 'GY', 'HT', 'HN', 'HU', 'IS', 'IN', 'ID', 'IR',
+        'IQ', 'IE', 'IL', 'IT', 'CI', 'JM', 'JP', 'JO', 'KZ', 'KE', 'KW', 'KG', 'LA',
+        'LV', 'LB', 'LS', 'LR', 'LY', 'LT', 'LU', 'MK', 'MG', 'MW', 'MY', 'ML', 'MR',
+        'MX', 'MD', 'MN', 'ME', 'MA', 'MZ', 'MM', 'NA', 'NP', 'NL', 'NZ', 'NI', 'NE',
+        'NG', 'KP', 'NO', 'OM', 'PK', 'PA', 'PG', 'PY', 'PE', 'PH', 'PL', 'PT', 'QA',
+        'CG', 'RO', 'RU', 'RW', 'SA', 'SN', 'CS', 'SL', 'SK', 'SI', 'SO', 'ZA', 'KR',
+        'ES', 'LK', 'SD', 'SR', 'SZ', 'SE', 'CH', 'SY', 'TW', 'TJ', 'TZ', 'TH', 'TG',
+        'TN', 'TR', 'TM', 'AE', 'UG', 'UA', 'GB', 'US', 'UY', 'UZ', 'VE', 'VN', 'EH',
+        'YE', 'ZM', 'ZW'
     ];
 
     $scope.parseAll = function () {
@@ -479,6 +496,7 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
     $scope.chosen_states = [];
     $scope.all_borders = $scope.parseBorderings();
     $scope.colorings = [];
+    $scope.color_groups = [];
 
     $scope.removeRestriction = function(state) {
         $scope.restricted_states.splice($scope.restricted_states.indexOf(state.name), 1);
@@ -497,6 +515,9 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
         }
 
         $scope.colorings = [];
+        $scope.color_groups = [[], [], [], [], []]; // no, 1, 2, 4, 8
+
+
         var bin = [];
         var n = result.colorings.length;
         var nbins = Math.floor((n + 5) / 6);
@@ -507,21 +528,24 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
 
         for (var i in result.colorings) {
             var color = '';
+            var group = 0;
             switch (result.colorings[i].col) {
-                case 1: color = 'yellow'; break;
-                case 2: color = 'green'; break;
-                case 4: color = 'red'; break;
-                case 8: color = 'violet';
+                case 1: color = 'yellow'; group = 1; break;
+                case 2: color = 'green'; group = 2; break;
+                case 4: color = 'red'; group = 3; break;
+                case 8: color = 'violet'; group = 4;
             }
             $scope.colorings[i % nbins].push({name:$scope.all_states[result.colorings[i].num], color:color});
+            $scope.color_groups[group].push($scope.isocodes[i]);
         }
 
         $scope.resultAs = 'results';
     };
 
     $scope.resultAs = 'message'; // message, results
-    $scope.message = 'With this tool you could produce proper colorings of political map with 4 colors.\n';
-    $scope.message += 'Use left panel to set restrictions: chose countries and possible colors for them.\n';
+    $scope.message = 'With this tool you could produce proper colorings of political map with 4 colors.';
+    $scope.message += 'Use left panel to set restrictions: chose countries and possible colors for them.';
+    $scope.message += 'If there are no possible colors chosen for particular country, it would be excluded from graph.';
     $scope.message += 'Color assignment could take some time. Please, be patient.';
     $scope.selected = '';
 });

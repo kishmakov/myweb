@@ -28,16 +28,48 @@ table.result {
     background: #990099;
 }
 
+li.violet {
+    background: white;
+    color: #990099;
+}
+
 .red {
     background: #CC3300;
+}
+
+li.red {
+    background: white;
+    color: #CC3300;
 }
 
 .green {
     background: #339900;
 }
 
+li.green {
+    background: white;
+    color: #339900;
+}
+
 .yellow {
     background: #FFCC00;
+}
+
+li.yellow {
+    background: white;
+    color: #FFCC00;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    padding: 10px 0 10px 0;
+}
+
+li span {
+    color: black;
 }
 
 .option {
