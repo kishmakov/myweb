@@ -251,7 +251,7 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
         {name:'Argentina', neighbors: ['Bolivia', 'Brazil', 'Chile', 'Paraguay', 'Uruguay']},
         {name:'Armenia', neighbors: ['Azerbaijan', 'Georgia', 'Iran', 'Turkey']},
         {name:'Australia', neighbors: ['Indonesia', 'New Zeland', 'Papua New Guinea']},
-        {name:'Austria', neighbors: ['Czech Republic', 'Hungary', 'Italy','Slovakia', 'Slovenia']},
+        {name:'Austria', neighbors: ['Czech Republic', 'Hungary', 'Italy','Slovakia', 'Slovenia', 'Switzerland']},
         {name:'Azerbaijan', neighbors: ['Georgia','Iran', 'Russia', 'Turkey']},
         {name:'Bangladesh', neighbors: ['India','Myanmar']},
         {name:'Belarus', neighbors: ['Latvia', 'Lithuania', 'Poland', 'Russia', 'Ukraine']},
