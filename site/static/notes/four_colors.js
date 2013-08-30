@@ -194,17 +194,14 @@ var algorithm = {
             var id = removed[i].num;
             borders[id] = removed[i].neighbors;
 
-            if (patterns[id] == 0) {
-                this.colors[id] = 0;
-                continue;
-            }
-
             for (var j in borders[id]) {
                 var nid = borders[id][j];
                 borders[nid].push(id);
                 var color = this.colors[nid];
                 colors.splice(colors.indexOf(color), 1);
             }
+
+            this.colors[id] = 0;
 
             for (var j in colors) {
                 var color = colors[j];
