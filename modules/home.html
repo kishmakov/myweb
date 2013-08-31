@@ -1,5 +1,5 @@
 <div class="col-lg-2" ng-controller="AnotherCtrl" style="overflow: auto; height: {{height()}}px;">
-    <div class="bs-sidebar affix">
+    <div id="navbar-example" class="bs-sidebar affix">
         <ul class="nav bs-sidenav">
             <li>
                 <a href="#section1">Section 1</a>
@@ -25,7 +25,7 @@
     </div>
 </div>
 
-<div class="col-lg-10" ng-controller="AnotherCtrl"
+<div class="col-lg-10" ng-controller="AnotherCtrl" data-spy="scroll" data-target="#navbar-example"
      style="overflow: auto; height: {{height()}}px; background: lightblue;">
 
 <section id="section1">

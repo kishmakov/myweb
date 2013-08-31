@@ -287,7 +287,7 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
         {name:'Eritrea', neighbors: ['Ethiopia', 'Sudan']},
         {name:'Estonia', neighbors: ['Finland', 'Latvia', 'Russia']},
         {name:'Ethiopia', neighbors: ['Kenya', 'Somalia','Sudan']},
-        {name:'Finland', neighbors: ['Russia', 'Sweden']},
+        {name:'Finland', neighbors: ['Russia', 'Sweden', 'Norway']},
         {name:'France', neighbors: ['Germany', 'Italy', 'Luxembourg', 'Spain', 'Switzerland', 'United Kingdom']},
         {name:'Gabon', neighbors: ['Republic of Congo']},
         {name:'Georgia', neighbors: ['Turkey']},
@@ -315,7 +315,7 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
         {name:'Kazakhstan', neighbors: ['Kyrgyzstan', 'Russia', 'Turkmenistan', 'Uzbekistan']},
         {name:'Kenya', neighbors: ['Somalia', 'Tanzania', 'Uganda']},
         {name:'Kuwait', neighbors: ['Saudi Arabia']},
-        {name:'Kuwait', neighbors: ['Tajikistan', 'Uzbekistan']},
+        {name:'Kyrgyzstan', neighbors: ['Tajikistan', 'Uzbekistan']},
         {name:'Laos', neighbors: ['Myanmar', 'Thailand', 'Vietnam']},
         {name:'Latvia', neighbors: ['Lithuania', 'Russia']},
         {name:'Lebanon', neighbors: ['Syria']},
@@ -371,7 +371,7 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
         'LV', 'LB', 'LS', 'LR', 'LY', 'LT', 'LU', 'MK', 'MG', 'MW', 'MY', 'ML', 'MR',
         'MX', 'MD', 'MN', 'ME', 'MA', 'MZ', 'MM', 'NA', 'NP', 'NL', 'NZ', 'NI', 'NE',
         'NG', 'KP', 'NO', 'OM', 'PK', 'PA', 'PG', 'PY', 'PE', 'PH', 'PL', 'PT', 'QA',
-        'CG', 'RO', 'RU', 'RW', 'SA', 'SN', 'CS', 'SL', 'SK', 'SI', 'SO', 'ZA', 'KR',
+        'CG', 'RO', 'RU', 'RW', 'SA', 'SN', 'RS', 'SL', 'SK', 'SI', 'SO', 'ZA', 'KR',
         'ES', 'LK', 'SD', 'SR', 'SZ', 'SE', 'CH', 'SY', 'TW', 'TJ', 'TZ', 'TH', 'TG',
         'TN', 'TR', 'TM', 'AE', 'UG', 'UA', 'GB', 'US', 'UY', 'UZ', 'VE', 'VN', 'EH',
         'YE', 'ZM', 'ZW'
@@ -534,6 +534,9 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
             }
             $scope.colorings[i % nbins].push({name:$scope.all_states[result.colorings[i].num], color:color});
             $scope.color_groups[group].push($scope.isocodes[i]);
+            if ($scope.isocodes[i] == 'DK') {
+                $scope.color_groups[group].push('GL');
+            }
         }
 
         $scope.resultAs = 'results';
