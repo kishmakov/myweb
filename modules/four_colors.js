@@ -241,6 +241,7 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
     ];
 
     $scope.borderings = [
+        {name:'Abkhazia', neighbors: ['Georgia', 'Russia']},
         {name:'Afghanistan', neighbors: ['China', 'Iran', 'Pakistan', 'Tajikistan', 'Turkmenistan', 'Uzbekistan']},
         {name:'Albania', neighbors: ['Greece', 'Macedonia', 'Montenegro', 'Serbia']},
         {name:'Algeria', neighbors: ['Libya', 'Mali', 'Mauritania', 'Morocco', 'Niger', 'Western Sahara', 'Tunisia']},
@@ -289,8 +290,9 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
         {name:'Ethiopia', neighbors: ['Kenya', 'Somalia','Sudan']},
         {name:'Finland', neighbors: ['Russia', 'Sweden', 'Norway']},
         {name:'France', neighbors: ['Germany', 'Italy', 'Luxembourg', 'Spain', 'Switzerland', 'United Kingdom']},
+        {name:'French Guiana', neighbors: ['Suriname']},
         {name:'Gabon', neighbors: ['Republic of Congo']},
-        {name:'Georgia', neighbors: ['Turkey']},
+        {name:'Georgia', neighbors: ['Turkey', 'Russia', 'South Ossetia']},
         {name:'Germany', neighbors: ['Luxembourg', 'Netherlands', 'Poland', 'Switzerland']},
         {name:'Ghana', neighbors: ['Ivory Coast', 'Togo']},
         {name:'Greece', neighbors: ['Macedonia', 'Turkey']},
@@ -347,7 +349,7 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
         {name:'Portugal', neighbors: ['Spain']},
         {name:'Quatar', neighbors: ['Saudi Arabia']},
         {name:'Romania', neighbors: ['Serbia', 'Ukraine']},
-        {name:'Russia', neighbors: ['Ukraine']},
+        {name:'Russia', neighbors: ['South Ossetia', 'Ukraine']},
         {name:'Rwanda', neighbors: ['Tanzania', 'Uganda']},
         {name:'Saudi Arabia', neighbors: ['U.A.E.', 'Yemen']},
         {name:'Slovakia', neighbors: ['Ukraine']},
@@ -362,19 +364,19 @@ painterApp.controller('RestrictionsCrtl', function RestrictionCtrl($scope) {
     ];
 
     $scope.isocodes = [
-        'AF', 'AL', 'DZ', 'AO', 'AR', 'AM', 'AU', 'AT', 'AZ', 'BD', 'BY', 'BE', 'BZ',
-        'BJ', 'BT', 'BO', 'BA', 'BW', 'BR', 'BG', 'BF', 'BI', 'KH', 'CM', 'CA', 'CF',
-        'TD', 'CL', 'CN', 'CO', 'CD', 'CR', 'HR', 'CU', 'CY', 'CZ', 'DK', 'DJ', 'DO',
-        'EC', 'EG', 'SV', 'GQ', 'ER', 'EE', 'ET', 'FI', 'FR', 'GF', 'GA', 'GE', 'DE',
-        'GH', 'GR', 'GT', 'GN', 'GW', 'GY', 'HT', 'HN', 'HU', 'IS', 'IN', 'ID', 'IR',
-        'IQ', 'IE', 'IL', 'IT', 'CI', 'JM', 'JP', 'JO', 'KZ', 'KE', 'KW', 'KG', 'LA',
-        'LV', 'LB', 'LS', 'LR', 'LY', 'LT', 'LU', 'MK', 'MG', 'MW', 'MY', 'ML', 'MR',
-        'MX', 'MD', 'MN', 'ME', 'MA', 'MZ', 'MM', 'NA', 'NP', 'NL', 'NZ', 'NI', 'NE',
-        'NG', 'KP', 'NO', 'OM', 'PK', 'PA', 'PG', 'PY', 'PE', 'PH', 'PL', 'PT', 'QA',
-        'CG', 'RO', 'RU', 'RW', 'SA', 'SN', 'RS', 'SL', 'SK', 'SI', 'SO', 'ZA', 'KR',
-        'ES', 'LK', 'SD', 'SR', 'SZ', 'SE', 'CH', 'SY', 'TW', 'TJ', 'TZ', 'TH', 'TG',
-        'TN', 'TR', 'TM', 'AE', 'UG', 'UA', 'GB', 'US', 'UY', 'UZ', 'VE', 'VN', 'EH',
-        'YE', 'ZM', 'ZW'
+        'AB', 'AF', 'AL', 'DZ', 'AO', 'AR', 'AM', 'AU', 'AT', 'AZ', 'BD', 'BY', 'BE',
+        'BZ', 'BJ', 'BT', 'BO', 'BA', 'BW', 'BR', 'BG', 'BF', 'BI', 'KH', 'CM', 'CA',
+        'CF', 'TD', 'CL', 'CN', 'CO', 'CD', 'CR', 'HR', 'CU', 'CY', 'CZ', 'DK', 'DJ',
+        'DO', 'EC', 'EG', 'SV', 'GQ', 'ER', 'EE', 'ET', 'FI', 'FR', 'GF', 'GA', 'GE',
+        'DE', 'GH', 'GR', 'GT', 'GN', 'GW', 'GY', 'HT', 'HN', 'HU', 'IS', 'IN', 'ID',
+        'IR', 'IQ', 'IE', 'IL', 'IT', 'CI', 'JM', 'JP', 'JO', 'KZ', 'KE', 'KW', 'KG',
+        'LA', 'LV', 'LB', 'LS', 'LR', 'LY', 'LT', 'LU', 'MK', 'MG', 'MW', 'MY', 'ML',
+        'MR', 'MX', 'MD', 'MN', 'ME', 'MA', 'MZ', 'MM', 'NA', 'NP', 'NL', 'NZ', 'NI',
+        'NE', 'NG', 'KP', 'NO', 'OM', 'PK', 'PA', 'PG', 'PY', 'PE', 'PH', 'PL', 'PT',
+        'QA', 'CG', 'RO', 'RU', 'RW', 'SA', 'SN', 'RS', 'SL', 'SK', 'SI', 'SO', 'ZA',
+        'KR', 'OS', 'ES', 'LK', 'SD', 'SR', 'SZ', 'SE', 'CH', 'SY', 'TW', 'TJ', 'TZ',
+        'TH', 'TG', 'TN', 'TR', 'TM', 'AE', 'UG', 'UA', 'GB', 'US', 'UY', 'UZ', 'VE',
+        'VN', 'EH', 'YE', 'ZM', 'ZW'
     ];
 
     $scope.parseAll = function () {
