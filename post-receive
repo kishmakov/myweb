@@ -1,42 +1,91 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 
+import markdown
 import re
 import subprocess
 import sys
 
-ARG_WT = '--work-tree=/home/menato/webapps/blog/entries'
+### constants ###
+
+BLOG_ENTRIES = '/home/menato/webapps/blog/entries'
+BLOG_TEMPLATES = '/home/menato/webapps/blog/templates/entries'
+
+ARG_WT = '--work-tree=' + BLOG_ENTRIES
 ARG_GD = '--git-dir=/home/menato/webapps/git/repos/blog.git'
+
+### functionality ###
+
+def convert(text):
+    html_head = '{% extends "base.html" %}\n\n'
+    html_head += '{% block container %}\n'
+    html_body = markdown.markdown(text)
+    html_tail = '\n{% endblock %}\n'
+
+    return html_head + html_body + html_tail
+
+def convert_and_parse(input_name, output_name):
+    tags_num = 0
+    header_num = 1
+    summary_num = 2
+    body_num  = 3
+
+    lines = ['', '', '', '']
+
+    current_num = -1
+    separator = re.compile('^===+ [A-Za-z]+ ===+$')
+
+    input = open(input_name, 'r')
+
+    for line in input:
+        mode = ''
+        if separator.match(line):
+            mode = line[:-1].strip('= ').lower()
+
+        if mode == 'tags':
+            current_num = tags_num
+        elif mode == 'header':
+            current_num = header_num
+        elif mode == 'summary':
+            current_num = summary_num
+        elif mode == 'body':
+            current_num = body_num
+        elif current_num >= 0:
+            lines[current_num] += line
+
+    output = open(output_name, 'w')
+    output.write(convert(lines[body_num]))
+
+    tags = filter(bool, lines[tags_num].translate(None, '\n').split(';'))
+    header = lines[header_num][0:lines[header_num].find('\n')]
+
+    return tags, header, lines[summary_num]
+
+### script ###
 
 if __name__ == '__main__':
     master_re = re.compile('.*/master$')
+    txt_re = re.compile('.+\.txt$')
 
     for line in sys.stdin.xreadlines():
         old, new, ref = line.strip().split(' ')
         if not master_re.match(ref):
+            print "Ref " + ref " received, but it is not a master."
             continue
+
+        print "Ref " + ref + " received, deployd to production."
 
         subprocess.call(['git', ARG_WT, ARG_GD, 'checkout', '-f'])
         p = subprocess.Popen(['git', ARG_GD, 'diff', '--name-only', old, new],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         out, err = p.communicate()
-        print out
+        names = out.strip().split('\n')
 
-# while read oldrev newrev ref
-# do
-#     echo "oldrev = $oldrev"
-#     echo "newrev = $newrev"
-#     echo "ref = $ref"
-#     if [[ $ref =~ .*/master$ ]];
-#     then
-#         git --work-tree=/home/menato/webapps/blog/entries --git-dir=/home/menato/webapps/git/repos/blog.git checkout -f
-#         affected=($(git --git-dir=/home/menato/webapps/git/repos/blog.git diff --name-only $oldrev $newrev))
-#         for file in ${affected[@]}
-#         do
-#             echo "affected file: $file"
-#         done
-#         echo "Ref $ref received, deployd to production."
-#     else
-#         echo "Ref $ref received, but it is not a master."
-#     fi
-# done
+        for name in names:
+            if not txt_re.match(name):
+                continue
+
+            txt_name = BLOG_ENTRIES + '/' + name
+            html_name = BLOG_TEMPLATES + '/' + name[:-3] + 'html'
+
+            convert_and_parse(txt_name, html_name)
