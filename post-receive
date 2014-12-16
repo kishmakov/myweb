@@ -13,6 +13,10 @@ BLOG_TEMPLATES = '/home/menato/webapps/blog/templates/entries'
 ARG_WT = '--work-tree=' + BLOG_ENTRIES
 ARG_GD = '--git-dir=/home/menato/webapps/git/repos/blog.git'
 
+separator_re = re.compile('^===+ [A-Za-z]+ ===+$')
+master_re = re.compile('.*/master$')
+txt_re = re.compile('.+\.txt$')
+
 ### functionality ###
 
 def convert(text):
@@ -32,13 +36,12 @@ def convert_and_parse(input_name, output_name):
     lines = ['', '', '', '']
 
     current_num = -1
-    separator = re.compile('^===+ [A-Za-z]+ ===+$')
 
     input = open(input_name, 'r')
 
     for line in input:
         mode = ''
-        if separator.match(line):
+        if separator_re.match(line):
             mode = line[:-1].strip('= ').lower()
 
         if mode == 'tags':
@@ -63,8 +66,6 @@ def convert_and_parse(input_name, output_name):
 ### script ###
 
 if __name__ == '__main__':
-    master_re = re.compile('.*/master$')
-    txt_re = re.compile('.+\.txt$')
 
     for line in sys.stdin.xreadlines():
         old, new, ref = line.strip().split(' ')
