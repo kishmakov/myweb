@@ -70,10 +70,10 @@ if __name__ == '__main__':
     for line in sys.stdin.xreadlines():
         old, new, ref = line.strip().split(' ')
         if not master_re.match(ref):
-            print "Ref " + ref " received, but it is not a master."
+            print 'Ref ' + ref + ' received, but it is not a master.'
             continue
 
-        print "Ref " + ref + " received, deployd to production."
+        print 'Ref ' + ref + ' received, deployd to production.'
 
         subprocess.call(['git', ARG_WT, ARG_GD, 'checkout', '-f'])
         p = subprocess.Popen(['git', ARG_GD, 'diff', '--name-only', old, new],
