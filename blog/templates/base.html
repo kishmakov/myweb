@@ -16,4 +16,7 @@
 </div>
 </body>
 
+{% for resource in resources %}
+    {{ resource | safe }}
+{% endfor %}
 </html>
