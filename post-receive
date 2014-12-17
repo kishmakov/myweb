@@ -1,5 +1,6 @@
 #!/usr/bin/env python2.7
 
+import glob
 import markdown
 import re
 import subprocess
@@ -7,22 +8,26 @@ import sys
 
 ### constants ###
 
+TABS = '    '
+
 BLOG_ENTRIES = '/home/menato/webapps/blog/entries'
+BLOG_COMMON = '/home/menato/webapps/blog/common'
 BLOG_TEMPLATES = '/home/menato/webapps/blog/templates/entries'
 
 ARG_WT = '--work-tree=' + BLOG_ENTRIES
 ARG_GD = '--git-dir=/home/menato/webapps/git/repos/blog.git'
 
+md_converter = markdown.Markdown()
 separator_re = re.compile('^===+ [A-Za-z]+ ===+$')
 master_re = re.compile('.*/master$')
 txt_re = re.compile('.+\.txt$')
 
-### functionality ###
+### updated files parsing ###
 
 def convert(text):
     html_head = '{% extends "base.html" %}\n\n'
     html_head += '{% block container %}\n'
-    html_body = markdown.markdown(text)
+    html_body = md_converter.reset().convert(text)
     html_tail = '\n{% endblock %}\n'
 
     return html_head + html_body + html_tail
@@ -63,6 +68,51 @@ def convert_and_parse(input_name, output_name):
 
     return tags, header, lines[summary_num]
 
+### updating ###
+
+def update(names):
+
+    for name in names:
+        if not txt_re.match(name):
+            continue
+
+        txt_name = BLOG_ENTRIES + '/' + name
+        html_name = BLOG_TEMPLATES + '/' + name[:-3] + 'html'
+        tags_name = BLOG_ENTRIES + '/' + name[:-3] + 'tags'
+        header_name = BLOG_ENTRIES + '/' + name[:-3] + 'header'
+        summary_name = BLOG_ENTRIES + '/' + name[:-3] + 'summary'
+
+        tags, header, summary = convert_and_parse(txt_name, html_name)
+
+        if len(tags) > 0:
+            tags_file = open(tags_name, 'w')
+            for tag in tags:
+                tags_file.write(tag.strip() + '\n')
+
+        if len(header) > 0:
+            header_file = open(header_name, 'w')
+            header_file.write(header)
+
+        if len(summary) > 0:
+            summary_file = open(summary_name, 'w')
+            summary_file.write(summary)
+
+def collect_tags():
+    tags_mask = BLOG_ENTRIES + '/*.tags'
+    names = glob.glob(tags_mask)
+    syntax_py_name = BLOG_COMMON + '/syntax_highlighter.py'
+    syntax_py = open(syntax_py_name, 'w')
+
+    syntax_py.write('brashes = {\n')
+
+    for name in names:
+        syntax_py.write(TABS + '"' + name + '": []\n')
+
+    syntax_py.write('}\n\ndef syntax_brashes(name):\n')
+    syntax_py.write(TABS + 'if name in brashes:\n')
+    syntax_py.write(TABS + TABS + 'return brashes[name]\n\n')
+    syntax_py.write(TABS + 'return []\n')
+
 ### script ###
 
 if __name__ == '__main__':
@@ -73,20 +123,15 @@ if __name__ == '__main__':
             print 'Ref ' + ref + ' received, but it is not a master.'
             continue
 
-        print 'Ref ' + ref + ' received, deployd to production.'
+        print 'Ref ' + ref + ' received, deployed to production.'
 
         subprocess.call(['git', ARG_WT, ARG_GD, 'checkout', '-f'])
         p = subprocess.Popen(['git', ARG_GD, 'diff', '--name-only', old, new],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         out, err = p.communicate()
-        names = out.strip().split('\n')
 
-        for name in names:
-            if not txt_re.match(name):
-                continue
+        update(out.strip().split('\n'))
+        collect_tags()
 
-            txt_name = BLOG_ENTRIES + '/' + name
-            html_name = BLOG_TEMPLATES + '/' + name[:-3] + 'html'
 
-            convert_and_parse(txt_name, html_name)
