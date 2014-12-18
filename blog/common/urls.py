@@ -1,10 +1,11 @@
-from common.views import welcome, entry
+from common.views import list_view, entry_view
 
 from django.conf.urls import patterns, include, url
-from django.contrib import admin
 
 urlpatterns = patterns('',
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', welcome),
-    url(r'^entry/(?P<name>\d{8}(_\w+)+)/$', entry),
+    url(r'^entry/(?P<name>\d{8}(_\w+)+)/$', entry_view),
+    url(r'^$', list_view),
+    url(r'^(?P<section>\d+)/$', list_view),
+    url(r'^(?P<tag>\w+(_\w+)+)/$', list_view),
+    url(r'^(?P<tag>\w+(_\w+)+)/(?P<section>\d+)/$', list_view),
 )

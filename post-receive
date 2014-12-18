@@ -17,15 +17,24 @@ BLOG_TEMPLATES = '/home/menato/webapps/blog/templates/entries'
 ARG_WT = '--work-tree=' + BLOG_ENTRIES
 ARG_GD = '--git-dir=/home/menato/webapps/git/repos/blog.git'
 
+RESTART_CMD = '/home/menato/webapps/blog/apache2/bin/restart'
+
 md_converter = markdown.Markdown()
 separator_re = re.compile('^===+ [A-Za-z]+ ===+$')
 master_re = re.compile('.*/master$')
 txt_re = re.compile('.+\.txt$')
 
+### tools ###
+
+def relative_name(full_name):
+    end = full_name.rfind('.')
+    end = end if end > 0 else len(full_name)
+    return full_name[full_name.rfind('/') + 1: end]
+
 ### updated files parsing ###
 
 def convert(text):
-    html_head = '{% extends "base.html" %}\n\n'
+    html_head = '{% extends "entry_base.html" %}\n\n'
     html_head += '{% block container %}\n'
     html_body = md_converter.reset().convert(text)
     html_tail = '\n{% endblock %}\n'
@@ -71,10 +80,13 @@ def convert_and_parse(input_name, output_name):
 ### updating ###
 
 def update(names):
+    print "1"
 
     for name in names:
         if not txt_re.match(name):
             continue
+
+        print "work with {0}".format(name)
 
         txt_name = BLOG_ENTRIES + '/' + name
         html_name = BLOG_TEMPLATES + '/' + name[:-3] + 'html'
@@ -97,33 +109,46 @@ def update(names):
             summary_file = open(summary_name, 'w')
             summary_file.write(summary)
 
-def collect_tags():
-    tags_mask = BLOG_ENTRIES + '/*.tags'
-    names = glob.glob(tags_mask)
+def classify_tags(file_name):
+    tags = []
+    brashes = []
+
+    tags_file = open(file_name, 'r')
+    for line in tags_file:
+        tag = line.strip()
+        if len(tag) == 0:
+            continue
+
+        if tag[:7] == 'syntax ':
+            brashes.append(tag[7:])
+        else:
+            tags.append(tag)
+
+    return tags, brashes
+
+def write_brashes(all_brashes):
     syntax_py_name = BLOG_COMMON + '/syntax_highlighter.py'
     syntax_py = open(syntax_py_name, 'w')
     syntax_py.write('brashes = {\n')
 
-    for full_name in names:
-        name = full_name[full_name.rfind('/') + 1:-5]
-        brashes = []
-
-        tags_file = open(full_name, 'r')
-        for line in tags_file:
-            tag = line.strip()
-            if len(tag) == 0:
-                continue
-
-            if tag[:3] == 'sh ':
-                brashes.append(tag[3:])
-
+    for name, brashes in all_brashes.iteritems():
         if len(brashes) > 0:
             syntax_py.write(TABS + '"' + name + '": ' + str(brashes) + ',\n')
 
     syntax_py.write('}\n\ndef syntax_brashes(name):\n')
-    syntax_py.write(TABS + 'if name in brashes:\n')
-    syntax_py.write(TABS + TABS + 'return brashes[name]\n\n')
-    syntax_py.write(TABS + 'return []\n')
+    syntax_py.write(TABS + 'return brashes[name] if name in brashes else []\n')
+
+
+def collect_tags():
+    tags = {}
+    brashes = {}
+
+    for full_name in glob.glob(BLOG_ENTRIES + '/*.tags'):
+        name = relative_name(full_name)
+        print "processing {0}".format(full_name)
+        tags[name], brashes[name] = classify_tags(full_name)
+
+    write_brashes(brashes)
 
 ### script ###
 
@@ -145,5 +170,7 @@ if __name__ == '__main__':
 
         update(out.strip().split('\n'))
         collect_tags()
+
+        subprocess.call([RESTART_CMD])
 
 

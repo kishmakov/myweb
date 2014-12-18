@@ -13,7 +13,7 @@ SH_JS = SCRIPT_PREFIX + SH_CDN + 'scripts/shCore.js' + SCRIPT_SUFFIX
 SH_JS_KICK = '<script type="text/javascript">SyntaxHighlighter.all()</script>'
 SH_JS_CPP = SCRIPT_PREFIX + SH_CDN + 'scripts/shBrushCpp.js' + SCRIPT_SUFFIX
 
-def generate_context(name):
+def entry_context(name):
     result = { 'resources': [] }
 
     brashes = syntax_brashes(name)
@@ -27,5 +27,14 @@ def generate_context(name):
     for brash in brashes:
         if brash == 'c++':
             result['resources'].append(SH_JS_CPP)
+
+    return result
+
+def list_context(section, tag):
+    result = { 'entries': [] }
+
+    result['entries'].append({'header': 'Yes I\'am Header'})
+    result['entries'].append({'header': 'Normal Header'})
+    result['entries'].append({'header': 'Some or Another'})
 
     return result
