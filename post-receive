@@ -102,11 +102,23 @@ def collect_tags():
     names = glob.glob(tags_mask)
     syntax_py_name = BLOG_COMMON + '/syntax_highlighter.py'
     syntax_py = open(syntax_py_name, 'w')
-
     syntax_py.write('brashes = {\n')
 
-    for name in names:
-        syntax_py.write(TABS + '"' + name + '": []\n')
+    for full_name in names:
+        name = full_name[full_name.rfind('/') + 1:-5]
+        brashes = []
+
+        tags_file = open(full_name, 'r')
+        for line in tags_file:
+            tag = line.strip()
+            if len(tag) == 0:
+                continue
+
+            if tag[:3] == 'sh ':
+                brashes.append(tag[3:])
+
+        if len(brashes) > 0:
+            syntax_py.write(TABS + '"' + name + '": ' + str(brashes) + ',\n')
 
     syntax_py.write('}\n\ndef syntax_brashes(name):\n')
     syntax_py.write(TABS + 'if name in brashes:\n')
