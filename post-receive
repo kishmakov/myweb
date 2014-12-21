@@ -31,6 +31,10 @@ def relative_name(full_name):
     end = end if end > 0 else len(full_name)
     return full_name[full_name.rfind('/') + 1: end]
 
+def info_names(name):
+    pref = BLOG_ENTRIES + '/' + name + '.'
+    return pref + 'tags', pref + 'header', pref + 'summary'
+
 ### updated files parsing ###
 
 def convert(text):
@@ -80,20 +84,13 @@ def convert_and_parse(input_name, output_name):
 ### updating ###
 
 def update(names):
-    print "1"
-
     for name in names:
         if not txt_re.match(name):
             continue
 
-        print "work with {0}".format(name)
-
         txt_name = BLOG_ENTRIES + '/' + name
         html_name = BLOG_TEMPLATES + '/' + name[:-3] + 'html'
-        tags_name = BLOG_ENTRIES + '/' + name[:-3] + 'tags'
-        header_name = BLOG_ENTRIES + '/' + name[:-3] + 'header'
-        summary_name = BLOG_ENTRIES + '/' + name[:-3] + 'summary'
-
+        tags_name, header_name, summary_name = info_names(name[:-4])
         tags, header, summary = convert_and_parse(txt_name, html_name)
 
         if len(tags) > 0:
@@ -126,14 +123,14 @@ def classify_tags(file_name):
 
     return tags, brashes
 
-def write_brashes(all_brashes):
+def write_syntax_highlighter(all_brashes):
     syntax_py_name = BLOG_COMMON + '/syntax_highlighter.py'
     syntax_py = open(syntax_py_name, 'w')
     syntax_py.write('brashes = {\n')
 
     for name, brashes in all_brashes.iteritems():
         if len(brashes) > 0:
-            syntax_py.write(TABS + '"' + name + '": ' + str(brashes) + ',\n')
+            syntax_py.write(TABS + repr(name) + ': ' + str(brashes) + ',\n')
 
     syntax_py.write('}\n\ndef syntax_brashes(name):\n')
     syntax_py.write(TABS + 'return brashes[name] if name in brashes else []\n')
@@ -145,10 +142,107 @@ def collect_tags():
 
     for full_name in glob.glob(BLOG_ENTRIES + '/*.tags'):
         name = relative_name(full_name)
-        print "processing {0}".format(full_name)
         tags[name], brashes[name] = classify_tags(full_name)
 
-    write_brashes(brashes)
+    write_syntax_highlighter(brashes)
+
+def write_descriptions(descriptions):
+    file_py_name = BLOG_COMMON + '/descriptions.py'
+    file_py = open(file_py_name, 'w')
+    file_py.write('descriptions = {\n')
+
+    for description in descriptions:
+        id = description['id']
+        header = description['header']
+        summary = description['summary']
+        tags = description['tags']
+        file_py.write(TABS + repr(id) + ': {\n')
+        file_py.write(TABS + TABS + "'id': " + repr(id) + ',\n')
+        file_py.write(TABS + TABS + "'header': " + repr(header) + ',\n')
+        file_py.write(TABS + TABS + "'summary': " + repr(summary) + ',\n')
+        file_py.write(TABS + TABS + "'tags': " + str(tags) + ',\n')
+        file_py.write(TABS + '},\n')
+
+    file_py.write('}\n')
+
+def write_search_tools(descriptions):
+    file_py_name = BLOG_COMMON + '/search_tools.py'
+    file_py = open(file_py_name, 'w')
+    file_py.write('search_ids = [\n')
+
+    id2num = {}
+    tag2ids = {}
+
+    description_id = 0
+
+    for description in descriptions:
+        file_py.write(TABS + repr(description['id']) + ',\n')
+
+        id2num[description['id']] = description_id
+        description_id += 1
+
+        for tag in description['tags']:
+            if tag not in tag2ids:
+                tag2ids[tag] = []
+
+            tag2ids[tag].append(description['id'])
+
+    file_py.write(']\n\nsearch_tags = {\n')
+
+    for tag, ids in tag2ids.iteritems():
+        file_py.write(TABS + repr(tag) + ': [')
+
+        counter = 0
+        for id in ids:
+            counter += 1
+            if counter > 20:
+                counter = 0
+                file_py.write('\n' + TABS + TABS)
+
+            file_py.write(str(id2num[id]) + ', ')
+
+        file_py.write('],\n')
+
+    file_py.write('}\n')
+
+def collect_descriptions():
+    descriptions = []
+    for full_name in glob.glob(BLOG_ENTRIES + '/*.txt'):
+        name = relative_name(full_name)
+        tags_name, header_name, summary_name = info_names(name)
+        description = { 'id': name, 'tags': [], 'summary': ''}
+        header_words = [s.capitalize() for s in name.split('_')]
+        description['header'] = ' '.join(header_words[1:])
+
+        try:
+            tags_file = open(tags_name, 'r')
+            for line in tags_file:
+                tag = line.strip()
+                if len(tag) > 0:
+                    description['tags'].append(tag)
+        except:
+            pass
+
+        try:
+            header_file = open(header_name, 'r')
+            header = header_file.readline().strip()
+            if len(header) > 0:
+                description['header'] = header
+        except:
+            pass
+
+        try:
+            summary_file = open(summary_name, 'r')
+            for line in summary_file:
+                if len(line) > 1:
+                    description['summary'] += line
+        except:
+            pass
+
+        descriptions.append(description)
+
+    write_descriptions(descriptions)
+    write_search_tools(descriptions)
 
 ### script ###
 
@@ -169,7 +263,9 @@ if __name__ == '__main__':
         out, err = p.communicate()
 
         update(out.strip().split('\n'))
+
         collect_tags()
+        collect_descriptions()
 
         subprocess.call([RESTART_CMD])
 

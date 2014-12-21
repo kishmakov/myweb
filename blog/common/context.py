@@ -18,7 +18,7 @@ SH_JS_CPP = SCRIPT_PREFIX + SH_CDN + 'scripts/shBrushCpp.js' + SCRIPT_SUFFIX
 def provide_ids(section, tag):
     amount = len(search_ids) if tag == '' else len(search_tags[tag])
     sections_number = amount // 10
-    section = max(section, sections_number)
+    section = min(int(section), sections_number)
 
     first_id = 10 * section
     last_id = min(amount, first_id + 10)
