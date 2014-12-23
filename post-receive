@@ -35,6 +35,9 @@ def info_names(name):
     pref = BLOG_ENTRIES + '/' + name + '.'
     return pref + 'tags', pref + 'header', pref + 'summary'
 
+def normal_tag(tag):
+    return tag[:7] != 'syntax '
+
 ### updated files parsing ###
 
 def convert(text):
@@ -116,7 +119,7 @@ def classify_tags(file_name):
         if len(tag) == 0:
             continue
 
-        if tag[:7] == 'syntax ':
+        if not normal_tag(tag):
             brashes.append(tag[7:])
         else:
             tags.append(tag)
@@ -155,7 +158,7 @@ def write_descriptions(descriptions):
         id = description['id']
         header = description['header']
         summary = description['summary']
-        tags = description['tags']
+        tags = filter(normal_tag, description['tags'])
         file_py.write(TABS + repr(id) + ': {\n')
         file_py.write(TABS + TABS + "'id': " + repr(id) + ',\n')
         file_py.write(TABS + TABS + "'header': " + repr(header) + ',\n')
@@ -182,6 +185,9 @@ def write_search_tools(descriptions):
         description_id += 1
 
         for tag in description['tags']:
+            if not normal_tag(tag):
+                continue
+
             if tag not in tag2ids:
                 tag2ids[tag] = []
 
