@@ -58,7 +58,13 @@ def list_context(section, tag):
         'sections_number': sections_number
     }
 
+    split = lambda x: {'link': x.replace(' ', '_'), 'visible': x}
+
     for id in ids:
-        result['descriptions'].append(descriptions[id])
+        desc = {}
+        for key, value in descriptions[id].items():
+            desc[key] = value if key != 'tags' else [split(tag) for tag in value]
+
+        result['descriptions'].append(desc)
 
     return result

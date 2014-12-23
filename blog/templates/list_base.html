@@ -13,7 +13,7 @@
         {{ description.summary }}
     </p>
     {% for tag in description.tags %}
-        <a href='/{{ tag }}/'>[{{ tag }}]</a>
+        <a href='/{{ tag.link }}/'>[{{ tag.visible }}]</a>
     {% endfor %}
     <hr>
 </div>

@@ -196,7 +196,7 @@ def write_search_tools(descriptions):
     file_py.write(']\n\nsearch_tags = {\n')
 
     for tag, ids in tag2ids.iteritems():
-        file_py.write(TABS + repr(tag) + ': [')
+        file_py.write(TABS + repr(tag.replace(' ', '_')) + ': [')
 
         counter = 0
         for id in ids:
