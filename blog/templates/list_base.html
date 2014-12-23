@@ -6,9 +6,15 @@
 
 <body>
 
-{% for entry in entries %}
+{% for description in descriptions %}
 <div>
-    {{ entry.header }}
+    <h2><a href="/entry/{{ description.id }}/" >{{ description.header }}</a></h2>
+    <p>
+        {{ description.summary }}
+    </p>
+    {% for tag in description.tags %}
+        <a href='/{{ tag }}/'>[{{ tag }}]</a>
+    {% endfor %}
     <hr>
 </div>
 {% endfor %}

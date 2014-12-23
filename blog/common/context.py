@@ -53,12 +53,12 @@ def entry_context(name):
 def list_context(section, tag):
     ids, sections_number, section = provide_ids(section, tag)
     result = {
-        'entries': [],
+        'descriptions': [],
         'section': section,
         'sections_number': sections_number
     }
 
     for id in ids:
-        result['entries'].append(descriptions[id])
+        result['descriptions'].append(descriptions[id])
 
     return result
