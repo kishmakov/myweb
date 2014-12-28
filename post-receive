@@ -1,5 +1,6 @@
 #!/usr/bin/env python2.7
 
+import datetime
 import glob
 import markdown
 import re
@@ -87,6 +88,8 @@ def convert_and_parse(input_name, output_name):
 ### updating ###
 
 def update(names):
+    update_time = "{:%Y %m %d %H:%M}".format(datetime.datetime.now())
+
     for name in names:
         if not txt_re.match(name):
             continue
@@ -101,13 +104,17 @@ def update(names):
             for tag in tags:
                 tags_file.write(tag.strip() + '\n')
 
-        if len(header) > 0:
-            header_file = open(header_name, 'w')
-            header_file.write(header)
-
         if len(summary) > 0:
             summary_file = open(summary_name, 'w')
             summary_file.write(summary)
+
+        if len(header) == 0:
+            header_words = [s.capitalize() for s in name[:-4].split('_')]
+            header = ' '.join(header_words[1:])
+
+        header_file = open(header_name, 'w')
+        header_file.write(header + '\n')
+        header_file.write(update_time + '\n')
 
 def classify_tags(file_name):
     tags = []
@@ -157,11 +164,13 @@ def write_descriptions(descriptions):
     for description in descriptions:
         id = description['id']
         header = description['header']
+        updated = description['updated']
         summary = description['summary']
         tags = filter(normal_tag, description['tags'])
         file_py.write(TABS + repr(id) + ': {\n')
         file_py.write(TABS + TABS + "'id': " + repr(id) + ',\n')
         file_py.write(TABS + TABS + "'header': " + repr(header) + ',\n')
+        file_py.write(TABS + TABS + "'updated': " + repr(updated) + ',\n')
         file_py.write(TABS + TABS + "'summary': " + repr(summary) + ',\n')
         file_py.write(TABS + TABS + "'tags': " + str(tags) + ',\n')
         file_py.write(TABS + '},\n')
@@ -217,8 +226,6 @@ def collect_descriptions():
         name = relative_name(full_name)
         tags_name, header_name, summary_name = info_names(name)
         description = { 'id': name, 'tags': [], 'summary': ''}
-        header_words = [s.capitalize() for s in name.split('_')]
-        description['header'] = ' '.join(header_words[1:])
 
         try:
             tags_file = open(tags_name, 'r')
@@ -231,9 +238,8 @@ def collect_descriptions():
 
         try:
             header_file = open(header_name, 'r')
-            header = header_file.readline().strip()
-            if len(header) > 0:
-                description['header'] = header
+            description['header'] = header_file.readline().strip()
+            description['updated'] = header_file.readline().strip()
         except:
             pass
 
