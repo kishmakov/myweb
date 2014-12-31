@@ -5,21 +5,22 @@
 </head>
 
 <body>
-
-{% for description in descriptions %}
-<div>
-    <h2><a href="/entry/{{ description.id }}/" >{{ description.header }}</a></h2>
-    <p>
-        Updated: {{ description.updated }}
-    </p>
-    <p>
-        {{ description.summary }}
-    </p>
-    {% for tag in description.tags %}
-        <a href='/{{ tag.link }}/'>[{{ tag.visible }}]</a>
+    {% for description in descriptions %}
+    <div>
+        <h2><a href="/entry/{{ description.id }}/" >{{ description.header }}</a></h2>
+        <p>
+            Updated: {{ description.updated }}
+        </p>
+        <p>
+            {{ description.summary }}
+        </p>
+        {% for tag in description.tags %}
+            [<a href='/{{ tag.link }}/'>{{ tag.visible }}</a>]
+        {% endfor %}
+        <hr>
+    </div>
     {% endfor %}
-    <hr>
-</div>
-{% endfor %}
 </body>
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </html>
