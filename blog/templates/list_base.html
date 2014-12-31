@@ -10,6 +10,9 @@
 <div>
     <h2><a href="/entry/{{ description.id }}/" >{{ description.header }}</a></h2>
     <p>
+        Updated: {{ description.updated }}
+    </p>
+    <p>
         {{ description.summary }}
     </p>
     {% for tag in description.tags %}
