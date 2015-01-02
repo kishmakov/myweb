@@ -88,7 +88,7 @@ def convert_and_parse(input_name, output_name):
 ### updating ###
 
 def update(names):
-    update_time = "{:%Y %m %d %H:%M}".format(datetime.datetime.now())
+    update_time = "{:%Y-%m-%d @ %H:%M}".format(datetime.datetime.now())
 
     for name in names:
         if not txt_re.match(name):

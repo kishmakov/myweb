@@ -63,7 +63,14 @@ def list_context(section, tag):
     for id in ids:
         desc = {}
         for key, value in descriptions[id].items():
-            desc[key] = value if key != 'tags' else [split(tag) for tag in value]
+            if key == 'tags':
+                desc[key] = [split(tag) for tag in value]
+                continue
+            if key == 'summary':
+                desc[key] = value.split('\n\n')
+                continue
+
+            desc[key] = value
 
         result['descriptions'].append(desc)
 

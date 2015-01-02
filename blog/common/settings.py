@@ -35,9 +35,6 @@ TEMPLATE_DIRS = (
     make_full('templates'),
 )
 
-SITE_URL
-
-
 # Application definition
 
 INSTALLED_APPS = (
