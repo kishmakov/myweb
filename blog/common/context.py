@@ -16,12 +16,14 @@ SH_JS_KICK = '<script type="text/javascript">SyntaxHighlighter.all()</script>'
 SH_JS_CPP = SCRIPT_PREFIX + SH_CDN + 'scripts/shBrushCpp.js' + SCRIPT_SUFFIX
 
 def provide_ids(section, tag):
+    per_page = 7
+
     amount = len(search_ids) if tag == '' else len(search_tags[tag])
-    sections_number = amount // 10
+    sections_number = amount // per_page
     section = min(int(section), sections_number)
 
-    first_id = 10 * section
-    last_id = min(amount, first_id + 10)
+    first_id = per_page * section
+    last_id = min(amount, first_id + per_page)
 
     ids = []
 
@@ -51,11 +53,12 @@ def entry_context(name):
 
 
 def list_context(section, tag):
-    ids, sections_number, section = provide_ids(section, tag)
+    ids, sections, section = provide_ids(section, tag)
     result = {
         'descriptions': [],
-        'section': section,
-        'sections_number': sections_number
+        'sections_before': [i for i in range(1, section + 1)],
+        'section': section + 1,
+        'sections_after': [i + 1 for i in range(section + 1, sections)]
     }
 
     split = lambda x: {'link': x.replace(' ', '_'), 'visible': x}

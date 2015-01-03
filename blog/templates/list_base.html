@@ -30,6 +30,13 @@
                     <hr>
                 </div>
                 {% endfor %}
+                {% for section in sections_before %}
+                [<a href='/{{ section }}/'>{{ section }}</a>]
+                {% endfor %}
+                [{{ section }}]
+                {% for section in sections_after %}
+                [<a href='/{{ section }}/'>{{ section }}</a>]
+                {% endfor %}
             </div>
         </div>
     </div>
