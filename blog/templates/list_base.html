@@ -8,7 +8,20 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3 col-lg-2">
-                <p>Here some text goes.</p>
+                {% if tag %}
+                    <a href='/'>Reset tag filter</a>
+                {% else %}
+                    <h3>Tags</h3>
+                {% endif %}
+                <hr>
+                {% for tag in tags %}
+                {% if tag.active %}
+                    [<a href='/{{ tag.link }}/'>{{ tag.visible }}</a>]
+                {% else %}
+                    ({{ tag.visible }})
+                {% endif %}
+                <br>
+                {% endfor %}
             </div>
 
             <div class="col-md-9 col-lg-10">
@@ -39,7 +52,7 @@
                     [<a href='/{{ section }}/'>{{ section }}</a>]
                     {% endfor %}
                 {% endif %}
-                [{{ section }}]
+                ({{ section }})
                 {% if tag %}
                     {% for section in sections_after %}
                     [<a href='/{{ tag }}/{{ section }}/'>{{ section }}</a>]

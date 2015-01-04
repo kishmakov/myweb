@@ -171,7 +171,12 @@ def write_descriptions(descriptions):
         file_py.write(TABS + TABS + "'id': " + repr(id) + ',\n')
         file_py.write(TABS + TABS + "'header': " + repr(header) + ',\n')
         file_py.write(TABS + TABS + "'updated': " + repr(updated) + ',\n')
-        file_py.write(TABS + TABS + "'summary': " + repr(summary) + ',\n')
+
+        file_py.write(TABS + TABS + "'summary': [");
+        for line in summary:
+            file_py.write(repr(line.strip()) + ',')
+        file_py.write('],\n')
+
         file_py.write(TABS + TABS + "'tags': " + str(tags) + ',\n')
         file_py.write(TABS + '},\n')
 
@@ -246,9 +251,10 @@ def collect_descriptions():
 
         try:
             summary_file = open(summary_name, 'r')
+            lines = ''
             for line in summary_file:
-                if len(line) > 1:
-                    description['summary'] += line
+                lines += line
+            description['summary'] = lines.split('\n\n')
         except:
             pass
 

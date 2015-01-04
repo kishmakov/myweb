@@ -30,7 +30,7 @@ def provide_ids(section_index, tag):
     for i in range(first_id, last_id):
         ids.append(search_ids[i if tag == '' else search_tags[tag][i]])
 
-    return ids, sections_number, section_index
+    return ids, sections_number, section_index, sorted(search_tags)
 
 ### interface functions ###
 
@@ -53,28 +53,30 @@ def entry_context(name):
 
 
 def list_context(section_id, tag):
-    ids, sections, section_index = provide_ids(section_id, tag)
+    ids, sections, section_index, tags = provide_ids(section_id, tag)
+    split_tag = lambda x: {
+        'link': x.replace(' ', '_'),
+        'visible': x,
+        'active': x != tag
+    }
+
     result = {
         'descriptions': [],
         'sections_before': [i for i in range(1, section_index)],
         'section': section_index,
         'sections_after': [i + 1 for i in range(section_index, sections)],
-        'tag': tag
+        'tag': tag,
+        'tags': [split_tag(tg) for tg in tags]
     }
 
-    split = lambda x: {'link': x.replace(' ', '_'), 'visible': x}
 
     for id in ids:
         desc = {}
         for key, value in descriptions[id].items():
-            if key == 'tags':
-                desc[key] = [split(tag) for tag in value]
-                continue
-            if key == 'summary':
-                desc[key] = value.split('\n\n')
-                continue
-
-            desc[key] = value
+            if key != 'tags':
+                desc[key] = value
+            else:
+                desc[key] = [split_tag(tg) for tg in value]
 
         result['descriptions'].append(desc)
 
