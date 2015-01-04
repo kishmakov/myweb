@@ -1,17 +1,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>Page #1</title>
+    <title>Items{% if tag %} - {{ tag }}{% endif %} - {{ section }}</title>
 </head>
 
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3 col-lg-2">
+            <div class="col-md-3 col-lg-2" style="padding:15px;">
                 {% if tag %}
-                    <a href='/'>Reset tag filter</a>
+                    <strong><a href='/'>Reset tag filter</a></strong>
                 {% else %}
-                    <h3>Tags</h3>
+                    <strong>Tags</strong>
                 {% endif %}
                 <hr>
                 {% for tag in tags %}
