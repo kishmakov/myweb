@@ -38,7 +38,11 @@
                     </p>
                     {% endfor %}
                     {% for tag in description.tags %}
-                    [<a href='/{{ tag.link }}/'>{{ tag.visible }}</a>]
+                    {% if tag.active %}
+                        [<a href='/{{ tag.link }}/'>{{ tag.visible }}</a>]
+                    {% else %}
+                        ({{ tag.visible }})
+                    {% endif %}
                     {% endfor %}
                     <hr>
                 </div>

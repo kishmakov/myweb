@@ -177,7 +177,7 @@ def write_descriptions(descriptions):
             file_py.write(repr(line.strip()) + ',')
         file_py.write('],\n')
 
-        file_py.write(TABS + TABS + "'tags': " + str(tags) + ',\n')
+        file_py.write(TABS + TABS + "'tags': " + str(sorted(tags)) + ',\n')
         file_py.write(TABS + '},\n')
 
     file_py.write('}\n')
@@ -211,7 +211,7 @@ def write_search_tools(descriptions):
 
     for tag in sorted(tag2ids):
         ids = tag2ids[tag]
-        file_py.write(TABS + repr(tag.replace(' ', '_')) + ': [')
+        file_py.write(TABS + repr(tag) + ': [')
 
         counter = 0
         for id in ids:

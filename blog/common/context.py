@@ -51,13 +51,13 @@ def entry_context(name):
 
     return result
 
-
 def list_context(section_id, tag):
-    ids, sections, section_index, tags = provide_ids(section_id, tag)
+    original_tag = tag.replace('_', ' ')
+    ids, sections, section_index, tags = provide_ids(section_id, original_tag)
     split_tag = lambda x: {
         'link': x.replace(' ', '_'),
         'visible': x,
-        'active': x != tag
+        'active': x != original_tag
     }
 
     result = {
@@ -65,10 +65,9 @@ def list_context(section_id, tag):
         'sections_before': [i for i in range(1, section_index)],
         'section': section_index,
         'sections_after': [i + 1 for i in range(section_index, sections)],
-        'tag': tag,
-        'tags': [split_tag(tg) for tg in tags]
+        'tag': original_tag,
+        'tags': [split_tag(tag) for tag in tags]
     }
-
 
     for id in ids:
         desc = {}
@@ -76,7 +75,7 @@ def list_context(section_id, tag):
             if key != 'tags':
                 desc[key] = value
             else:
-                desc[key] = [split_tag(tg) for tg in value]
+                desc[key] = [split_tag(tag) for tag in value]
 
         result['descriptions'].append(desc)
 
