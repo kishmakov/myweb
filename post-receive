@@ -204,7 +204,8 @@ def write_search_tools(descriptions):
 
     file_py.write(']\n\nsearch_tags = {\n')
 
-    for tag, ids in tag2ids.iteritems():
+    for tag in sorted(tag2ids):
+        ids = tag2ids[tag]
         file_py.write(TABS + repr(tag.replace(' ', '_')) + ': [')
 
         counter = 0
@@ -222,7 +223,7 @@ def write_search_tools(descriptions):
 
 def collect_descriptions():
     descriptions = []
-    for full_name in glob.glob(BLOG_ENTRIES + '/*.txt'):
+    for full_name in sorted(glob.glob(BLOG_ENTRIES + '/*.txt'), reverse=True):
         name = relative_name(full_name)
         tags_name, header_name, summary_name = info_names(name)
         description = { 'id': name, 'tags': [], 'summary': ''}

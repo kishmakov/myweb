@@ -30,13 +30,25 @@
                     <hr>
                 </div>
                 {% endfor %}
-                {% for section in sections_before %}
-                [<a href='/{{ section }}/'>{{ section }}</a>]
-                {% endfor %}
+                {% if tag %}
+                    {% for section in sections_before %}
+                    [<a href='/{{ tag }}/{{ section }}/'>{{ section }}</a>]
+                    {% endfor %}
+                {% else %}
+                    {% for section in sections_before %}
+                    [<a href='/{{ section }}/'>{{ section }}</a>]
+                    {% endfor %}
+                {% endif %}
                 [{{ section }}]
-                {% for section in sections_after %}
-                [<a href='/{{ section }}/'>{{ section }}</a>]
-                {% endfor %}
+                {% if tag %}
+                    {% for section in sections_after %}
+                    [<a href='/{{ tag }}/{{ section }}/'>{{ section }}</a>]
+                    {% endfor %}
+                {% else %}
+                    {% for section in sections_after %}
+                    [<a href='/{{ section }}/'>{{ section }}</a>]
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

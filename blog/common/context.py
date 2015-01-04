@@ -15,14 +15,14 @@ SH_JS = SCRIPT_PREFIX + SH_CDN + 'scripts/shCore.js' + SCRIPT_SUFFIX
 SH_JS_KICK = '<script type="text/javascript">SyntaxHighlighter.all()</script>'
 SH_JS_CPP = SCRIPT_PREFIX + SH_CDN + 'scripts/shBrushCpp.js' + SCRIPT_SUFFIX
 
-def provide_ids(section, tag):
+def provide_ids(section_index, tag):
     per_page = 7
 
     amount = len(search_ids) if tag == '' else len(search_tags[tag])
-    sections_number = amount // per_page
-    section = min(int(section), sections_number)
+    sections_number = ((amount - 1) // per_page) + 1
+    section_index = max(1, min(int(section_index), sections_number))
 
-    first_id = per_page * section
+    first_id = per_page * (section_index - 1)
     last_id = min(amount, first_id + per_page)
 
     ids = []
@@ -30,7 +30,7 @@ def provide_ids(section, tag):
     for i in range(first_id, last_id):
         ids.append(search_ids[i if tag == '' else search_tags[tag][i]])
 
-    return ids, sections_number, section
+    return ids, sections_number, section_index
 
 ### interface functions ###
 
@@ -52,13 +52,14 @@ def entry_context(name):
     return result
 
 
-def list_context(section, tag):
-    ids, sections, section = provide_ids(section, tag)
+def list_context(section_id, tag):
+    ids, sections, section_index = provide_ids(section_id, tag)
     result = {
         'descriptions': [],
-        'sections_before': [i for i in range(1, section + 1)],
-        'section': section + 1,
-        'sections_after': [i + 1 for i in range(section + 1, sections)]
+        'sections_before': [i for i in range(1, section_index)],
+        'section': section_index,
+        'sections_after': [i + 1 for i in range(section_index, sections)],
+        'tag': tag
     }
 
     split = lambda x: {'link': x.replace(' ', '_'), 'visible': x}
