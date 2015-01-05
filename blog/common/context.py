@@ -38,7 +38,9 @@ def provide_ids(section_index, tag):
 ### interface functions ###
 
 def entry_context(id):
-    result = { 'resources': [] }
+    result = {
+        'resources': [],
+        'header': descriptions[id]['header'] }
 
     brashes = descriptions[id]['brashes']
 

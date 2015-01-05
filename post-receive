@@ -41,9 +41,18 @@ def normal_tag(tag):
 
 ### updated files parsing ###
 
-def convert(text):
+def mathjaxify(text):
+    subs = { '\\(': '\\\\(', '\\[': '\\\\[', '\\)': '\\\\)', '\\]': '\\\\]' }
+
+    for k, v in subs.iteritems():
+        text = text.replace(k, v)
+
+    return text
+
+def prepare_template(header, raw_text):
     html_head = '{% extends "entry_base.html" %}\n\n'
     html_head += '{% block container %}\n'
+    text = '# ' + header + '\n' + mathjaxify(raw_text)
     html_body = md_converter.reset().convert(text)
     html_tail = '\n{% endblock %}\n'
 
@@ -77,11 +86,17 @@ def convert_and_parse(input_name, output_name):
         elif current_num >= 0:
             lines[current_num] += line
 
+    header = lines[header_num][0:lines[header_num].find('\n')]
+
+    if len(header) == 0:
+        name = relative_name(input_name)
+        name_words = [s.capitalize() for s in name.split('_')]
+        header = ' '.join(name_words[1:])
+
     output = open(output_name, 'w')
-    output.write(convert(lines[body_num]))
+    output.write(prepare_template(header, lines[body_num]))
 
     tags = filter(bool, lines[tags_num].translate(None, '\n').split(';'))
-    header = lines[header_num][0:lines[header_num].find('\n')]
 
     return tags, header, lines[summary_num]
 
@@ -107,10 +122,6 @@ def update(names):
         if len(summary) > 0:
             summary_file = open(summary_name, 'w')
             summary_file.write(summary)
-
-        if len(header) == 0:
-            header_words = [s.capitalize() for s in name[:-4].split('_')]
-            header = ' '.join(header_words[1:])
 
         header_file = open(header_name, 'w')
         header_file.write(header + '\n')
