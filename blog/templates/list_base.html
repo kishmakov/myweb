@@ -37,7 +37,7 @@
                         {{ line }}
                     </p>
                     {% endfor %}
-                    {% for tag in description.tags %}
+                    {% for tag in description.navi_tags %}
                     {% if tag.active %}
                         [<a href='/{{ tag.link }}/'>{{ tag.visible }}</a>]
                     {% else %}

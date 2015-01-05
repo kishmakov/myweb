@@ -37,33 +37,34 @@ def provide_ids(section_index, tag):
 
 ### interface functions ###
 
+sh_tags = ['c++', 'haskell']
+
+sh_resources = [SH_CSS, SH_CSS_DEF, SH_JS, SH_JS_KICK]
+
+per_tag_resources = {
+    'c++' : [SH_JS_CPP],
+    'mathjax': [MH_JS]
+}
+
 def entry_context(id):
-    result = {
-        'resources': [],
-        'header': descriptions[id]['header'] }
+    resources = []
+    stags = descriptions[id]['syntax_tags']
 
-    brashes = descriptions[id]['brashes']
+    for stag in stags:
+        if sh_tags.count(stag) > 0:
+            resources.extend(sh_resources)
+            break
 
-    shON = False
+    for stag in stags:
+        if stag not in per_tag_resources:
+            continue
 
-    for brash in brashes:
-        shON = shON or brash != 'mathjax'
+        resources.extend(per_tag_resources[stag])
 
-    if shON > 0:
-        result['resources'].append(SH_CSS)
-        result['resources'].append(SH_CSS_DEF)
-        result['resources'].append(SH_JS)
-        result['resources'].append(SH_JS_KICK)
-
-    for brash in brashes:
-        if brash == 'c++':
-            result['resources'].append(SH_JS_CPP)
-
-        if brash == 'mathjax':
-            result['resources'].append(MH_JS)
-
-
-    return result
+    return {
+        'resources': resources,
+        'header': descriptions[id]['header']
+    }
 
 def list_context(section_id, tag):
     original_tag = tag.replace('_', ' ')
@@ -86,10 +87,14 @@ def list_context(section_id, tag):
     for id in ids:
         desc = {}
         for key, value in descriptions[id].items():
-            if key != 'tags':
-                desc[key] = value
-            else:
+            if key == 'syntax_tags':
+                continue
+
+            if key == 'navi_tags':
                 desc[key] = [split_tag(tag) for tag in value]
+                continue
+
+            desc[key] = value
 
         result['descriptions'].append(desc)
 

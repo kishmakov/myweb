@@ -10,6 +10,7 @@ import sys
 ### constants ###
 
 TABS = '    '
+TABS2 = TABS + TABS
 
 BLOG_ENTRIES = '/home/menato/webapps/blog/entries'
 BLOG_COMMON = '/home/menato/webapps/blog/common'
@@ -140,17 +141,17 @@ def write_entry_tools(descriptions):
         ntags = description['navi_tags']
         stags = description['syntax_tags']
         file_py.write(TABS + repr(id) + ': {\n')
-        file_py.write(TABS + TABS + "'id': " + repr(id) + ',\n')
-        file_py.write(TABS + TABS + "'header': " + repr(header) + ',\n')
-        file_py.write(TABS + TABS + "'updated': " + repr(updated) + ',\n')
+        file_py.write(TABS2 + "'id': " + repr(id) + ',\n')
+        file_py.write(TABS2 + "'header': " + repr(header) + ',\n')
+        file_py.write(TABS2 + "'updated': " + repr(updated) + ',\n')
 
-        file_py.write(TABS + TABS + "'summary': [");
+        file_py.write(TABS2 + "'summary': [");
         for line in summary:
             file_py.write(repr(line.strip()) + ',')
         file_py.write('],\n')
 
-        file_py.write(TABS + TABS + "'tags': " + str(sorted(ntags)) + ',\n')
-        file_py.write(TABS + TABS + "'brashes': " + str(stags) + ',\n')
+        file_py.write(TABS2 + "'navi_tags': " + str(sorted(ntags)) + ',\n')
+        file_py.write(TABS2 + "'syntax_tags': " + str(stags) + ',\n')
         file_py.write(TABS + '},\n')
 
     file_py.write('}\n')
@@ -188,7 +189,7 @@ def write_list_tools(descriptions):
             counter += 1
             if counter > 20:
                 counter = 0
-                file_py.write('\n' + TABS + TABS)
+                file_py.write('\n' + TABS2)
 
             file_py.write(str(id2num[id]) + ', ')
 
