@@ -116,48 +116,8 @@ def update(names):
         header_file.write(header + '\n')
         header_file.write(update_time + '\n')
 
-def classify_tags(file_name):
-    tags = []
-    brashes = []
-
-    tags_file = open(file_name, 'r')
-    for line in tags_file:
-        tag = line.strip()
-        if len(tag) == 0:
-            continue
-
-        if not normal_tag(tag):
-            brashes.append(tag[7:])
-        else:
-            tags.append(tag)
-
-    return tags, brashes
-
-def write_syntax_highlighter(all_brashes):
-    syntax_py_name = BLOG_COMMON + '/syntax_highlighter.py'
-    syntax_py = open(syntax_py_name, 'w')
-    syntax_py.write('brashes = {\n')
-
-    for name, brashes in all_brashes.iteritems():
-        if len(brashes) > 0:
-            syntax_py.write(TABS + repr(name) + ': ' + str(brashes) + ',\n')
-
-    syntax_py.write('}\n\ndef syntax_brashes(name):\n')
-    syntax_py.write(TABS + 'return brashes[name] if name in brashes else []\n')
-
-
-def collect_tags():
-    tags = {}
-    brashes = {}
-
-    for full_name in glob.glob(BLOG_ENTRIES + '/*.tags'):
-        name = relative_name(full_name)
-        tags[name], brashes[name] = classify_tags(full_name)
-
-    write_syntax_highlighter(brashes)
-
-def write_descriptions(descriptions):
-    file_py_name = BLOG_COMMON + '/descriptions.py'
+def write_entry_tools(descriptions):
+    file_py_name = BLOG_COMMON + '/entry_tools.py'
     file_py = open(file_py_name, 'w')
     file_py.write('descriptions = {\n')
 
@@ -166,7 +126,8 @@ def write_descriptions(descriptions):
         header = description['header']
         updated = description['updated']
         summary = description['summary']
-        tags = filter(normal_tag, description['tags'])
+        ntags = description['navi_tags']
+        stags = description['syntax_tags']
         file_py.write(TABS + repr(id) + ': {\n')
         file_py.write(TABS + TABS + "'id': " + repr(id) + ',\n')
         file_py.write(TABS + TABS + "'header': " + repr(header) + ',\n')
@@ -177,13 +138,14 @@ def write_descriptions(descriptions):
             file_py.write(repr(line.strip()) + ',')
         file_py.write('],\n')
 
-        file_py.write(TABS + TABS + "'tags': " + str(sorted(tags)) + ',\n')
+        file_py.write(TABS + TABS + "'tags': " + str(sorted(ntags)) + ',\n')
+        file_py.write(TABS + TABS + "'brashes': " + str(stags) + ',\n')
         file_py.write(TABS + '},\n')
 
     file_py.write('}\n')
 
-def write_search_tools(descriptions):
-    file_py_name = BLOG_COMMON + '/search_tools.py'
+def write_list_tools(descriptions):
+    file_py_name = BLOG_COMMON + '/list_tools.py'
     file_py = open(file_py_name, 'w')
     file_py.write('search_ids = [\n')
 
@@ -198,10 +160,7 @@ def write_search_tools(descriptions):
         id2num[description['id']] = description_id
         description_id += 1
 
-        for tag in description['tags']:
-            if not normal_tag(tag):
-                continue
-
+        for tag in description['navi_tags']:
             if tag not in tag2ids:
                 tag2ids[tag] = []
 
@@ -226,21 +185,34 @@ def write_search_tools(descriptions):
 
     file_py.write('}\n')
 
+def classify_tags(file_name):
+    navi_tags = []
+    syntax_tags = []
+
+    try:
+        tags_file = open(file_name, 'r')
+        for line in tags_file:
+            tag = line.strip()
+            if len(tag) == 0:
+                continue
+
+            if not normal_tag(tag):
+                syntax_tags.append(tag[7:])
+            else:
+                navi_tags.append(tag)
+    except:
+        pass
+
+    return navi_tags, syntax_tags
+
 def collect_descriptions():
     descriptions = []
     for full_name in sorted(glob.glob(BLOG_ENTRIES + '/*.txt'), reverse=True):
         name = relative_name(full_name)
         tags_name, header_name, summary_name = info_names(name)
-        description = { 'id': name, 'tags': [], 'summary': ''}
+        description = { 'id': name, 'summary': ''}
 
-        try:
-            tags_file = open(tags_name, 'r')
-            for line in tags_file:
-                tag = line.strip()
-                if len(tag) > 0:
-                    description['tags'].append(tag)
-        except:
-            pass
+        description['navi_tags'], description['syntax_tags'] = classify_tags(tags_name)
 
         try:
             header_file = open(header_name, 'r')
@@ -260,8 +232,8 @@ def collect_descriptions():
 
         descriptions.append(description)
 
-    write_descriptions(descriptions)
-    write_search_tools(descriptions)
+    write_entry_tools(descriptions)
+    write_list_tools(descriptions)
 
 ### script ###
 
@@ -270,7 +242,7 @@ if __name__ == '__main__':
     for line in sys.stdin.xreadlines():
         old, new, ref = line.strip().split(' ')
         if not master_re.match(ref):
-            print 'Ref ' + ref + ' received, but it is not a master.'
+            print 'Ref ' + ref + ' received, but it is not "master".'
             continue
 
         print 'Ref ' + ref + ' received, deployed to production.'
@@ -280,12 +252,8 @@ if __name__ == '__main__':
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         out, err = p.communicate()
-
         update(out.strip().split('\n'))
-
-        collect_tags()
         collect_descriptions()
-
         subprocess.call([RESTART_CMD])
 
 

@@ -1,6 +1,5 @@
-from common.syntax_highlighter import syntax_brashes
-from common.search_tools import search_ids, search_tags
-from common.descriptions import descriptions
+from common.list_tools import search_ids, search_tags
+from common.entry_tools import descriptions
 
 SCRIPT_PREFIX = '<script src="'
 SCRIPT_SUFFIX = '" type="text/javascript"></script>'
@@ -14,6 +13,10 @@ SH_CSS_DEF = STYLE_PREFIX + SH_CDN + 'styles/shThemeDefault.css' + STYLE_SUFFIX
 SH_JS = SCRIPT_PREFIX + SH_CDN + 'scripts/shCore.js' + SCRIPT_SUFFIX
 SH_JS_KICK = '<script type="text/javascript">SyntaxHighlighter.all()</script>'
 SH_JS_CPP = SCRIPT_PREFIX + SH_CDN + 'scripts/shBrushCpp.js' + SCRIPT_SUFFIX
+
+MJ_CDN = 'http://cdn.mathjax.org/mathjax/'
+
+MH_JS = SCRIPT_PREFIX + MJ_CDN + 'latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' + SCRIPT_SUFFIX
 
 def provide_ids(section_index, tag):
     per_page = 7
@@ -34,12 +37,17 @@ def provide_ids(section_index, tag):
 
 ### interface functions ###
 
-def entry_context(name):
+def entry_context(id):
     result = { 'resources': [] }
 
-    brashes = syntax_brashes(name)
+    brashes = descriptions[id]['brashes']
 
-    if len(brashes) > 0:
+    shON = False
+
+    for brash in brashes:
+        shON = shON or brash != 'mathjax'
+
+    if shON > 0:
         result['resources'].append(SH_CSS)
         result['resources'].append(SH_CSS_DEF)
         result['resources'].append(SH_JS)
@@ -48,6 +56,10 @@ def entry_context(name):
     for brash in brashes:
         if brash == 'c++':
             result['resources'].append(SH_JS_CPP)
+
+        if brash == 'mathjax':
+            result['resources'].append(MH_JS)
+
 
     return result
 
