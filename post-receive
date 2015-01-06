@@ -43,7 +43,11 @@ def normal_tag(tag):
 ### updated files parsing ###
 
 def mathjaxify(text):
-    subs = { '\\(': '\\\\(', '\\[': '\\\\[', '\\)': '\\\\)', '\\]': '\\\\]' }
+    subs = {
+        '\\(': '\\\\(', '\\)': '\\\\)',
+        '\\[': '\\\\[', '\\]': '\\\\]',
+        '\\{': '\\\\{', '\\}': '\\\\}',
+    }
 
     for k, v in subs.iteritems():
         text = text.replace(k, v)

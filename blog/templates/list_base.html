@@ -18,7 +18,7 @@
                 {% if tag.active %}
                     [<a href='/{{ tag.link }}/'>{{ tag.visible }}</a>]
                 {% else %}
-                    ({{ tag.visible }})
+                    (<b>{{ tag.visible }}</b>)
                 {% endif %}
                 <br>
                 {% endfor %}
