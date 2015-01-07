@@ -1,0 +1,15 @@
+=== Tags ===
+hints; links; programming tools;
+=== Header ===
+Useful Git Hints
+=== Summary ===
+There are number of git hints frequently needed.
+=== Body ===
+Hooks that would checkout on commit: https://www.digitalocean.com/community/tutorials/how-to-use-git-hooks-to-automate-development-and-deployment-tasks
+
+All githooks: http://git-scm.com/docs/githooks
+
+Clone local git repo: http://stackoverflow.com/questions/2519933/git-clone-repo-across-local-file-system-in-windows
+
+List all file changed in commit or between commits:
+http://stackoverflow.com/questions/424071/list-all-the-files-for-a-commit-in-git

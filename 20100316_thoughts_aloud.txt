@@ -1,0 +1,10 @@
+=== Tags ===
+thrift shop; syntax mathjax;
+=== Header ===
+Collection of Short Remarks
+=== Summary ===
+Sketchy thoughts on math subjects.
+=== Body ===
+1. Let \(G\) be a [Lie group](http://en.wikipedia.org/wiki/Lie_group) and \(H\) be its closed subgroup, then \(H\) its Lie subgroup.
+2. Not every group is a Lie group.
+3. Physically speaking, existence of correlation between \(X\) and \(Y\) imply drop in dimension of phase space of  \((X, Y)\) couples.
