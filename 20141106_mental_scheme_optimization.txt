@@ -1,0 +1,9 @@
+=== Tags ===
+design philosophy;
+=== Header ===
+Mental Scheme Optimization
+=== Summary ===
+An observation of how decoration of code in a manner inspired by functional
+programming style improves understanding and memorization of logic of a program.
+=== Body ===
+TBA
