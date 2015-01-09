@@ -13,22 +13,22 @@ This "blog engine" is supposed to be a transparent tool for:
 1. building a big _vision_ from small strokes in incremental manner
 2. collecting random _observations_
 
-One could think about this engine as hybrid between blog and wiki. It
+One could think about this engine as a hybrid between blog and wiki.
 
 ### Building
 
 When one is doing a long lasting project with either complicated or
 not fully invented structure, it is necessary to have a communication
-tool which helps to accumulate gained vision of the structure.
+tool which would help to accumulate gained vision of the structure.
 
 Since vision doesn't fully appear in a moment, engine should be flexible
-enough to suffer from compulsory transformations. It should also tracks all
-changes since creation is messy and rewritten versions could contain valuable
+enough to suffer from compulsory transformations. It should also track all
+changes since creation is messy and rewritten versions can contain valuable
 information.
 
 ### Collecting
 
-In traditional blogging one are supposed to generate "linear increment"
+In traditional blogging one is supposed to generate "linear increment"
 of stuff by pushing completed postings at the top of the "postings line".
 Such an approach is convenient for a model where posting value is bound to
 time.
@@ -39,5 +39,14 @@ decreasing with time. So basically it is like wiki for articles which are
 supposed to become pretty finished in a small number of updates.
 
 ### Aesthetics
+
+Engine is supposed to be a "mentally thin thing". It should minimally bother
+a user. No web-interfaces for editing, no data bases for storage. Just a
+directory with a bunch of text files which are stored in a git repository.
+One could `grep` them, `sed` them and use his favorite editor to update them.
+
+Every text file is basically just a [markdown](https://help.github.com/articles/markdown-basics/)
+file with support for TeX and syntax highlighting. Tags are supported for
+more convenient visual representation.
 
 ## How one could use it?
