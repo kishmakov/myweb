@@ -1,0 +1,12 @@
+=== Tags ===
+programming tools;
+=== Header ===
+Blog Engine Conception
+=== Summary ===
+Overview of this blog engine functional description (what's it for?)
+and explanation of its structure (how one could use it?).
+=== Body ===
+
+## What's it for?
+
+## How one could use it?
