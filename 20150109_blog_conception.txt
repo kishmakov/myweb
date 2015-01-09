@@ -6,7 +6,9 @@ Blog Engine Conception
 Overview of this blog engine functional description (what's it for?)
 and explanation of its structure (how one could use it?).
 === Body ===
+## What is it for?
 
-## What's it for?
+Main purpose of this "blog engine" is to be a tool for helping incremental
+turn of __observations__ into a __vision__.
 
 ## How one could use it?
