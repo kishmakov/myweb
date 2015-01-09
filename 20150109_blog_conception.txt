@@ -8,7 +8,36 @@ and explanation of its structure (how one could use it?).
 === Body ===
 ## What is it for?
 
-Main purpose of this "blog engine" is to be a tool for helping incremental
-turn of __observations__ into a __vision__.
+This "blog engine" is supposed to be a transparent tool for:
+
+1. building a big _vision_ from small strokes in incremental manner
+2. collecting random _observations_
+
+One could think about this engine as hybrid between blog and wiki. It
+
+### Building
+
+When one is doing a long lasting project with either complicated or
+not fully invented structure, it is necessary to have a communication
+tool which helps to accumulate gained vision of the structure.
+
+Since vision doesn't fully appear in a moment, engine should be flexible
+enough to suffer from compulsory transformations. It should also tracks all
+changes since creation is messy and rewritten versions could contain valuable
+information.
+
+### Collecting
+
+In traditional blogging one are supposed to generate "linear increment"
+of stuff by pushing completed postings at the top of the "postings line".
+Such an approach is convenient for a model where posting value is bound to
+time.
+
+This engine is oriented on "random, locally convergent, increment" of stuff.
+By locally convergent it is meant that frequency of posting updates is
+decreasing with time. So basically it is like wiki for articles which are
+supposed to become pretty finished in a small number of updates.
+
+### Aesthetics
 
 ## How one could use it?
