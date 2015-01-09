@@ -35,6 +35,14 @@ def provide_ids(section_index, tag):
 
     return ids, sections_number, section_index, sorted(search_tags)
 
+def split_tag(tag, active_tag):
+    return {
+        'link': tag.replace(' ', '_'),
+        'visible': tag,
+        'active': tag != active_tag
+    }
+
+
 ### interface functions ###
 
 sh_tags = ['c++', 'haskell']
@@ -62,6 +70,7 @@ def entry_context(id):
         resources.extend(per_tag_resources[stag])
 
     return {
+        'tags': [split_tag(tag, '') for tag in descriptions[id]['navi_tags']],
         'resources': resources,
         'header': descriptions[id]['header']
     }
@@ -69,11 +78,6 @@ def entry_context(id):
 def list_context(section_id, tag):
     original_tag = tag.replace('_', ' ')
     ids, sections, section_index, tags = provide_ids(section_id, original_tag)
-    split_tag = lambda x: {
-        'link': x.replace(' ', '_'),
-        'visible': x,
-        'active': x != original_tag
-    }
 
     result = {
         'descriptions': [],
@@ -81,7 +85,7 @@ def list_context(section_id, tag):
         'section': section_index,
         'sections_after': [i + 1 for i in range(section_index, sections)],
         'tag': original_tag,
-        'tags': [split_tag(tag) for tag in tags]
+        'tags': [split_tag(tag, original_tag) for tag in tags]
     }
 
     for id in ids:
@@ -91,7 +95,7 @@ def list_context(section_id, tag):
                 continue
 
             if key == 'navi_tags':
-                desc[key] = [split_tag(tag) for tag in value]
+                desc[key] = [split_tag(tag, original_tag) for tag in value]
                 continue
 
             desc[key] = value
