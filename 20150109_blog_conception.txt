@@ -1,5 +1,5 @@
 === Tags ===
-programming tools;
+programming tools; syntax python;
 === Header ===
 Blog Engine Conception
 === Summary ===
@@ -50,3 +50,27 @@ file with support for TeX and syntax highlighting. Tags are supported for
 more convenient visual representation.
 
 ## How one could use it?
+
+In order to set up blog engine, one need a hosting with [**django**](https://www.djangoproject.com/)
+and [**git**](http://git-scm.com/).
+
+<pre class='brush: py'>
+descriptions = {
+    '20150109_blog_conception': {
+        'id': '20150109_blog_conception',
+        'header': 'Blog Engine Conception',
+        'updated': '2015-01-09 @ 20:57',
+        'summary': ["Overview of this blog engine functional description (what's it for?)\nand explanation of its structure (how one could use it?).",],
+        'navi_tags': ['programming tools'],
+        'syntax_tags': ['python'],
+    },
+    '20141217_macros_explosion': {
+        'id': '20141217_macros_explosion',
+        'header': 'Explosive Macros Example',
+        'updated': '2015-01-07 @ 19:45',
+        'summary': ['A small code which demonstrates C++ compiler constraints.',],
+        'navi_tags': ['fun'],
+        'syntax_tags': ['c++'],
+    },
+}
+</pre>
