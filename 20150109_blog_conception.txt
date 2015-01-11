@@ -66,19 +66,13 @@ Configuration is just a setting of four paths, which is better understood throug
 
 ### How It Works?
 
-* each entry of the form _yyyymmdd_name.txt_ is extracted and kept in
-  `BLOG_ENTRIES` directory altogether with 3 additional description files of
-  the form:
+* each entry of the form _yyyymmdd_name.txt_ is extracted and kept in `BLOG_ENTRIES` directory altogether with 3 additional description files of the form:
   * _yyyymmdd_name.header_
   * _yyyymmdd_name.summary_
   * _yyyymmdd_name.tags_
-* part of the entry is also kept compiled from markdown into _yyyymmdd_name.html_
-  and stored in `BLOG_TEMPLATES` directory, which is used by django application
-* when freshly updated entries are commited to git server, hook would update
-  corresponding description files and recompile django template
-* after updates were finished hook would assemble `entry_tools.py` and
-  `list_tools.py` based on description files and would put them into
-  `BLOG_COMMON` directory (examples shown below)
+* part of the entry is also kept compiled from markdown into _yyyymmdd_name.html_ and stored in `BLOG_TEMPLATES` directory, which is used by django application
+* when freshly updated entries are commited to git server, hook would update corresponding description files and recompile django template
+* after updates were finished hook would assemble `entry_tools.py` and `list_tools.py` (examples provided below) based on description files and would put them into `BLOG_COMMON` directory (examples shown below)
 * finally hook would restart django with command via `RESTART_CMD`
 
 **`entry_tools.py`**
@@ -109,7 +103,6 @@ search_ids = [
     '20150109_blog_conception',
     '20141217_macros_explosion',
 ]
-
 search_tags = {
     'fun': [1, ],
     'programming tools': [0, ],
