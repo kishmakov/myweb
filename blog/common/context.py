@@ -13,6 +13,7 @@ SH_CSS_DEF = STYLE_PREFIX + SH_CDN + 'styles/shThemeDefault.css' + STYLE_SUFFIX
 SH_JS = SCRIPT_PREFIX + SH_CDN + 'scripts/shCore.js' + SCRIPT_SUFFIX
 SH_JS_KICK = '<script type="text/javascript">SyntaxHighlighter.all()</script>'
 SH_JS_CPP = SCRIPT_PREFIX + SH_CDN + 'scripts/shBrushCpp.js' + SCRIPT_SUFFIX
+SH_JS_PYTHON = SCRIPT_PREFIX + SH_CDN + 'scripts/shBrushPython.js' + SCRIPT_SUFFIX
 
 MJ_CDN = 'http://cdn.mathjax.org/mathjax/'
 
@@ -45,13 +46,14 @@ def split_tag(tag, active_tag):
 
 ### interface functions ###
 
-sh_tags = ['c++', 'haskell']
+sh_tags = ['c++', 'haskell', 'python']
 
 sh_resources = [SH_CSS, SH_CSS_DEF, SH_JS, SH_JS_KICK]
 
 per_tag_resources = {
     'c++' : [SH_JS_CPP],
-    'mathjax': [MH_JS]
+    'mathjax': [MH_JS],
+    'python': [SH_JS_PYTHON],
 }
 
 def entry_context(id):
