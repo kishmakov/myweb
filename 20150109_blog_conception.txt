@@ -58,9 +58,9 @@ and [**git**](http://git-scm.com/).
 
 Installation consists of
 
-* installation of [dango app](https://github.com/kishmakov/blog_engine/tree/master/blog) on the server
+* installation of [dango application](https://github.com/kishmakov/blog_engine/tree/master/blog) on the server
 * installation of a git server
-* configuration of the [hook file](https://github.com/kishmakov/blog_engine/blob/master/post-receive) and put it to the git server
+* configuration of the [hook file](https://github.com/kishmakov/blog_engine/blob/master/post-receive) which should be added the git server
 
 Configuration is just a setting of four paths, which is better understood through work cycle.
 

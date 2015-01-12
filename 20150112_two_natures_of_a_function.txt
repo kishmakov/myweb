@@ -1,0 +1,12 @@
+=== Tags ===
+design philosophy; syntax mathjax;
+=== Header ===
+Dual Nature of Function
+=== Summary ===
+TBD.
+=== Body ===
+$$\begin{CD}
+S^{{\mathcal{W}}_\Lambda}\otimes T @>j>> T\\
+@VVV @VV{\End P}V\\
+(S\otimes T)/I @= (Z\otimes T)/J
+\end{CD}$$
