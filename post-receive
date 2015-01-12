@@ -47,6 +47,18 @@ def mathjaxify(text):
         '\\(': '\\\\(', '\\)': '\\\\)',
         '\\[': '\\\\[', '\\]': '\\\\]',
         '\\{': '\\\\{', '\\}': '\\\\}',
+        '\\\\': '\\\\\\\\',
+    }
+
+    for k, v in subs.iteritems():
+        text = text.replace(k, v)
+
+    return text
+
+def djangify(text):
+    subs = {
+        '{{': '{% templatetag openvariable %}',
+        '}}': '{% templatetag closevariable %}',
     }
 
     for k, v in subs.iteritems():
@@ -58,7 +70,7 @@ def prepare_template(header, raw_text):
     html_head = '{% extends "entry_base.html" %}\n\n'
     html_head += '{% block container %}\n'
     text = '# ' + header + '\n' + mathjaxify(raw_text)
-    html_body = md_converter.reset().convert(text)
+    html_body = djangify(md_converter.reset().convert(text))
     html_tail = '\n{% endblock %}\n'
 
     return html_head + html_body + html_tail
