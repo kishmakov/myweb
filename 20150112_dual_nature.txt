@@ -1,10 +1,10 @@
 === Tags ===
 design philosophy; syntax mathjax;
 === Header ===
-Dual Nature of Function
+Dual Nature of the Function
 === Summary ===
 TBD.
 === Body ===
 $$\require{AMScd}
-\begin{CD}A @>a>> B\\@VVbV @VVcV\\ C @>d>> D
+\begin{CD}O \times S @>\hat{O}>> O\\@VVV @VVV\\ O_F \times S_F @>\hat{O}_F>> O_F
 \end{CD}$$
