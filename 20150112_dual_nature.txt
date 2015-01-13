@@ -3,7 +3,8 @@ design philosophy; syntax mathjax;
 === Header ===
 Dual Nature of the Function
 === Summary ===
-TBD.
+An attempt to verbosely describe the difference between function as it is
+represented by software and it is understood by a human.
 === Body ===
 $$\require{AMScd}
 \begin{CD}O \times S @>\hat{O}>> O\\@VVV @VVV\\ O_F \times S_F @>\hat{O}_F>> O_F
