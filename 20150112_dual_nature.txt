@@ -4,8 +4,26 @@ design philosophy; syntax mathjax;
 Dual Nature of the Function
 === Summary ===
 An attempt to verbosely describe the difference between function as it is
-represented by software and it is understood by a human.
+represented by software and as it is understood by a human.
 === Body ===
+This entry is devoted to the difference between two comprehensions of idea
+of software program. First comprehension is the one which perceives a program
+via its philosophic idea and functional structure. Second comprehension is
+the engineering vision of the program which is more localized and devoted to
+details. One could figuratively distinguish these perceptions as "from outside"
+and "from inside".
+
+This distinction, which can be called topological, is caused by how we approach
+the program. Once we approach it from the outside, the program is a black box
+for us. We don't know what is inside and we don't need to know it. We are just
+interested in its function. On the contrary, creator of the program perceives
+its function as a restriction and masters out program internally within
+prescribed restriction. Let us come into more detail.
+
+## Outer Perception
+
 $$\require{AMScd}
 \begin{CD}O \times S @>\hat{O}>> O\\@VVV @VVV\\ O_F \times S_F @>\hat{O}_F>> O_F
 \end{CD}$$
+
+## Inner Perception
