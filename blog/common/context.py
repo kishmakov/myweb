@@ -17,7 +17,8 @@ SH_JS_PYTHON = SCRIPT_PREFIX + SH_CDN + 'scripts/shBrushPython.js' + SCRIPT_SUFF
 
 MJ_CDN = 'http://cdn.mathjax.org/mathjax/'
 
-MH_JS = SCRIPT_PREFIX + MJ_CDN + 'latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' + SCRIPT_SUFFIX
+MJ_JS_KICK = '<script type="text/x-mathjax-config">MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "AMS" } } });</script>'
+MJ_JS = SCRIPT_PREFIX + MJ_CDN + 'latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' + SCRIPT_SUFFIX
 
 def provide_ids(section_index, tag):
     per_page = 7
@@ -46,13 +47,20 @@ def split_tag(tag, active_tag):
 
 ### interface functions ###
 
-sh_tags = ['c++', 'haskell', 'python']
+tag_to_init = [
+    {
+        'tags': ['c++', 'haskell', 'python'],
+        'resources': [SH_CSS, SH_CSS_DEF, SH_JS, SH_JS_KICK]
+    },
+    {
+        'tags': ['mathjax'],
+        'resources': [MJ_JS_KICK]
+    }
+]
 
-sh_resources = [SH_CSS, SH_CSS_DEF, SH_JS, SH_JS_KICK]
-
-per_tag_resources = {
+tag_to_resources = {
     'c++' : [SH_JS_CPP],
-    'mathjax': [MH_JS],
+    'mathjax': [MJ_JS],
     'python': [SH_JS_PYTHON],
 }
 
@@ -61,15 +69,15 @@ def entry_context(id):
     stags = descriptions[id]['syntax_tags']
 
     for stag in stags:
-        if sh_tags.count(stag) > 0:
-            resources.extend(sh_resources)
-            break
+        for init in tag_to_init:
+            if init['tags'].count(stag) > 0:
+                resources.extend(init['resources'])
 
     for stag in stags:
-        if stag not in per_tag_resources:
+        if stag not in tag_to_resources:
             continue
 
-        resources.extend(per_tag_resources[stag])
+        resources.extend(tag_to_resources[stag])
 
     return {
         'tags': [split_tag(tag, '') for tag in descriptions[id]['navi_tags']],
