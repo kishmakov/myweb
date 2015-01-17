@@ -1,29 +1,96 @@
 === Tags ===
 design philosophy; syntax mathjax;
 === Header ===
-Dual Nature of the Function
+Dual Nature of the Program
 === Summary ===
-An attempt to verbosely describe the difference between function as it is
+An attempt to verbosely describe the difference between program as it is
 represented by software and as it is understood by a human.
 === Body ===
 This entry is devoted to the difference between two comprehensions of idea
 of software program. First comprehension is the one which perceives a program
 via its philosophic idea and functional structure. Second comprehension is
 the engineering vision of the program which is more localized and devoted to
-details. One could figuratively distinguish these perceptions as "from outside"
-and "from inside".
+details. One could figuratively distinguish these perceptions as _"outer"_
+and _"inner"_ correspondingly.
 
-This distinction, which can be called topological, is caused by how we approach
-the program. Once we approach it from the outside, the program is a black box
-for us. We don't know what is inside and we don't need to know it. We are just
-interested in its function. On the contrary, creator of the program perceives
-its function as a restriction and masters out program internally within
-prescribed restriction. Let us come into more detail.
+This distinction, which can be called topological, is caused by the way we
+approach the program. Once we approach it from the outside, the program is a
+black box for us. We don't know what is inside and we don't need to know it.
+We are just interested in its function. On the contrary, creator of the
+program perceives its function as a restriction and masters out program
+internally within prescribed restriction. Let us come into more detail.
 
 ## Outer Perception
 
+### Program as a Function
+
+First idea which comes to mind when one would like to define a program by its
+function is to interpret the program as a function:
+
+$$
+F: I \to O
+$$
+
+where \(I\) and \(O\) denotes sets of inputs and outputs correspondingly.
+This interpretation only make sense in specific cases when program is supposed
+to terminate in a _"finite"_ time. By finite execution time we mean programs
+which are supposed to terminate independently of external actions. Examples are
+compilers or some deterministic computational scripts.
+
+There are plenty of real world programs which does not fit into this
+interpretations like servers or IDEs. These programs are supposed to run
+indefinitely long. In order to handle such cases we need to come up with more
+versatile scheme.
+
+### Program as a Process
+
+Interpretation provided below consists of only those aspects of _"program
+idea"_ which constitutes its perception by the outer user. What are these
+aspects?
+
+Each program is interesting to its client because of results it could provide
+to him. In order to generate these results, program should be provided with
+task information. Gluing entity between input information and output results
+is the program state. So the program should necessary contain:
+
+* output
+* state
+* input
+
+In light of aforementioned consideration next scheme would hopefully make
+sense:
+
+<p>
+\begin{equation}
+\begin{array}{ccccc}
+ & & s_i & & i_0 \\
+ & & \downarrow & \swarrow & \\
+ & & s_0 & & i_1 \\
+ & \swarrow & \downarrow & \swarrow & \\
+o_0 & & s_1 & & i_2 \\
+ & \swarrow & \downarrow & \swarrow & \\
+o_1 & & s_2 & & i_3 \\
+ & \swarrow & \downarrow & \swarrow & \\
+\dots & & \dots & & \dots
+\end{array}
+\end{equation}
+</p>
+
+<p>
+\begin{equation}
+\require{AMScd}
+\begin{CD}
+O \times S @>\hat{O}>> O\\
+@VVV @VVV\\
+O_F \times S_F @>\hat{O}_F>> O_F
+\end{CD}
+\end{equation}
+</p>
+
+<p>
 $$\require{AMScd}
 \begin{CD}O \times S @>\hat{O}>> O\\@VVV @VVV\\ O_F \times S_F @>\hat{O}_F>> O_F
 \end{CD}$$
+</p>
 
 ## Inner Perception
