@@ -60,6 +60,7 @@ Installation consists of
 
 * installation of [dango application](https://github.com/kishmakov/blog_engine/tree/master/blog) on the server
 * installation of a git server
+* installation of [markdown](https://github.com/waylan/Python-Markdown) python package
 * configuration of the [hook file](https://github.com/kishmakov/blog_engine/blob/master/post-receive) which should be added the git server
 
 Configuration is just a setting of four paths, which is better understood through work cycle.

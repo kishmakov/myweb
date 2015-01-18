@@ -3,7 +3,7 @@ thrift shop; syntax mathjax;
 === Header ===
 Simonyi Conjecture
 === Summary ===
-Short extract from talk on problem motivated by geodesic application.
+Attractive short formulation of an open combinatorics problem.
 === Body ===
 Gabor Simonyi, while he was working on some omnidirectional codes, formulated
 the following conjecture.
