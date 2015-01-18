@@ -21,6 +21,7 @@ and values of its normal derivative at boundary:
 
 $$\left\{\lambda_i, \frac{\partial\phi_i}{\partial \nu}\right\}_{i=1}^{\infty}$$
 
+
 We are supposed to construct a manifold which generates the same data.
 Laplace originates from wave equation. Data supposingly originates from wave
 analyzis.

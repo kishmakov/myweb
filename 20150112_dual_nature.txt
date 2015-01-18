@@ -60,7 +60,6 @@ is the program state. So the program should necessary contain:
 In light of aforementioned consideration next scheme would hopefully make
 sense:
 
-<p>
 \begin{equation}
 \begin{array}{ccccc}
  & & s_i & & i_0 \\
@@ -74,9 +73,7 @@ o_1 & & s_2 & & i_3 \\
 \dots & & \dots & & \dots
 \end{array}
 \end{equation}
-</p>
 
-<p>
 \begin{equation}
 \require{AMScd}
 \begin{CD}
@@ -85,12 +82,15 @@ O \times S @>\hat{O}>> O\\
 O_F \times S_F @>\hat{O}_F>> O_F
 \end{CD}
 \end{equation}
-</p>
 
-<p>
-$$\require{AMScd}
-\begin{CD}O \times S @>\hat{O}>> O\\@VVV @VVV\\ O_F \times S_F @>\hat{O}_F>> O_F
-\end{CD}$$
-</p>
+$$
+\require{AMScd}
+\begin{CD}
+O \times S @>\hat{O}>> O\\
+@VVV @VVV\\
+O_F \times S_F @>\hat{O}_F>> O_F
+\end{CD}
+$$
+
 
 ## Inner Perception
