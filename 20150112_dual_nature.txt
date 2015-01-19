@@ -82,21 +82,47 @@ o_1 & & s_2 & & i_3 \\
 \downarrow & \swarrow & \downarrow & \swarrow & \\
 \dots & & \dots & & \dots
 \end{array}
+\label{eq:main_diagram}
 \end{equation}
 
-where by arrows we denote dependencies.
-
-Transition to the next row is encapsulated in two operators \(S\) and \(O\) such that
+where by arrows we denote dependencies. Transition to the next row is
+encapsulated in two operators \(S\) and \(O\) such that
 
 \begin{equation}
 \begin{array}{ccc}
  s_n & = & S(s_{n-1}, i_n) \\
  o_n & = & O(o_{n-1}, s_n) \\
+\label{eq:operators_inro}
 \end{array}
 \end{equation}
 
 for \(n > 0\). For \(n=0\) initial states should be naturally placed instead
 of values with negative indices.
+
+### Pure Setting vs Applied Setting
+
+What we could say about values in diagram \eqref{eq:main_diagram}? Answer
+depends on a setting in which we works. If we works in the setting of pure
+mathematics then we could allow ourselves luxury to chose value sets among any
+sets we want. In the applied setting we are bounded by architecture and its
+limitations.
+
+People develop algorithms into mathematical settings and then implement them
+in applied setting of specific architecture. Let us firstly think about pure
+setting. In this setting we would denote set of all values of \(o_\*\) as
+\(\mathbb{O}\), set of all values of \(s_\*\) as \(\mathbb{S}\) and the set of
+all values of \(i_\*\) as \(\mathbb{I}\).
+
+In light of introduced notations we could formulate domains and codomains of
+operators in \eqref{eq:operators_inro} as
+
+\begin{equation}
+\begin{array}{ccccc}
+S: & \mathbb{S} \times \mathbb{I} & \to & \mathbb{S} \\
+O: & \mathbb{O} \times \mathbb{S} & \to & \mathbb{O}
+\label{eq:operators_pure}
+\end{array}
+\end{equation}
 
 \begin{equation}
 \require{AMScd}
