@@ -57,28 +57,46 @@ is the program state. So the program should necessary contain:
 * state
 * input
 
-In light of aforementioned consideration next scheme would hopefully make
-sense:
+We would like to stick to discrete conception of the program. In view of such
+a conception output could be naturally interpreted as the sequence
+\(o_i \cup \{o_n\}_{n=0}^\infty\) of observable states of everything which is
+affected by program execution. Value of program affectee at the time moment
+\(n\) is denoted by \(o_n\), initial state of affectee is denoted by \(o_i\).
+Similarly state could be interpreted as the sequence
+\(s_i \cup \{s_n\}_{n=0}^\infty\) where \(s_i\) stands for initial state.
+
+In case of input we are not needed initial state so input could be interpreted
+as the sequence \(\{i_n\}_{n=0}^\infty\) of states of everything which could
+affect the program. All the aforementioned consideration are summed up in
+the scheme:
 
 \begin{equation}
 \begin{array}{ccccc}
  & & s_i & & i_0 \\
  & & \downarrow & \swarrow & \\
- & & s_0 & & i_1 \\
- & \swarrow & \downarrow & \swarrow & \\
+o_i & & s_0 & & i_1 \\
+\downarrow & \swarrow & \downarrow & \swarrow & \\
 o_0 & & s_1 & & i_2 \\
- & \swarrow & \downarrow & \swarrow & \\
+\downarrow & \swarrow & \downarrow & \swarrow & \\
 o_1 & & s_2 & & i_3 \\
- & \swarrow & \downarrow & \swarrow & \\
+\downarrow & \swarrow & \downarrow & \swarrow & \\
 \dots & & \dots & & \dots
 \end{array}
 \end{equation}
 
-where
+where by arrows we denote dependencies.
 
-* output is represented with the sequence \(\{o_n\}_{n = 0}^\infty\)
-* state is represented with the sequence \(s_i \cup \{s_n\}_{n = 0}^\infty\)
-* input is represented with the sequence \(\{i_n\}_{n = 0}^\infty\)
+Transition to the next row is encapsulated in two operators \(S\) and \(O\) such that
+
+\begin{equation}
+\begin{array}{ccc}
+ s_n & = & S(s_{n-1}, i_n) \\
+ o_n & = & O(o_{n-1}, s_n) \\
+\end{array}
+\end{equation}
+
+for \(n > 0\). For \(n=0\) initial states should be naturally placed instead
+of values with negative indices.
 
 \begin{equation}
 \require{AMScd}
@@ -88,15 +106,6 @@ O \times S @>\hat{O}>> O\\
 O_F \times S_F @>\hat{O}_F>> O_F
 \end{CD}
 \end{equation}
-
-$$
-\require{AMScd}
-\begin{CD}
-O \times S @>\hat{O}>> O\\
-@VVV @VVV\\
-O_F \times S_F @>\hat{O}_F>> O_F
-\end{CD}
-$$
 
 
 ## Inner Perception
