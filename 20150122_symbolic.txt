@@ -1,0 +1,8 @@
+=== Tags ===
+design philosophy; syntax mathjax;
+=== Header ===
+Some Aspects of Symbolic Approach to Computation
+=== Summary ===
+TBD
+=== Body ===
+TBD
