@@ -127,8 +127,8 @@ In pure setting state sets \(\mathbb{O}\), \(\mathbb{S}\) and \(\mathbb{I}\)
 could be constructed via mathematical objects such as integer or real numbers.
 In applied setting we are restricted by the global finiteness. Let us denote
 target architecture with \(A\). Then this architecture choice leads us to
-specialization of subsets \(\mathbb{O}_A \hookrightarrow \mathbb{O}\),
-\(\mathbb{S}_A \hookrightarrow \mathbb{S}\) and
+specialization of subsets \(\mathbb{O}_A \hookrightarrow \mathbb{O}\)
+, \(\mathbb{S}_A \hookrightarrow \mathbb{S}\) and
 \(\mathbb{I}_A \hookrightarrow \mathbb{I}\). For instance, if pure sets were
 described with the notion of an integer number, in approximate sets integer
 number could be exchanged with 32-bit integer numbers.
