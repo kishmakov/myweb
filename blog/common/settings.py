@@ -22,10 +22,9 @@ def make_full(relative_path):
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'yth2qcl%7fl(eb_!5r(o(xhb=c6l!i!b*lp%teerz51--tpki7'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 SITE_URL = 'http://blog.kshmakov.org'
 
