@@ -3,6 +3,7 @@ design philosophy; syntax mathjax;
 === Header ===
 Some Aspects of Symbolic Approach to Computation
 === Summary ===
-TBD
+Thoughts on the relationship between finiteness of program symbolic
+representation and finiteness of architectural entity set.
 === Body ===
 TBD
