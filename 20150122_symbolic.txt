@@ -1,9 +1,14 @@
 === Tags ===
-design philosophy; syntax mathjax;
+design philosophy; syntax mathjax; syntax c++;
 === Header ===
-Some Aspects of Symbolic Approach to Computation
+On Symbolic Finiteness
 === Summary ===
 Thoughts on the relationship between finiteness of program symbolic
 representation and finiteness of architectural entity set.
 === Body ===
-TBD
+<pre class='brush: cpp'>
+unsigned int gcd(unsigned int a, unsigned int b)
+{
+    return b == 0 ? a : gcd(b, a % b);
+}
+</pre>
