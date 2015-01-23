@@ -28,7 +28,7 @@ TEMPLATE_DEBUG = False
 
 SITE_URL = 'http://blog.kshmakov.org'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'blog.kshmakov.org']
 
 TEMPLATE_DIRS = (
     make_full('templates'),
