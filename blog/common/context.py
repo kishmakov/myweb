@@ -23,6 +23,9 @@ MJ_JS = SCRIPT_PREFIX + MJ_CDN + 'latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 def provide_ids(section_index, tag):
     per_page = 7
 
+    if tag != '' and tag not in search_tags:
+        return None, None, None, None
+
     amount = len(search_ids) if tag == '' else len(search_tags[tag])
     sections_number = ((amount - 1) // per_page) + 1
     section_index = max(1, min(int(section_index), sections_number))
@@ -88,6 +91,9 @@ def entry_context(id):
 def list_context(section_id, tag):
     original_tag = tag.replace('_', ' ')
     ids, sections, section_index, tags = provide_ids(section_id, original_tag)
+
+    if ids is None:
+        return None
 
     result = {
         'descriptions': [],
