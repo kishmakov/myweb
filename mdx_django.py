@@ -67,16 +67,12 @@ class BracesPre(markdown.preprocessors.Preprocessor):
 class BracesPost(markdown.postprocessors.Postprocessor):
     """ Escapes all occurences of '{{' and '}}' for django. """
 
-    subs = {
-        '{{': '{% templatetag openvariable %}',
-        '}}': '{% templatetag closevariable %}',
-        REF_BEGIN: '{{',
-        REF_END: '}}'
-    }
-
     def run(self, text):
-        for k, v in self.subs.iteritems():
-            text = text.replace(k, v)
+        text = text.replace('{{', '{% templatetag openvariable %}')
+        text = text.replace('}}', '{% templatetag closevariable %}')
+        text = text.replace(REF_BEGIN, '{{')
+        text = text.replace(REF_END, '}}')
+        text = text.replace('\_', '_')
 
         return text
 
@@ -84,14 +80,21 @@ class RefPattern(markdown.inlinepatterns.SimpleTextPattern):
     def __init__ (self, pattern):
         super(RefPattern, self).__init__(pattern)
 
+
     def handleMatch(self, m):
-        el = markdown.util.etree.Element('span')
-        el.text = REF_BEGIN +' ' + m.group(2).replace(' ', '.') + ' ' + REF_END
+        def wrap(text):
+            return REF_BEGIN + ' ' + text + ' ' + REF_END
+
+        el = markdown.util.etree.Element('a')
+        refed = 'ref.' + m.group(2).replace(' ', '.')
+        el.set('href', '#ref' + wrap(refed + '.id'))
+        el.set('title', wrap(refed + '.title'))
+        el.text = '[' + wrap(refed + '.id') + ']'
         return el
 
 class DjangoExtension(markdown.extensions.Extension):
     def extendMarkdown(self, md, md_globals):
-        md.inlinePatterns.add('ref', RefPattern(REF_RE), '<not_strong')
+        md.inlinePatterns.add('ref', RefPattern(REF_RE), '<escape')
         md.preprocessors.add('braces', BracesPre(self), '>reference')
         md.postprocessors.add('braces', BracesPost(self), '>amp_substitute')
 

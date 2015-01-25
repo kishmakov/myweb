@@ -1,5 +1,6 @@
 from common.list_tools import search_ids, search_tags
 from common.entry_tools import descriptions
+from common.references import references
 
 SCRIPT_PREFIX = '<script src="'
 SCRIPT_SUFFIX = '" type="text/javascript"></script>'
@@ -70,6 +71,7 @@ tag_to_resources = {
 def entry_context(id):
     resources = []
     stags = descriptions[id]['syntax_tags']
+    rtags = descriptions[id]['ref_tags']
 
     for stag in stags:
         for init in tag_to_init:
@@ -82,10 +84,25 @@ def entry_context(id):
 
         resources.extend(tag_to_resources[stag])
 
+    ref = {}
+    ref_id_count = 0
+
+    for rtag in rtags:
+        ref_id_count += 1
+        ref_type, ref_id = rtag.split(' ')
+        if ref_type not in ref:
+            ref[ref_type] = {}
+
+        ref[ref_type][ref_id] = {
+            'id': ref_id_count,
+            'title': references[ref_type][ref_id]['title']
+        }
+
     return {
         'tags': [split_tag(tag, '') for tag in descriptions[id]['navi_tags']],
         'resources': resources,
-        'header': descriptions[id]['header']
+        'header': descriptions[id]['header'],
+        'ref': ref
     }
 
 def list_context(section_id, tag):

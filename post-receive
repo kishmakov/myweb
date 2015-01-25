@@ -40,9 +40,6 @@ def info_names(name):
     pref = BLOG_ENTRIES + '/' + name + '.'
     return pref + 'tags', pref + 'header', pref + 'summary'
 
-def normal_tag(tag):
-    return tag[:7] != 'syntax '
-
 ### updated files parsing ###
 
 def prepare_template(header, raw_text):
@@ -133,6 +130,7 @@ def write_entry_tools(descriptions):
         updated = description['updated']
         summary = description['summary']
         ntags = description['navi_tags']
+        rtags = description['ref_tags']
         stags = description['syntax_tags']
         file_py.write(TABS + repr(id) + ': {\n')
         file_py.write(TABS2 + "'id': " + repr(id) + ',\n')
@@ -145,6 +143,7 @@ def write_entry_tools(descriptions):
         file_py.write('],\n')
 
         file_py.write(TABS2 + "'navi_tags': " + str(sorted(ntags)) + ',\n')
+        file_py.write(TABS2 + "'ref_tags': " + str(rtags) + ',\n')
         file_py.write(TABS2 + "'syntax_tags': " + str(stags) + ',\n')
         file_py.write(TABS + '},\n')
 
@@ -194,6 +193,7 @@ def write_list_tools(descriptions):
 def classify_tags(file_name):
     navi_tags = []
     syntax_tags = []
+    ref_tags = []
 
     try:
         tags_file = open(file_name, 'r')
@@ -202,28 +202,32 @@ def classify_tags(file_name):
             if len(tag) == 0:
                 continue
 
-            if not normal_tag(tag):
+            if tag[:7] == 'syntax ':
                 syntax_tags.append(tag[7:])
+            elif tag[:4] == 'ref ':
+                ref_tags.append(tag[4:])
             else:
                 navi_tags.append(tag)
     except:
         pass
 
-    return navi_tags, syntax_tags
+    return navi_tags, syntax_tags, ref_tags
 
 def collect_descriptions():
     descriptions = []
     for full_name in sorted(glob.glob(BLOG_ENTRIES + '/*.txt'), reverse=True):
         name = relative_name(full_name)
         tags_name, header_name, summary_name = info_names(name)
+        navi, syntax, ref = classify_tags(tags_name)
         description = {
             'id': name,
             'summary': '',
             'header': 'No Header',
-            'updated': 'not available'
+            'updated': 'not available',
+            'navi_tags': navi,
+            'syntax_tags': syntax,
+            'ref_tags': ref
         }
-
-        description['navi_tags'], description['syntax_tags'] = classify_tags(tags_name)
 
         try:
             header_file = open(header_name, 'r')
@@ -246,14 +250,14 @@ def collect_descriptions():
     write_entry_tools(descriptions)
     write_list_tools(descriptions)
 
-def print_dict(desc, file, offset=''):
+def write_references(desc, file, offset=''):
     if offset == '':
-        file.write('{\n')
+        file.write('references = {\n')
     for key, value in desc.iteritems():
         file.write(offset + " '" + key + "': ")
         if type(value) == dict:
             file.write('{\n')
-            print_dict(value, file, offset + '  ')
+            write_references(value, file, offset + '  ')
             file.write(offset + ' },\n')
         elif type(value) == str:
             file.write("'" + value + "',\n")
@@ -283,7 +287,7 @@ def update_references():
         refs += line
 
     file_py = open(BLOG_COMMON + '/references.py', 'w')
-    print_dict(byteify(json.loads(refs)), file_py)
+    write_references(byteify(json.loads(refs)), file_py)
 
 ### script ###
 
