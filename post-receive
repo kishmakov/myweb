@@ -2,6 +2,7 @@
 
 import datetime
 import glob
+import json
 import markdown
 import re
 import subprocess
@@ -16,12 +17,14 @@ BLOG_ENTRIES = '/home/menato/webapps/blog/entries'
 BLOG_COMMON = '/home/menato/webapps/blog/common'
 BLOG_TEMPLATES = '/home/menato/webapps/blog/templates/entries'
 
+REF_JSON = 'references.json'
+
 ARG_WT = '--work-tree=' + BLOG_ENTRIES
 ARG_GD = '--git-dir=/home/menato/webapps/git/repos/blog.git'
 
 RESTART_CMD = '/home/menato/webapps/blog/apache2/bin/restart'
 
-md_converter = markdown.Markdown()
+md_converter = markdown.Markdown(['django'])
 separator_re = re.compile('^===+ [A-Za-z]+ ===+$')
 master_re = re.compile('.*/master$')
 txt_re = re.compile('.+\.txt$')
@@ -42,71 +45,10 @@ def normal_tag(tag):
 
 ### updated files parsing ###
 
-def mathjaxify(text):
-    ESCAPED_CHARS = ['{', '}', '[', ']', '(', ')']
-    EM_CHARS = [' ', '\n', '.', ',', ';', ':']
-    result = []
-    l = len(text)
-    i = 0
-    while i < l:
-        if text[i] == '\\':
-            if i + 1 == l:
-                result.append(text[i])
-                i += 1
-                continue
-
-            if text[i + 1] == '\\':
-                result.append('\\\\\\\\')
-                i += 2
-                continue
-
-            if text[i + 1] in ESCAPED_CHARS:
-                result.append('\\\\')
-                result.append(text[i + 1])
-                i += 2
-                continue
-
-            result.append('\\')
-            i += 1
-            continue
-
-        if text[i] == '_':
-            if i + 1 == l or i == 0:
-                result.append(text[i])
-                i += 1
-                continue
-
-            if text[i - 1] not in EM_CHARS and text[i + 1] not in EM_CHARS:
-                result.append('\_')
-                i += 1
-                continue
-
-            result.append('_')
-            i += 1
-            continue
-
-        result.append(text[i])
-        i += 1
-        continue
-
-    return ''.join(result)
-
-def djangify(text):
-    subs = {
-        '{{': '{% templatetag openvariable %}',
-        '}}': '{% templatetag closevariable %}',
-    }
-
-    for k, v in subs.iteritems():
-        text = text.replace(k, v)
-
-    return text
-
 def prepare_template(header, raw_text):
     html_head = '{% extends "entry_base.html" %}\n\n'
     html_head += '{% block container %}\n'
-    text = '# ' + header + '\n' + mathjaxify(raw_text)
-    html_body = djangify(md_converter.reset().convert(text))
+    html_body = md_converter.reset().convert('# ' + header + '\n' + raw_text)
     html_tail = '\n{% endblock %}\n'
 
     return html_head + html_body + html_tail
@@ -304,6 +246,45 @@ def collect_descriptions():
     write_entry_tools(descriptions)
     write_list_tools(descriptions)
 
+def print_dict(desc, file, offset=''):
+    if offset == '':
+        file.write('{\n')
+    for key, value in desc.iteritems():
+        file.write(offset + " '" + key + "': ")
+        if type(value) == dict:
+            file.write('{\n')
+            print_dict(value, file, offset + '  ')
+            file.write(offset + ' },\n')
+        elif type(value) == str:
+            file.write("'" + value + "',\n")
+        elif type(value) == int or type(value) == list:
+            file.write('{0},\n'.format(value))
+        else:
+            file.write('null,\n')
+
+    if offset == '':
+        file.write('}\n')
+
+def byteify(input):
+    if isinstance(input, dict):
+        return {byteify(key):byteify(value) for key,value in input.iteritems()}
+    elif isinstance(input, list):
+        return [byteify(element) for element in input]
+    elif isinstance(input, unicode):
+        return input.encode('utf-8')
+    else:
+        return input
+
+def update_references():
+    file_json = open(BLOG_ENTRIES + '/' + REF_JSON, 'r')
+
+    refs = ''
+    for line in file_json:
+        refs += line
+
+    file_py = open(BLOG_COMMON + '/references.py', 'w')
+    print_dict(byteify(json.loads(refs)), file_py)
+
 ### script ###
 
 if __name__ == '__main__':
@@ -321,7 +302,11 @@ if __name__ == '__main__':
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         out, err = p.communicate()
-        update(out.strip().split('\n'))
+        names = out.strip().split('\n')
+        update(names)
+        if REF_JSON in names:
+            update_references()
+
         collect_descriptions()
         subprocess.call([RESTART_CMD])
 
