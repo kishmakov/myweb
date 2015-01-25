@@ -1,5 +1,5 @@
 === Tags ===
-design philosophy; syntax mathjax; syntax c++;
+design philosophy; syntax mathjax; syntax c++; ref paper hughes_1989;
 === Header ===
 On Symbolic Finiteness
 === Summary ===
@@ -12,3 +12,5 @@ unsigned int gcd(unsigned int a, unsigned int b)
     return b == 0 ? a : gcd(b, a % b);
 }
 </pre>
+
+Lets take a look at the paper [ref paper hughes_1989]
