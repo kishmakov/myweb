@@ -1,5 +1,5 @@
 === Tags ===
-fun; syntax c++;
+fun; syntax cpp;
 === Summary ===
 A small code which demonstrates C++ compiler constraints.
 === Header ===

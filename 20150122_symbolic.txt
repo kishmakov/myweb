@@ -1,5 +1,5 @@
 === Tags ===
-design philosophy; syntax mathjax; syntax c++; ref paper hughes_1989;
+design philosophy; syntax mathjax; syntax cpp; ref paper hughes_1989;
 === Header ===
 On Symbolic Finiteness
 === Summary ===
