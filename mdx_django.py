@@ -1,4 +1,5 @@
 import markdown
+from markdown.util import etree as ET
 
 REF_RE = r'\[ref (.+)\]'
 REF_BEGIN = 'temp-math-begin'
@@ -85,12 +86,19 @@ class RefPattern(markdown.inlinepatterns.SimpleTextPattern):
         def wrap(text):
             return REF_BEGIN + ' ' + text + ' ' + REF_END
 
-        el = markdown.util.etree.Element('a')
         refed = 'ref.' + m.group(2).replace(' ', '.')
-        el.set('href', '#ref' + wrap(refed + '.id'))
-        el.set('title', wrap(refed + '.title'))
-        el.text = '[' + wrap(refed + '.id') + ']'
-        return el
+        cite_ref = 'cite_ref-' + wrap(refed + '.id')
+        cite_note = '#cite_note-' + wrap(refed + '.id')
+
+        span = ET.Element('span')
+        a = ET.SubElement(span, 'a')
+
+        span.set('id', cite_ref)
+
+        a.set('href', cite_note)
+        a.set('title', wrap(refed + '.title'))
+        a.text = '[' + wrap(refed + '.id') + ']'
+        return span
 
 class DjangoExtension(markdown.extensions.Extension):
     def extendMarkdown(self, md, md_globals):

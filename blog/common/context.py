@@ -84,7 +84,15 @@ def entry_context(id):
 
         resources.extend(tag_to_resources[stag])
 
+    result = {
+        'tags': [split_tag(tag, '') for tag in descriptions[id]['navi_tags']],
+        'resources': resources,
+        'header': descriptions[id]['header'],
+    }
+
     ref = {}
+    ordered_ref = []
+
     ref_id_count = 0
 
     for rtag in rtags:
@@ -93,17 +101,23 @@ def entry_context(id):
         if ref_type not in ref:
             ref[ref_type] = {}
 
-        ref[ref_type][ref_id] = {
+        item = {
             'id': ref_id_count,
             'title': references[ref_type][ref_id]['title']
         }
 
-    return {
-        'tags': [split_tag(tag, '') for tag in descriptions[id]['navi_tags']],
-        'resources': resources,
-        'header': descriptions[id]['header'],
-        'ref': ref
-    }
+        ref[ref_type][ref_id] = item
+
+        item['cite_ref'] = '#cite_ref-{0}'.format(ref_id_count)
+        item['cite_note'] = 'cite_note-{0}'.format(ref_id_count)
+
+        ordered_ref.append(item)
+
+    if len(ordered_ref) > 0:
+        result['ref'] = ref
+        result['ordered_ref'] = ordered_ref
+
+    return result
 
 def list_context(section_id, tag):
     original_tag = tag.replace('_', ' ')
