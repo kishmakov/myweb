@@ -2,24 +2,28 @@ from common.list_tools import search_ids, search_tags
 from common.entry_tools import descriptions
 from common.references import references
 
-SCRIPT_PREFIX = '<script src="'
-SCRIPT_SUFFIX = '" type="text/javascript"></script>'
+def script(src, code, type='text/javascript'):
+    result = '<script type="' + type + '"'
+    if len(src) > 0:
+        result += ' src="' + src + '"'
+    return result + '>' + code + '</script>'
+
 STYLE_PREFIX = '<link href="'
 STYLE_SUFFIX = '" rel="stylesheet" type="text/css">'
 
 SH_CDN = 'http://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/'
+MJ_CDN = 'http://cdn.mathjax.org/mathjax/'
 
 SH_CSS = STYLE_PREFIX + SH_CDN + 'styles/shCore.css' + STYLE_SUFFIX
 SH_CSS_DEF = STYLE_PREFIX + SH_CDN + 'styles/shThemeDefault.css' + STYLE_SUFFIX
-SH_JS = SCRIPT_PREFIX + SH_CDN + 'scripts/shCore.js' + SCRIPT_SUFFIX
-SH_JS_KICK = '<script type="text/javascript">SyntaxHighlighter.all()</script>'
-SH_JS_CPP = SCRIPT_PREFIX + SH_CDN + 'scripts/shBrushCpp.js' + SCRIPT_SUFFIX
-SH_JS_PYTHON = SCRIPT_PREFIX + SH_CDN + 'scripts/shBrushPython.js' + SCRIPT_SUFFIX
+SH_JS = script(SH_CDN + 'scripts/shCore.js', '')
+SH_JS_KICK = script('', 'SyntaxHighlighter.all()')
+SH_JS_CPP = script(SH_CDN + 'scripts/shBrushCpp.js', '')
+SH_JS_PYTHON = script(SH_CDN + 'scripts/shBrushPython.js', '')
+SH_JS_JS = script(SH_CDN + 'scripts/shBrushJScript.js', '')
 
-MJ_CDN = 'http://cdn.mathjax.org/mathjax/'
-
-MJ_JS_KICK = '<script type="text/x-mathjax-config">MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "AMS" } } });</script>'
-MJ_JS = SCRIPT_PREFIX + MJ_CDN + 'latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' + SCRIPT_SUFFIX
+MJ_JS_KICK = script('', 'MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "AMS" } } });', 'text/x-mathjax-config')
+MJ_JS = script(MJ_CDN + 'latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML', '')
 
 def provide_ids(section_index, tag):
     per_page = 7
@@ -53,7 +57,7 @@ def split_tag(tag, active_tag):
 
 tag_to_init = [
     {
-        'tags': ['c++', 'haskell', 'python'],
+        'tags': ['cpp', 'haskell', 'js', 'python'],
         'resources': [SH_CSS, SH_CSS_DEF, SH_JS, SH_JS_KICK]
     },
     {
@@ -63,7 +67,8 @@ tag_to_init = [
 ]
 
 tag_to_resources = {
-    'c++' : [SH_JS_CPP],
+    'cpp' : [SH_JS_CPP],
+    'js': [SH_JS_JS],
     'mathjax': [MJ_JS],
     'python': [SH_JS_PYTHON],
 }
