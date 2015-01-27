@@ -1,12 +1,12 @@
 === Tags ===
-programming tools; syntax python;
+programming tools; syntax python; syntax js;
 === Header ===
 Blog Engine Conception
 === Summary ===
 Overview of this blog engine functional description (what's it for?)
 and explanation of its structure (how one could use it?).
 === Body ===
-## What is it for?
+## What Is It For?
 
 This "blog engine" is supposed to be a transparent tool for:
 
@@ -45,32 +45,48 @@ a user. No web-interfaces for editing, no data bases for storage. Just a
 directory with a bunch of text files which are stored in a git repository.
 One could `grep` them, `sed` them and use his favorite editor to update them.
 
-Every text file is basically just a [markdown](https://help.github.com/articles/markdown-basics/)
-file with support for TeX and syntax highlighting. Tags are supported for
-more convenient visual representation.
+Every text file is basically just a
+[markdown](https://help.github.com/articles/markdown-basics/) file with
+support for TeX and syntax highlighting. Tags are supported for more
+convenient visual representation. See **Design:** sections for more detail.
 
-## How one could use it?
+## How One Could Use It?
 
-In order to set up blog engine, one need a server with [**django**](https://www.djangoproject.com/)
-and [**git**](http://git-scm.com/).
+In order to set up blog engine, one need a server with
+[**django**](https://www.djangoproject.com/) and
+[**git**](http://git-scm.com/).
 
 ### Set Up
 
 Installation consists of
 
-1. installation of [dango application](https://github.com/kishmakov/blog_engine/tree/master/blog) on the server
+1. installation of
+   [dango application](https://github.com/kishmakov/blog_engine/tree/master/blog)
+   on the server
 2. installation of a git server
-3. installation of markdown [python package](https://github.com/waylan/Python-Markdown)
-4. configuration of the [hook file](https://github.com/kishmakov/blog_engine/blob/master/post-receive) which should be added to the git server
+3. installation of markdown
+   [python package](https://github.com/waylan/Python-Markdown)
+4. configuration of the
+   [hook file](https://github.com/kishmakov/blog_engine/blob/master/post-receive)
+   which should be added to the git server
 
-Configuration is just a setting of four paths, which is better understood through work cycle.
+Configuration is just a setting of four paths, which is better understood
+through work cycle.
 
-### How It Works?
+### How Does It Work?
 
-1. each entry of the form _yyyymmdd_name.txt_ is extracted and kept in `BLOG_ENTRIES` directory altogether with 3 additional description files of the form: _yyyymmdd_name.header_, _yyyymmdd_name.summary_ and  _yyyymmdd_name.tags_
-2. part of the entry is also kept compiled from markdown into _yyyymmdd_name.html_ and stored in `BLOG_TEMPLATES` directory, which is used by django application
-3. when freshly updated entries are commited to git server, hook would update corresponding description files and recompile django template
-4. after updates were finished hook would assemble `entry_tools.py` and `list_tools.py` (examples provided below) based on description files and would put them into `BLOG_COMMON` directory
+1. each entry of the form _yyyymmdd_name.txt_ is extracted and kept in
+   `BLOG_ENTRIES` directory altogether with 3 additional description files of
+   the form: _yyyymmdd_name.header_, _yyyymmdd_name.summary_ and
+   _yyyymmdd_name.tags_
+2. part of the entry is also kept compiled from markdown into
+   _yyyymmdd_name.html_ and stored in `BLOG_TEMPLATES` directory, which is used
+   by django application
+3. when freshly updated entries are commited to git server, hook would update
+   corresponding description files and recompile django template
+4. after updates were finished hook would assemble `entry_tools.py` and
+   `list_tools.py` (examples provided below) based on description files and
+   would put them into `BLOG_COMMON` directory
 5. finally hook would restart django with command via `RESTART_CMD`
 
 **`entry_tools.py`**
@@ -90,7 +106,7 @@ descriptions = {
         'updated': '2015-01-07 @ 19:45',
         'summary': ['A small code which demonstrates C++ compiler constraints.',],
         'navi_tags': ['fun'],
-        'syntax_tags': ['c++'],
+        'syntax_tags': ['cpp'],
     },
 }
 </pre>
@@ -106,3 +122,47 @@ search_tags = {
     'programming tools': [0, ],
 }
 </pre>
+
+### Design: Format
+
+Each file should consist of 4 sections: `Tags`, `Header`, `Summary`
+and `Body`. Each section name line should look like `=== Header ===` with
+at least 3 `=` characters from each side.
+
+`Tags` section consists of technical tags. Tags are divided into navigational,
+syntactical and referential. Tags from two last groups must match specific
+patterns. First group tags could be arbitrary with natural restriction not to
+fall into other groups patterns. All tags are supposed to be separated by `;`.
+
+1. Navigational tags are used for external tagging of entries. Through these
+   tags selection of specific entries is possible.
+2. Syntactical tags control
+   [syntax highlighting](http://alexgorbachev.com/syntaxhighlighting) brushes
+   and [mathjax](http://mathjax.org) support. Tags `syntax cpp`, `syntax js`,
+   `syntax python` and `syntax xml` turn on support for C++, JavaScript, Python
+   and XML highlighting correspondingly. MathJax support could be turn on via
+   `syntax mathjax`.
+3. Referential tags include references into entry context. Mentioning of the
+   reference in tags section is necessary for enabling subsequent citations.
+   These tags must match pattern `ref S ID` where S stands for type of source
+   (possible options are _book_, _paper_, _link_ and _other_) and ID stands
+   for identifier.
+
+### Design: Syntax Higlighting
+
+Code syntax higlighting is currently supported for C++, JavaScript, Python and
+XML. One need to turn on corresponding functionality through syntactical tags
+(see **Design: Format** section for more detail). Once it is done, higlighted
+code could be inserted
+
+### Design: Math Typesetting
+
+### Design: References System
+
+Blog engine supports
+
+1. markdown format
+2. tags for external groupping
+3. syntax highlighting
+4. \(\LaTeX\) math typesetting
+5. centralized references system
