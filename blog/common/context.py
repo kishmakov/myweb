@@ -16,11 +16,14 @@ MJ_CDN = 'http://cdn.mathjax.org/mathjax/'
 
 SH_CSS = STYLE_PREFIX + SH_CDN + 'styles/shCore.css' + STYLE_SUFFIX
 SH_CSS_DEF = STYLE_PREFIX + SH_CDN + 'styles/shThemeDefault.css' + STYLE_SUFFIX
+
 SH_JS = script(SH_CDN + 'scripts/shCore.js', '')
 SH_JS_KICK = script('', 'SyntaxHighlighter.all()')
+
 SH_JS_CPP = script(SH_CDN + 'scripts/shBrushCpp.js', '')
-SH_JS_PYTHON = script(SH_CDN + 'scripts/shBrushPython.js', '')
 SH_JS_JS = script(SH_CDN + 'scripts/shBrushJScript.js', '')
+SH_JS_PYTHON = script(SH_CDN + 'scripts/shBrushPython.js', '')
+SH_JS_XML = script(SH_CDN + 'scripts/shBrushXml.js', '')
 
 MJ_JS_KICK = script('', 'MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "AMS" } } });', 'text/x-mathjax-config')
 MJ_JS = script(MJ_CDN + 'latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML', '')
@@ -57,7 +60,7 @@ def split_tag(tag, active_tag):
 
 tag_to_init = [
     {
-        'tags': ['cpp', 'haskell', 'js', 'python'],
+        'tags': ['cpp', 'haskell', 'js', 'python', 'xml'],
         'resources': [SH_CSS, SH_CSS_DEF, SH_JS, SH_JS_KICK]
     },
     {
@@ -71,6 +74,7 @@ tag_to_resources = {
     'js': [SH_JS_JS],
     'mathjax': [MJ_JS],
     'python': [SH_JS_PYTHON],
+    'xml': [SH_JS_XML],
 }
 
 def entry_context(id):

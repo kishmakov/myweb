@@ -9,7 +9,7 @@ class BracesPre(markdown.preprocessors.Preprocessor):
     """ Escapes text for proper mathjax rendering. """
 
     ESCAPED_CHARS = ['{', '}', '[', ']', '(', ')']
-    EM_CHARS = [' ', '\n', '.', ',', ';', ':', '_']
+    EM_CHARS = [' ', '\n', '.', ',', ';', ':', '_', ')', ']', '}']
 
     def escape(self, text):
         result = []
