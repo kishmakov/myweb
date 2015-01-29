@@ -1,5 +1,5 @@
 === Tags ===
-programming tools; syntax python; syntax js;
+programming tools; syntax python; syntax cpp;
 === Header ===
 Blog Engine Conception
 === Summary ===
@@ -137,11 +137,11 @@ fall into other groups patterns. All tags are supposed to be separated by `;`.
 1. Navigational tags are used for external tagging of entries. Through these
    tags selection of specific entries is possible.
 2. Syntactical tags control
-   [syntax highlighting](http://alexgorbachev.com/syntaxhighlighting) brushes
+   [syntax highlighting](http://alexgorbatchev.com/SyntaxHighlighter/) brushes
    and [mathjax](http://mathjax.org) support. Tags `syntax cpp`, `syntax js`,
    `syntax python` and `syntax xml` turn on support for C++, JavaScript, Python
-   and XML highlighting correspondingly. MathJax support could be turn on via
-   `syntax mathjax`.
+   and XML (HTML) highlighting correspondingly. MathJax support could be turn
+   on via `syntax mathjax`.
 3. Referential tags include references into entry context. Mentioning of the
    reference in tags section is necessary for enabling subsequent citations.
    These tags must match pattern `ref S ID` where S stands for type of source
@@ -151,11 +151,42 @@ fall into other groups patterns. All tags are supposed to be separated by `;`.
 ### Design: Syntax Higlighting
 
 Code syntax higlighting is currently supported for C++, JavaScript, Python and
-XML. One need to turn on corresponding functionality through syntactical tags
-(see **Design: Format** section for more detail). Once it is done, higlighted
-code could be inserted
+XML (HTML). One need to turn on corresponding functionality through syntactical
+tags (see **Design: Format** section for more detail). Once it is done,
+code snippets could be inserted into file as
+
+<pre>
+&lt;pre class='brush: cpp'>
+void print(ostream * out, int num)
+{
+    *out &amp;lt;&amp;lt; num;
+}
+&lt;/pre>
+</pre>
+
+with all `<` characters replaced by `&lt;` within inserted snippet due to
+SyntaxHiglighter requirements. Such a snippet produces result as follows
+
+<pre class='brush: cpp'>
+void print(ostream * out, int num)
+{
+    *out &lt;&lt; num;
+}
+</pre>
 
 ### Design: Math Typesetting
+
+Math Typesetting could be turned on via syntactical tags (see
+**Design: Format** section). MathJax supports Latex code insertion in a
+number of ways:
+
+* with <span style="color:#C7254E">\(</span> and <span style="color:#C7254E">\)</span> paired delimiters for in-line formulas
+* with `$$` and `$$` delimeters for displayed unnumbered formulas
+* with `\begin{equation}` and `\end{equation}` for displayed numbered formulas
+
+In case of numbered formulas, it is convenient to insert `\label{label_name}`
+instruction somewhere inside formula code and to invoke this equation number
+with `\eqref{label_name}` in arbitrary part of the file.
 
 ### Design: References System
 
@@ -164,5 +195,5 @@ Blog engine supports
 1. markdown format
 2. tags for external groupping
 3. syntax highlighting
-4. \(\LaTeX\) math typesetting
+4.  math typesetting
 5. centralized references system
