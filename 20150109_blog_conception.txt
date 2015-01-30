@@ -145,8 +145,8 @@ fall into other groups patterns. All tags are supposed to be separated by `;`.
 3. Referential tags include references into entry context. Mentioning of the
    reference in tags section is necessary for enabling subsequent citations.
    These tags must match pattern `ref S ID` where S stands for type of source
-   (possible options are _book_, _paper_, _link_ and _other_) and ID stands
-   for identifier.
+   (see section **Design: Reference System** for detail) and ID stands for
+   identifier.
 
 ### Design: Syntax Higlighting
 
@@ -190,10 +190,40 @@ with `\eqref{label_name}` in arbitrary part of the file.
 
 ### Design: References System
 
-Blog engine supports
+All references are stored in the file `references.json`. At the top level it
+consists of 4 sections: _book_, _paper_, _link_ and _other_. Sections are
+basically maps which map items ids to its descriptions. An example of paper
+with id `hughes_1989` is provided below (see a
+[work copy](https://github.com/kishmakov/blog/blob/master/references.json) for
+more examples).
 
-1. markdown format
-2. tags for external groupping
-3. syntax highlighting
-4.  math typesetting
-5. centralized references system
+<pre>
+{
+    "paper": {
+        ...
+        "hughes_1989" : {
+            "authors": ["John Hughes"],
+            "year": 1989,
+            "journal": {
+                "title": "The Computer Journal",
+                "volume": 32,
+                "issue": 2,
+                "pages": [98, 107],
+                "doi": "10.1093/comjnl/32.2.98"
+            },
+            "title": "Why Functional Programming Matters",
+            "link": "http://www.cse.chalmers.se/~rjmh/Papers/whyfp.pdf"
+        },
+        ...
+    },
+}
+</pre>
+
+Once record is specified in reference file, it could be invoked in any entry.
+In order to do it one need to mention it in referential tags (see
+**Design: Format** section). The order of appearance of referential tags
+specifies references numeration in the list at the bottom of the page.
+
+Occurrences of the form <span>[</span>ref paper hughes_1989<span>]</span>
+turn into cross-links to the detailed references description list at the bottom
+of the page.
