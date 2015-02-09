@@ -1,5 +1,5 @@
 === Tags ===
-design philosophy; syntax mathjax; syntax cpp; ref paper hughes_1989;
+design philosophy; syntax haskell; syntax cpp; ref paper hughes_1989;
 === Header ===
 On Symbolic Finiteness
 === Summary ===
@@ -14,3 +14,10 @@ unsigned int gcd(unsigned int a, unsigned int b)
 </pre>
 
 Lets take a look at the paper [ref paper hughes_1989]
+
+<pre class='brush: haskell'>
+-- Fibonacci numbers using a generator function
+fib :: Int -> Integer
+fib n = fibs (0, 1) !! n
+        where fibs (a, b) = a : fibs (b, a + b)
+</pre>
