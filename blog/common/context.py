@@ -21,6 +21,7 @@ SH_JS = script(SH_CDN + 'scripts/shCore.js', '')
 SH_JS_KICK = script('', 'SyntaxHighlighter.all()')
 
 SH_JS_CPP = script(SH_CDN + 'scripts/shBrushCpp.js', '')
+SH_JS_HASKELL = script('/static/js/shBrushHaskell.js', '')
 SH_JS_JS = script(SH_CDN + 'scripts/shBrushJScript.js', '')
 SH_JS_PYTHON = script(SH_CDN + 'scripts/shBrushPython.js', '')
 SH_JS_XML = script(SH_CDN + 'scripts/shBrushXml.js', '')
@@ -71,6 +72,7 @@ tag_to_init = [
 
 tag_to_resources = {
     'cpp' : [SH_JS_CPP],
+    'haskell' : [SH_JS_HASKELL],
     'js': [SH_JS_JS],
     'mathjax': [MJ_JS],
     'python': [SH_JS_PYTHON],
