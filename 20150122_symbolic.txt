@@ -7,6 +7,7 @@ Thoughts on the relationship between finiteness of program symbolic
 representation and finiteness of architectural entity set.
 === Body ===
 <pre class='brush: cpp'>
+// greatest common divisor
 unsigned int gcd(unsigned int a, unsigned int b)
 {
     return b == 0 ? a : gcd(b, a % b);
@@ -16,8 +17,7 @@ unsigned int gcd(unsigned int a, unsigned int b)
 Lets take a look at the paper [ref paper hughes_1989]
 
 <pre class='brush: haskell'>
--- Fibonacci numbers using a generator function
-fib :: Int -> Integer
-fib n = fibs (0, 1) !! n
-        where fibs (a, b) = a : fibs (b, a + b)
+-- double list numbers
+dbl2 :: [Int] -> [Int]
+dbl2 = foldr (\ x xs -> [2 * x] ++ xs) []
 </pre>
