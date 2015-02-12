@@ -6,6 +6,19 @@ On Symbolic Finiteness
 Thoughts on the relationship between finiteness of program symbolic
 representation and finiteness of architectural entity set.
 === Body ===
+Once we think about program, we could highlight two of its aspects:
+
+* its textual representation
+* its destination architecture
+
+These two aspects share "finiteness" as a common trait. But what do we meant
+by finiteness?
+
+In case of architecture it could be the finiteness of instruction set, of
+registers scheme and native data types. These subjects are restricted due to
+hardware design and manufacturing processes limitations.
+
+
 <pre class='brush: cpp'>
 // greatest common divisor
 unsigned int gcd(unsigned int a, unsigned int b)
