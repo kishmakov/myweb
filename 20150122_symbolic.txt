@@ -11,13 +11,31 @@ Once we think about program, we could highlight two of its aspects:
 * its textual representation
 * its destination architecture
 
-These two aspects share "finiteness" as a common trait. But what do we meant
-by finiteness?
+These aspects are related by compilation process. During compilation textual
+representation turns into executable of destination architecture.
 
-In case of architecture it could be the finiteness of instruction set, of
-registers scheme and native data types. These subjects are restricted due to
-hardware design and manufacturing processes limitations.
+While programs textual representation can significantly vary from language
+to language, next property is invariant: every program splits into finite
+number of pieces which are operators and named entities such as variables and
+functions. While operators number is bounded by language design what do we
+mean by finiteness of named entities?
 
+Often there is no theoretical bound for number of named entities. There is
+only engineering bound caused by general finiteness of underling machine such
+as operative memory and disk. But in practice human mind refuses to percept
+effectively more then certain small number of named entities. This finiteness
+of textual representation naturally transforms into finiteness of destination
+architecture during compilation.
+
+Once the destination architecture is hardware then its finiteness conditioned
+by hardware design and manufacturing processes limitations. Those limitation
+imply finiteness of instruction set, registers scheme and native data types.
+
+If the destination scheme is not a hardware, we could iterate aforementioned
+transformation and obtain current limitations in an inductive manner.
+Moreover, if we track this hardware finiteness up to textual representation,
+we would see that programming languages operator set finiteness is conditioned
+by hardware finiteness.
 
 <pre class='brush: cpp'>
 // greatest common divisor

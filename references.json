@@ -1,7 +1,7 @@
 {
     "paper": {
         "hughes_1989" : {
-            "authors": ["John Hughes"],
+            "authors": ["J. Hughes"],
             "year": 1989,
             "journal": {
                 "title": "The Computer Journal",
@@ -12,6 +12,27 @@
             },
             "title": "Why Functional Programming Matters",
             "link": "http://www.cse.chalmers.se/~rjmh/Papers/whyfp.pdf"
+        },
+        "peng_robinson_1976": {
+            "authors": ["D. Y. Peng", "D. B. Robinson"],
+            "year": 1976,
+            "journal": {
+                "title": "Industrial and Engineering Chemistry: Fundamentals",
+                "volume": 15,
+                "issue": 1,
+                "pages": [59, 64],
+                "doi": "10.1021/i160057a011"
+            },
+            "title": "A New Two-Constant Equation of State",
+            "link": "http://vk.com/doc7990_118789101?hash=c6a835934509d87711"
+        },
+        "peng_robinson_1978": {
+            "authors": ["D. Y. Peng", "D. B. Robinson"],
+            "year": 1978,
+            "conference": {
+                "organization": "Gas Processors Association"
+            },
+            "title": "The Characterization of the Heptanes and Heavier Fractions for the GPA Peng-Robinson Programs"
         }
     },
 
