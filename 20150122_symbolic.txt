@@ -1,11 +1,13 @@
 === Tags ===
-design philosophy; syntax haskell; syntax cpp; ref paper hughes_1989;
+design philosophy; syntax haskell; syntax cpp; syntax mathjax;
 === Header ===
 On Symbolic Finiteness
 === Summary ===
 Thoughts on the relationship between finiteness of program symbolic
 representation and finiteness of architectural entity set.
 === Body ===
+## Finiteness as Trait
+
 Once we think about program, we could highlight two of its aspects:
 
 * its textual representation
@@ -37,6 +39,12 @@ Moreover, if we track this hardware finiteness up to textual representation,
 we would see that programming languages operator set finiteness is conditioned
 by hardware finiteness.
 
+## Unified Setting
+
+Our main intentions is to construct a unified setting which would provide a
+language for natural description of finiteness as essential trait of
+computational code. We would use next couple of examples for illustration needs:
+
 <pre class='brush: cpp'>
 // greatest common divisor
 unsigned int gcd(unsigned int a, unsigned int b)
@@ -45,10 +53,44 @@ unsigned int gcd(unsigned int a, unsigned int b)
 }
 </pre>
 
-Lets take a look at the paper [ref paper hughes_1989]
-
 <pre class='brush: haskell'>
 -- double list numbers
-dbl2 :: [Int] -> [Int]
-dbl2 = foldr (\ x xs -> [2 * x] ++ xs) []
+dbl :: [Int] -> [Int]
+dbl = foldr (\ x xs -> [2 * x] ++ xs) []
 </pre>
+
+Let us start to think about program execution in a bottom-up manner.
+Underlying machine always operates sequentially. This discretization is
+essentially determined by original sequential digital logic used for circuit
+construction.
+
+Underlying sequentiality could be lifted to the level of textual
+representation with some caveats. Those caveats could be important once we
+deal with parallel computing but for sequential computing they are of minor
+interest.
+
+In the first snippet there are five symbols which are initially undefined but
+could become definite along computation:
+
+1. input value `a`
+2. input value `b`
+3. `a % b`
+4. `gcd(b, a % b)`
+5. return value
+
+In the second snippet there are 7 symbols which are initially undefined and
+all of them would become definite along computation:
+
+1. input value denoted as `i:is`
+2. `i`, first element of `i:is`
+3. `is`, tail of `i:is`
+4. `dbl is`
+5. `[2 * i]`
+6. `[2 * i] ++ (dbl is)`
+7. return value
+
+In each of these two examples there are two possibility of assignation of
+definite value to the return value holder. Because of this separation of
+return value into separate symbol looks natural. It seems to be convenient
+to distinguish input values and return values in all scheme to make them more
+uniform.
