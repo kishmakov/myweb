@@ -46,7 +46,7 @@ language for natural description of finiteness as essential trait of
 computational code. We would use next couple of examples for illustration needs:
 
 <pre class='brush: cpp'>
-// greatest common divisor
+// C++ snippet: greatest common divisor
 unsigned int gcd(unsigned int a, unsigned int b)
 {
     return b == 0 ? a : gcd(b, a % b);
@@ -54,10 +54,12 @@ unsigned int gcd(unsigned int a, unsigned int b)
 </pre>
 
 <pre class='brush: haskell'>
--- double list numbers
+-- Haskell snippet: double list numbers
 dbl :: [Int] -> [Int]
 dbl = foldr (\ x xs -> [2 * x] ++ xs) []
 </pre>
+
+### Symbolic Structure
 
 Let us start to think about program execution in a bottom-up manner.
 Underlying machine always operates sequentially. This discretization is
@@ -94,3 +96,54 @@ definite value to the return value holder. Because of this separation of
 return value into separate symbol looks natural. It seems to be convenient
 to distinguish input values and return values in all scheme to make them more
 uniform.
+
+It is clear at this point that every piece of code could be characterized by
+some number of such a symbols. At every moment during the execution each of
+these symbols could be undefined or assigned some value.
+
+### Finite Automaton
+
+In general state of the program could be described with a triple
+
+* subset of definite symbols
+* assignment of values to those symbols
+* position of the cursor
+
+Necessity of the cursor position become obvious if we would think about
+nontrivial loop. Once program execution enters this loop body, it could happen
+that subset of defined symbols and its values are not a sufficient information
+for deduction of current position. Such triples provides full description of
+the program state at run time.
+
+How the program could be characterized prior the execution? It is clear that
+cursor position uniquely determine subset of defined symbols. Also the set of
+possible values of defined symbols depends on cursor position as well but at
+the moment we would not exploit this relation. We could summarize this
+observation as follows.
+
+We could summarize these remarks with following more formal description:
+
+* each piece of code is described by set \(P = \{1, \dots, n\}\) of cursor
+  positions and set \(S = \{1, \dots, m\}\) of symbols
+* each symbol \(s \in S\) is accompanied by its value set \(VS[s]\)
+* each cursor position \(p \in P\) is accompanied by the subset of defined
+  symbols \(d[p] \subset S\)
+
+In provided terms execution of such a piece of code is a sequence of pairs
+
+$$
+\left(p_k \in P, C_k \in \prod_{s \in d[p_k]} VS[s]\right), ~~ k \in \{1, \dots, N\}
+$$
+
+where with \(C_k\) we denote assignment of values to defined symbols.
+
+Each transition between subsequent states
+$$
+\left(p_k, C_k\right) \rightarrow \left(p_{k+1}, C_{k+1}\right)
+$$
+is self-contained and recomputes or defines symbols locally. By this we mean
+application of one operator or named functor.
+
+### Automaton Visualization
+
+<center>![Alt text](/static/images/cpp_snippet.png)</center>
