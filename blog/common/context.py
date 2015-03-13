@@ -20,6 +20,7 @@ SH_CSS_DEF = STYLE_PREFIX + SH_CDN + 'styles/shThemeDefault.css' + STYLE_SUFFIX
 SH_JS = script(SH_CDN + 'scripts/shCore.js', '')
 SH_JS_KICK = script('', 'SyntaxHighlighter.all()')
 
+SH_JS_BASH = script(SH_CDN + 'scripts/shBrushBash.js', '')
 SH_JS_CPP = script(SH_CDN + 'scripts/shBrushCpp.js', '')
 SH_JS_HASKELL = script('/static/js/shBrushHaskell.js', '')
 SH_JS_JS = script(SH_CDN + 'scripts/shBrushJScript.js', '')
@@ -61,7 +62,7 @@ def split_tag(tag, active_tag):
 
 tag_to_init = [
     {
-        'tags': ['cpp', 'haskell', 'js', 'python', 'xml'],
+        'tags': ['bash', 'cpp', 'haskell', 'js', 'python', 'xml'],
         'resources': [SH_CSS, SH_CSS_DEF, SH_JS, SH_JS_KICK]
     },
     {
@@ -71,6 +72,7 @@ tag_to_init = [
 ]
 
 tag_to_resources = {
+    'bash' : [SH_JS_BASH],
     'cpp' : [SH_JS_CPP],
     'haskell' : [SH_JS_HASKELL],
     'js': [SH_JS_JS],
