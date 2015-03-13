@@ -1,10 +1,36 @@
 === Tags ===
-hints; links; programming tools;
+hints; links; programming tools; syntax bash;
 === Header ===
 Useful Git Hints
 === Summary ===
-There are number of git hints frequently needed.
+Collection of frequently needed git commands.
 === Body ===
+## Growth Managing Commands
+
+### Cutting Old Branches
+
+Once you need to clean up all local copies of branches which was already
+removed from the master repository:
+
+<pre class='brush: bash'>git remote prune origin</pre>
+
+### Cloning or Updating Massive Repo
+
+If you want to checkout a massive repository, it could cause some memory
+problems of the type: `fatal: The remote end hung up unexpectedly`. In such a
+situations one should better increment `http.postBuffer`, turn off
+compression, do a shallow pull, followed by residual pull, followed by
+normal pull:
+
+<pre class='brush: bash'>
+git config --global http.postBuffer 524288000
+git config --global core.compression 0
+git clone --depth 1 repo_uri
+git fetch --unshallow
+git pull --all
+</pre>
+
+
 Hooks that would checkout on commit: https://www.digitalocean.com/community/tutorials/how-to-use-git-hooks-to-automate-development-and-deployment-tasks
 
 All githooks: http://git-scm.com/docs/githooks
