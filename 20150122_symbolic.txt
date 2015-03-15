@@ -84,9 +84,9 @@ In the second snippet there are 7 symbols which are initially undefined and
 all of them would become definite along computation:
 
 1. input value denoted as `i:is`
-2. `i`, first element of `i:is`
-3. `is`, tail of `i:is`
-4. `dbl is`
+2. `is`, tail of `i:is`
+3. `dbl is`
+4. `i`, first element of `i:is`
 5. `[2 * i]`
 6. `[2 * i] ++ (dbl is)`
 7. return value
@@ -147,3 +147,5 @@ application of one operator or named functor.
 ### Automaton Visualization
 
 <center>![Alt text](/static/images/cpp_snippet.png)</center>
+
+<center>![Alt text](/static/images/haskell_snippet.png)</center>
