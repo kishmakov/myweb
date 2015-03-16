@@ -5,6 +5,12 @@ Useful Git Hints
 === Summary ===
 Collection of frequently needed git commands.
 === Body ===
+## User Experience
+
+To turn on terminal coloring:
+
+<pre class='brush: bash'>git config --global color.ui auto</pre>
+
 ## Growth Managing Commands
 
 ### Cutting Old Branches
