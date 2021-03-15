@@ -1,0 +1,317 @@
+#!/usr/bin/env python2.7
+
+import datetime
+import glob
+import json
+import markdown
+import re
+import subprocess
+import sys
+
+### constants ###
+
+TABS = '    '
+TABS2 = TABS + TABS
+
+BLOG_ENTRIES = '/home/menato/webapps/blog/entries'
+BLOG_COMMON = '/home/menato/webapps/blog/common'
+BLOG_TEMPLATES = '/home/menato/webapps/blog/templates/entries'
+
+REF_JSON = 'references.json'
+
+ARG_WT = '--work-tree=' + BLOG_ENTRIES
+ARG_GD = '--git-dir=/home/menato/webapps/git/repos/blog.git'
+
+RESTART_CMD = '/home/menato/webapps/blog/apache2/bin/restart'
+
+md_converter = markdown.Markdown(['django'])
+separator_re = re.compile('^===+ [A-Za-z]+ ===+$')
+master_re = re.compile('.*/master$')
+txt_re = re.compile('.+\.txt$')
+
+### tools ###
+
+def relative_name(full_name):
+    end = full_name.rfind('.')
+    end = end if end > 0 else len(full_name)
+    return full_name[full_name.rfind('/') + 1: end]
+
+def info_names(name):
+    pref = BLOG_ENTRIES + '/' + name + '.'
+    return pref + 'tags', pref + 'header', pref + 'summary'
+
+### updated files parsing ###
+
+def prepare_template(header, raw_text):
+    html_head = '{% extends "entry_base.html" %}\n\n'
+    html_head += '{% block container %}\n'
+    html_body = md_converter.reset().convert('# ' + header + '\n' + raw_text)
+    html_tail = '\n{% endblock %}\n'
+
+    return html_head + html_body + html_tail
+
+def convert_and_parse(input_name, output_name):
+    tags_num = 0
+    header_num = 1
+    summary_num = 2
+    body_num  = 3
+
+    lines = ['', '', '', '']
+
+    current_num = -1
+
+    input = open(input_name, 'r')
+
+    for line in input:
+        mode = ''
+        if separator_re.match(line):
+            mode = line[:-1].strip('= ').lower()
+
+        if mode == 'tags':
+            current_num = tags_num
+        elif mode == 'header':
+            current_num = header_num
+        elif mode == 'summary':
+            current_num = summary_num
+        elif mode == 'body':
+            current_num = body_num
+        elif current_num >= 0:
+            lines[current_num] += line
+
+    header = lines[header_num][0:lines[header_num].find('\n')]
+
+    if len(header) == 0:
+        name = relative_name(input_name)
+        name_words = [s.capitalize() for s in name.split('_')]
+        header = ' '.join(name_words[1:])
+
+    output = open(output_name, 'w')
+    output.write(prepare_template(header, lines[body_num]))
+
+    tags = filter(bool, lines[tags_num].translate(None, '\n').split(';'))
+
+    return tags, header, lines[summary_num]
+
+### updating ###
+
+def update(names):
+    update_time = "{:%Y-%m-%d @ %H:%M}".format(datetime.datetime.now())
+
+    for name in names:
+        if not txt_re.match(name):
+            continue
+
+        txt_name = BLOG_ENTRIES + '/' + name
+        html_name = BLOG_TEMPLATES + '/' + name[:-3] + 'html'
+        tags_name, header_name, summary_name = info_names(name[:-4])
+        tags, header, summary = convert_and_parse(txt_name, html_name)
+
+        if len(tags) > 0:
+            tags_file = open(tags_name, 'w')
+            for tag in tags:
+                tags_file.write(tag.strip() + '\n')
+
+        if len(summary) > 0:
+            summary_file = open(summary_name, 'w')
+            summary_file.write(summary)
+
+        header_file = open(header_name, 'w')
+        header_file.write(header + '\n')
+        header_file.write(update_time + '\n')
+
+def write_entry_tools(descriptions):
+    file_py_name = BLOG_COMMON + '/entry_tools.py'
+    file_py = open(file_py_name, 'w')
+    file_py.write('descriptions = {\n')
+
+    for description in descriptions:
+        id = description['id']
+        header = description['header']
+        updated = description['updated']
+        summary = description['summary']
+        ntags = description['navi_tags']
+        rtags = description['ref_tags']
+        stags = description['syntax_tags']
+        file_py.write(TABS + repr(id) + ': {\n')
+        file_py.write(TABS2 + "'id': " + repr(id) + ',\n')
+        file_py.write(TABS2 + "'header': " + repr(header) + ',\n')
+        file_py.write(TABS2 + "'updated': " + repr(updated) + ',\n')
+
+        file_py.write(TABS2 + "'summary': [");
+        for line in summary:
+            file_py.write(repr(line.strip()) + ',')
+        file_py.write('],\n')
+
+        file_py.write(TABS2 + "'navi_tags': " + str(sorted(ntags)) + ',\n')
+        file_py.write(TABS2 + "'ref_tags': " + str(rtags) + ',\n')
+        file_py.write(TABS2 + "'syntax_tags': " + str(stags) + ',\n')
+        file_py.write(TABS + '},\n')
+
+    file_py.write('}\n')
+
+def write_list_tools(descriptions):
+    file_py_name = BLOG_COMMON + '/list_tools.py'
+    file_py = open(file_py_name, 'w')
+    file_py.write('search_ids = [\n')
+
+    id2num = {}
+    tag2ids = {}
+
+    description_id = 0
+
+    for description in descriptions:
+        file_py.write(TABS + repr(description['id']) + ',\n')
+
+        id2num[description['id']] = description_id
+        description_id += 1
+
+        for tag in description['navi_tags']:
+            if tag not in tag2ids:
+                tag2ids[tag] = []
+
+            tag2ids[tag].append(description['id'])
+
+    file_py.write(']\n\nsearch_tags = {\n')
+
+    for tag in sorted(tag2ids):
+        ids = tag2ids[tag]
+        file_py.write(TABS + repr(tag) + ': [')
+
+        counter = 0
+        for id in ids:
+            counter += 1
+            if counter > 20:
+                counter = 0
+                file_py.write('\n' + TABS2)
+
+            file_py.write(str(id2num[id]) + ', ')
+
+        file_py.write('],\n')
+
+    file_py.write('}\n')
+
+def classify_tags(file_name):
+    navi_tags = []
+    syntax_tags = []
+    ref_tags = []
+
+    try:
+        tags_file = open(file_name, 'r')
+        for line in tags_file:
+            tag = line.strip()
+            if len(tag) == 0:
+                continue
+
+            if tag[:7] == 'syntax ':
+                syntax_tags.append(tag[7:])
+            elif tag[:4] == 'ref ':
+                ref_tags.append(tag[4:])
+            else:
+                navi_tags.append(tag)
+    except:
+        pass
+
+    return navi_tags, syntax_tags, ref_tags
+
+def collect_descriptions():
+    descriptions = []
+    for full_name in sorted(glob.glob(BLOG_ENTRIES + '/*.txt'), reverse=True):
+        name = relative_name(full_name)
+        tags_name, header_name, summary_name = info_names(name)
+        navi, syntax, ref = classify_tags(tags_name)
+        description = {
+            'id': name,
+            'summary': '',
+            'header': 'No Header',
+            'updated': 'not available',
+            'navi_tags': navi,
+            'syntax_tags': syntax,
+            'ref_tags': ref
+        }
+
+        try:
+            header_file = open(header_name, 'r')
+            description['header'] = header_file.readline().strip()
+            description['updated'] = header_file.readline().strip()
+        except:
+            pass
+
+        try:
+            summary_file = open(summary_name, 'r')
+            lines = ''
+            for line in summary_file:
+                lines += line
+            description['summary'] = lines.split('\n\n')
+        except:
+            pass
+
+        descriptions.append(description)
+
+    write_entry_tools(descriptions)
+    write_list_tools(descriptions)
+
+def write_references(desc, file, offset=''):
+    if offset == '':
+        file.write('references = {\n')
+    for key, value in desc.iteritems():
+        file.write(offset + " '" + key + "': ")
+        if type(value) == dict:
+            file.write('{\n')
+            write_references(value, file, offset + '  ')
+            file.write(offset + ' },\n')
+        elif type(value) == str:
+            file.write("'" + value + "',\n")
+        elif type(value) == int or type(value) == list:
+            file.write('{0},\n'.format(value))
+        else:
+            file.write('null,\n')
+
+    if offset == '':
+        file.write('}\n')
+
+def byteify(input):
+    if isinstance(input, dict):
+        return {byteify(key):byteify(value) for key,value in input.iteritems()}
+    elif isinstance(input, list):
+        return [byteify(element) for element in input]
+    elif isinstance(input, unicode):
+        return input.encode('utf-8')
+    else:
+        return input
+
+def update_references():
+    file_json = open(BLOG_ENTRIES + '/' + REF_JSON, 'r')
+
+    refs = ''
+    for line in file_json:
+        refs += line
+
+    file_py = open(BLOG_COMMON + '/references.py', 'w')
+    write_references(byteify(json.loads(refs)), file_py)
+
+### script ###
+
+if __name__ == '__main__':
+
+    for line in sys.stdin.xreadlines():
+        old, new, ref = line.strip().split(' ')
+        if not master_re.match(ref):
+            print 'Ref ' + ref + ' received, but it is not "master".'
+            continue
+
+        print 'Ref ' + ref + ' received, deployed to production.'
+
+        subprocess.call(['git', ARG_WT, ARG_GD, 'checkout', '-f'])
+        p = subprocess.Popen(['git', ARG_GD, 'diff', '--name-only', old, new],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        out, err = p.communicate()
+        names = out.strip().split('\n')
+        update(names)
+        if REF_JSON in names:
+            update_references()
+
+        collect_descriptions()
+        subprocess.call([RESTART_CMD])
+
+

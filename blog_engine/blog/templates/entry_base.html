@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>{{ header }}</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="/static/favicon.ico" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 col-lg-2" style="padding:15px;">
+                <strong><a href='/'>Back to entires list</a></strong>
+                <hr>
+                {% for tag in tags %}
+                [<a href='/{{ tag.link }}/'>{{ tag.visible }}</a>]
+                <br>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-8 col-lg-9" style="margin-bottom:25px;">
+                {% block container %}
+                {% endblock %}
+                {% if ordered_ref %}
+                <hr>
+                <h2>References</h2>
+                <br>
+                <ol class="references">
+                    {% for or in ordered_ref %}
+                    <li><p id="{{ or.cite_note }}">
+                        <b><a href="{{ or.cite_ref }}">^</a></b> {{ or.title }}
+                    </p></li>
+                    {% endfor %}
+                </ol>
+                {% endif %}
+                <hr>
+                <span class="text-muted">All materials in this blog are either written or edited by <a href="mailto:shmakir@yandex.ru">Kirill Shmakov</a> with ☦ prayer in St. Petersburg.</span>
+            </div>
+        </div>
+    </div>
+
+{% for resource in resources %}
+    {{ resource | safe }}
+{% endfor %}
+
+</body>
+</html>
