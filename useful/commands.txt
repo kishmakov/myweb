@@ -1,3 +1,16 @@
+# Docker managment
+
+docker pull kishmakov/welcome_app:latest
+docker stop welcome_cont
+docker rm welcome_cont
+docker run -d -p 5000:5000 --name welcome_cont kishmakov/welcome_app:latest
+
+docker stop notes_cont
+docker rm notes_cont
+docker run -d -p 5002:5003 --name notes_cont kishmakov/notes_app:latest
+
+# Old
+
 ./manage.py syncdb --database=notes
 ./manage.py runfcgi method=prefork host=127.0.0.1 port=8080 pidfile=/tmp/site.pid
 
