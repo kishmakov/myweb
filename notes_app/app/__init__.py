@@ -1,19 +1,14 @@
-import os
-
-from flask import Flask
+from flask import Flask, render_template
 
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
-    text = ">"
-
-    for note in os.listdir("app/templates/notes"):
-        text += " " + str(note)
+    # for note in os.listdir("app/templates/notes"):
 
     @app.route("/")
     def hello():
-        return text
+        return render_template("base.html")
 
     return app
 
