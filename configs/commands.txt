@@ -1,4 +1,4 @@
-# Docker managment
+# Docker management
 
 docker pull kishmakov/welcome_app:latest
 docker stop welcome_cont
@@ -9,6 +9,17 @@ docker pull kishmakov/notes_app:latest
 docker stop notes_cont
 docker rm notes_cont
 docker run -d -p 5002:5003 --name notes_cont kishmakov/notes_app:latest
+
+# Nginx management
+
+cd /etc/nginx/sites-enabled
+sudo ln -s /home/kishmakov/Repos/myweb/configs/kishmakov_ru.conf
+
+sudo mkdir -p /var/www/kishmakov_ru
+cd /var/www/kishmakov_ru
+sudo ln -s /home/kishmakov/Repos/myweb/static/
+
+sudo systemctl restart nginx
 
 # Old
 
