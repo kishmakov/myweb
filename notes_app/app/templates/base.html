@@ -2,8 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>Blog of Kirill Shmakov{% if tag %} - {{ tag }}{% endif %} - {{ section }}</title>
-    <link rel="shortcut icon" href="/static/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{{ static_url }}notes.css" />
+    <link rel="shortcut icon" href="{{ static_url }}favicon.ico" />
+    <title>{% block title %}{% endblock %}</title>
 </head>
 
 <body>
@@ -87,6 +88,4 @@
         </div>
     </div>
 </body>
-
-<link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </html>

@@ -6,9 +6,12 @@ def create_app(test_config=None):
 
     # for note in os.listdir("app/templates/notes"):
 
+    static_url = '//kishmakov.ru/static/'
+
     @app.route("/")
-    def hello():
-        return render_template("base.html")
+    @app.route("/list/<tag>")
+    def list(tag=None):
+        return render_template("list.html", static_url=static_url)
 
     return app
 
