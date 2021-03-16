@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 
 
 def create_app(test_config=None):
@@ -9,6 +9,10 @@ def create_app(test_config=None):
     static_url = '//kishmakov.ru/static/'
 
     @app.route("/")
+    def index():
+        return redirect("/list")
+
+    @app.route("/list")
     @app.route("/list/<tag>")
     def list(tag=None):
         return render_template("list.html", static_url=static_url)
