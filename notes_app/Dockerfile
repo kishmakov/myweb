@@ -9,6 +9,10 @@ WORKDIR /home/notes_app
 COPY app /home/notes_app/app
 COPY requirements.txt /home/notes_app
 
+COPY notes /home/notes_app/notes
+COPY convert_mds.py /home/notes_app
+
 RUN pip install -r requirements.txt
+RUN ./convert_mds.py
 
 CMD ["python3", "-m", "flask", "run", "--host", "0.0.0.0", "--port", "5003"]
