@@ -3,17 +3,18 @@ import markdown
 import os
 import re
 import shutil
+import textwrap
 from pathlib import Path
 
 mds_dir = "notes"
 templates_dir = "app/templates/n"
-index_file = "app/index.py"
+index_file_name = "app/index.py"
 
 ################################################################
 
 
 def is_meta_for(key, line, result):
-    match = re.search("^<!-- {0}: (.+) -->$".format(key), line)
+    match = re.search(f"^<!-- {key}: (.+) -->$", line)
     if match:
         result.append(match.group(1))
         return True
@@ -40,7 +41,7 @@ def parse_input(file_name):
         else:
             text += line
 
-    return header, tags, '\n'.join(summary), text
+    return header, tags, summary, text
 
 ################################################################
 
@@ -65,6 +66,21 @@ def write_template(relative_name, header, raw_text):
     output_file.write(text)
 
 
+def escape(str):
+    return str.replace('"', '\\"').replace("'", "\\'")
+
+def append_index(relative_name, header, tags, summary):
+    index_file = open(index_file_name, "a", encoding="utf-8")
+    index_file.write("\nnotes_records.append(NoteRecord(\n")
+    index_file.write(f'    "{relative_name}",\n')
+    index_file.write(f'    "{header}",\n')
+    index_file.write(f'    {tags},\n')
+    for line in summary[:-1]:
+        index_file.write(f'    "{escape(line)}"\n')
+    index_file.write(f'    "{escape(summary[-1])}"\n')
+    index_file.write("))\n")
+
+
 def process(file_name):
     relative_name = Path(file_name).stem
 
@@ -74,15 +90,25 @@ def process(file_name):
         header = header_by_name(relative_name)
 
     write_template(relative_name, header, text)
+    append_index(relative_name, header, tags, summary)
 
 
-def clean_up():
+def prepare():
     shutil.rmtree(templates_dir, ignore_errors=True)
     os.mkdir(templates_dir)
 
+    index_begin = textwrap.dedent("""\
+        from note_record import NoteRecord
+
+        notes_records = list()
+        """)
+
+    index_file = open(index_file_name, "w", encoding="utf-8")
+    index_file.write(index_begin)
+
 
 if __name__ == "__main__":
-    clean_up()
+    prepare()
 
     for file in os.listdir(mds_dir):
         if file.endswith(".md"):

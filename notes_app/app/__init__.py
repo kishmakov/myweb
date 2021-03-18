@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect
+from index import notes_records
 
 
 def create_app(test_config=None):
@@ -7,6 +8,7 @@ def create_app(test_config=None):
     # for note in os.listdir("app/templates/notes"):
 
     static_url = '//kishmakov.ru/static/'
+    notes_ids = [rec.id for rec in notes_records]
 
     @app.route("/")
     def index():
@@ -15,12 +17,11 @@ def create_app(test_config=None):
     @app.route("/list")
     @app.route("/list/<tag>")
     def list(tag=None):
-        return render_template("list.html", static_url=static_url)
+        return render_template("list.html", static_url=static_url, notes_ids=notes_ids)
 
     @app.route("/n/<note_id>")
     def note(note_id):
         return render_template("n/{0}.html".format(note_id), static_url=static_url)
-
 
     return app
 
