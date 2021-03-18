@@ -1,10 +1,7 @@
-=== Tags ===
-thrift shop; syntax mathjax;
-=== Header ===
-Smirnov's seminar 2010-03-29
-=== Summary ===
-Short extract from talk on problem motivated by geodesic application.
-=== Body ===
+<!-- Header: Smirnov's Seminar 2010-03-29 -->
+<!-- Tag: math -->
+<!-- Summary: Short extract from the talk on problem motivated by geodesic application. -->
+
 M. I. Belishev had a talk on Smirnov's seminar. Title: "Symmetric operators,
 algebras and inverse problems".
 

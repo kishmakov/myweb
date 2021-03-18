@@ -1,11 +1,9 @@
-=== Tags ===
-programming tools; syntax python; syntax cpp;
-=== Header ===
-Blog Engine Conception
-=== Summary ===
-Overview of this blog engine functional description (what's it for?)
-and explanation of its structure (how one could use it?).
-=== Body ===
+<!-- Header: Blog Engine Description -->
+<!-- Tag: python -->
+<!-- Tag: cpp -->
+<!-- Summary: Overview of this blog engine functional description (what's it for?) -->
+<!-- Summary: and explanation of its structure (how one could use it?). -->
+
 ## What Is It For?
 
 This "blog engine" is supposed to be a transparent tool for:

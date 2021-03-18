@@ -1,10 +1,7 @@
-=== Tags ===
-thrift shop; syntax mathjax;
-=== Header ===
-Simonyi Conjecture
-=== Summary ===
-Attractive short formulation of an open combinatorics problem.
-=== Body ===
+<!-- Header: Simonyi Conjecture -->
+<!-- Tag: math -->
+<!-- Summary: Attractive short formulation of an open combinatorics problem. -->
+
 Gabor Simonyi, while he was working on some omnidirectional codes, formulated
 the following conjecture.
 

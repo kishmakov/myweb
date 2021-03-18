@@ -41,7 +41,7 @@ def parse_input(file_name):
         else:
             text += line
 
-    return header, tags, summary, text
+    return header, tags, " ".join(summary).replace("  ", " "), text
 
 ################################################################
 
@@ -69,15 +69,14 @@ def write_template(relative_name, header, raw_text):
 def escape(str):
     return str.replace('"', '\\"').replace("'", "\\'")
 
+
 def append_index(relative_name, header, tags, summary):
     index_file = open(index_file_name, "a", encoding="utf-8")
     index_file.write("\nnotes_records.append(NoteRecord(\n")
     index_file.write(f'    "{relative_name}",\n')
     index_file.write(f'    "{header}",\n')
     index_file.write(f'    {tags},\n')
-    for line in summary[:-1]:
-        index_file.write(f'    "{escape(line)}"\n')
-    index_file.write(f'    "{escape(summary[-1])}"\n')
+    index_file.write(f'    "{escape(summary)}"\n')
     index_file.write("))\n")
 
 

@@ -1,7 +1,6 @@
 <!-- Header: Lucky Tickets -->
-<!-- Tag: thrift shop -->
-<!-- Summary: Summary of results of small research on probability -->
-<!-- Summary: of getting a "lucky ticket". -->
+<!-- Tag: math -->
+<!-- Summary: Computation of the probability of getting a "lucky ticket". -->
 
 In the public transit of Saint Petersburg each passenger is provided a paper
 ticket once he bought a ride. These tickets are numbered with 6 digits where

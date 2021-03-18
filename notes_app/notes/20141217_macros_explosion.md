@@ -1,10 +1,7 @@
-=== Tags ===
-fun; syntax cpp;
-=== Summary ===
-A small code which demonstrates C++ compiler constraints.
-=== Header ===
-Explosive Macros Example
-=== Body ===
+<!-- Header: Explosive Macros Example -->
+<!-- Tag: cpp -->
+<!-- Summary: A small code which demonstrates C++ compiler constraints. -->
+
 This code is inspired by a [codeforces problem](http://codeforces.ru/problemset/problem/7/E).
 It demonstrates seemingly innocuous macros which blow up compiler.
 

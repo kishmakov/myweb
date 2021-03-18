@@ -1,11 +1,9 @@
-=== Tags ===
-design philosophy; syntax mathjax;
-=== Header ===
-Dual Nature of the Program
-=== Summary ===
-An attempt to verbosely describe the difference between program as it is
-represented by software and as it is understood by a human.
-=== Body ===
+<!-- Header: Dual Nature of the Program -->
+<!-- Tag: design -->
+<!-- Tag: math -->
+<!-- Summary: An attempt to verbosely describe the difference between program as it is -->
+<!-- Summary: represented by software and as it is understood by a human. -->
+
 This entry is devoted to the difference between two comprehensions of idea
 of software program. First comprehension is the one which perceives a program
 via its philosophic idea and functional structure. Second comprehension is

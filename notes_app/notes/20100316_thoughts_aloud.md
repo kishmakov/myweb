@@ -1,10 +1,6 @@
-=== Tags ===
-thrift shop; syntax mathjax;
-=== Header ===
-Collection of Short Remarks
-=== Summary ===
-Sketchy thoughts on math subjects.
-=== Body ===
+<!-- Header: Collection of Short Remarks -->
+<!-- Tag: math -->
+<!-- Summary: Sketchy thoughts on math subjects. -->
 
 ## On Lie Groups
 

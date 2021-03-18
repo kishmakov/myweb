@@ -1,10 +1,7 @@
-=== Tags ===
-isaiah;
-=== Header ===
-Conception of Isaiah Project
-=== Summary ===
-Description of how the Isaiah project should look on completion.
-=== Body ===
+<!-- Header: Conception of the new CAS -->
+<!-- Tag: magnaura -->
+<!-- Summary: Description of how the Magnaura should look on completion. -->
+
 ## What will be here?
 
 I'm going to develop some project and write down some thoughts which I would have along it.
