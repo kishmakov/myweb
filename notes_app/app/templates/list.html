@@ -4,8 +4,16 @@
 
 {% block body %}
 <div class="container-fluid">
-    {% for note_id in notes_ids %}
-        <div class="row">{{ note_id }}</div>
+    {% for note in notes %}
+        <div class="row">
+            <strong>
+                <a href='//kishmakov.ru/notes/n/{{ note.id }}'>{{ note.header }}</a>
+            </strong>
+            <br>
+            <p class="text-muted">
+                {{ note.summary }}
+            </p>
+        </div>
 <!--        <div class="row">-->
 <!--            <div class="col-md-3 col-lg-2" style="padding:15px;">-->
 <!--                {% if tag %}-->

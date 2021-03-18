@@ -66,8 +66,8 @@ def write_template(relative_name, header, raw_text):
     output_file.write(text)
 
 
-def escape(str):
-    return str.replace('"', '\\"').replace("'", "\\'")
+def escape(line):
+    return line.replace('"', '\\"').replace("'", "\\'")
 
 
 def append_index(relative_name, header, tags, summary):
@@ -97,7 +97,7 @@ def prepare():
     os.mkdir(templates_dir)
 
     index_begin = textwrap.dedent("""\
-        from note_record import NoteRecord
+        from .note_record import NoteRecord
 
         notes_records = list()
         """)

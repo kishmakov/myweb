@@ -1,14 +1,11 @@
 from flask import Flask, render_template, redirect
-from index import notes_records
+from .index import notes_records
 
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
-    # for note in os.listdir("app/templates/notes"):
-
     static_url = '//kishmakov.ru/static/'
-    notes_ids = [rec.id for rec in notes_records]
 
     @app.route("/")
     def index():
@@ -17,7 +14,7 @@ def create_app(test_config=None):
     @app.route("/list")
     @app.route("/list/<tag>")
     def list(tag=None):
-        return render_template("list.html", static_url=static_url, notes_ids=notes_ids)
+        return render_template("list.html", static_url=static_url, notes=notes_records)
 
     @app.route("/n/<note_id>")
     def note(note_id):
