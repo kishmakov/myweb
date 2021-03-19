@@ -11,17 +11,19 @@ def create_app():
     else:
         app.config.from_object("config.Prod")
 
+    sorted_notes = sorted(notes_records, key=lambda record: record.id, reverse=True)
+
     @app.route("/")
     def index():
         return redirect("/list")
 
     @app.route("/list")
     def list_all():
-        return render_template("list_all.html", notes=notes_records)
+        return render_template("list_all.html", notes=sorted_notes  )
 
     @app.route("/list/<tag>")
     def list_tagged(tag):
-        return render_template("list_tagged.html", notes=notes_records)
+        return render_template("list_tagged.html", notes=sorted_notes)
 
     @app.route("/n/<note_id>")
     def note(note_id):
