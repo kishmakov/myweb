@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 
 {% block notes_home %}
-<a href="{{ config['NOTES_URL'] }}" class="mb-0 link-secondary"><h3>Notes List</h3></a>
+<a href="{{ config['NOTES_URL'] }}" class="mb-0 link-secondary"><h4>Notes List</h4></a>
 {% endblock %}
 
 {% block body %}
-<div class="container-fluid">
-    {% block div %}
-    {% endblock %}
+<div class="row">
+    <div class="col-sm-0 col-md-1 col-lg-1"></div>
+    <div class="col-sm-12 col-md-10 col-lg-10">
+    {% block div %}{% endblock %}
+    </div>
+    <div class="col-sm-0 col-md-1 col-lg-1"></div>
 </div>
 {% endblock %}
