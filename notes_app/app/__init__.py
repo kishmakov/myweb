@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, redirect
-from .index import notes_records
+from index import notes_records
 
 
 def create_app():

@@ -97,7 +97,7 @@ def prepare():
     os.mkdir(templates_dir)
 
     index_begin = textwrap.dedent("""\
-        from .note_record import NoteRecord
+        from note_record import NoteRecord
 
         notes_records = list()
         """)

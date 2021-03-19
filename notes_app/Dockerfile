@@ -12,6 +12,8 @@ COPY requirements.txt /home/notes_app
 COPY notes /home/notes_app/notes
 COPY convert_mds.py /home/notes_app
 
+ENV PYTHONPATH "${PYTHONPATH}:/home/notes_app/app"
+
 RUN pip install -r requirements.txt
 RUN ./convert_mds.py
 
