@@ -52,9 +52,9 @@ def header_by_name(relative_name):
 
 
 def write_template(relative_name, header, raw_text):
-    text = '{% extends "note.html" %}\n'
+    text = '{% extends "note.html" %}\n\n'
 
-    text += '{% block title %}' + header + '{% endblock %}\n'
+    text += '{% block title %}' + header + '{% endblock %}\n\n'
 
     text += '{% block div %}\n'
     text += markdown.markdown("# " + header + raw_text)
