@@ -4,6 +4,12 @@
 <a href="{{ config['NOTES_URL'] }}" class="mb-0 link-secondary"><h4>Notes List</h4></a>
 {% endblock %}
 
+{% block edit_suggestion %}
+<a href="{{ config['GITHUB_EDIT_URL'] }}{{ note_id }}.md" class="mb-0 me-3 link-secondary">
+    <h4>Suggest an edit</h4>
+</a>
+{% endblock %}
+
 {% block body %}
 <div class="row">
     <div class="col-sm-0 col-md-1 col-lg-1"></div>

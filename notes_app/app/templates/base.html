@@ -35,6 +35,7 @@
       <a href="{{ config['HOME_URL'] }}" class="mb-0 me-3 link-primary"><h4>Home</h4></a>
       {% block notes_home %}{% endblock %}
       <h2 class="me-auto ms-auto">{{ self.title() }}</h2>
+      {% block edit_suggestion %}{% endblock %}
   </div>
 </header>
 
