@@ -30,7 +30,7 @@ def create_app():
 
     @app.route("/n/<note_id>")
     def note(note_id):
-        return render_template("n/{0}.html".format(note_id))
+        return render_template("n/{0}.html".format(note_id), note_id=note_id)
 
     return app
 
