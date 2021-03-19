@@ -1,0 +1,9 @@
+{% extends 'list_all.html' %}
+
+{% block title %}
+<b>{{ tag }}</b> Notes
+{% endblock %}
+
+{% block notes_home %}
+<a href="{{ config['NOTES_URL'] }}" class="mb-0 link-secondary"><h4>Notes List</h4></a>
+{% endblock %}
