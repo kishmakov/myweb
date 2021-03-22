@@ -57,7 +57,7 @@ def write_template(relative_name, header, raw_text):
     text += '{% block title %}' + header + '{% endblock %}\n\n'
 
     text += '{% block div %}\n'
-    text += markdown.markdown("# " + header + raw_text, extensions=['smarty'])
+    text += markdown.markdown(raw_text, extensions=['smarty'])
     text += '\n{% endblock %}\n'
 
     output_name = os.path.join(templates_dir, relative_name + ".html")
