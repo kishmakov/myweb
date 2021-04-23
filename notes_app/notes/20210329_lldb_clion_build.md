@@ -1,10 +1,10 @@
-<!-- Header: How to use CLion for LLDB development -->
+<!-- Header: CLion for LLDB Development -->
 <!-- Tag: apple -->
 <!-- Tag: cpp -->
 <!-- Summary: Tricks for comfy environment setup -->
 <!-- Summary: for building and debugging LLDB with CLion. -->
 
-## Check out
+## Check Out
 
 There are two main repositories for llvm-project: core one 
 [github.com/llvm/llvm-project](github.com/llvm/llvm-project) 
