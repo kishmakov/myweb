@@ -44,7 +44,7 @@ Additional remotes are supposed to be mentioned in `./llvm-project/.git/config`
     url = ssh://git@git.jetbrains.team/llvm/llvm-project.git
     fetch = +refs/heads/*:refs/remotes/jb/*
 ```
-and to be fetched from within `llvm-project` via `git fetch jb`.
+and to be fetched from within `./llvm-project` via `git fetch jb`.
 
 [comment]: <> (In order to utils/update-checkout --scheme release/5.3)
 
@@ -62,4 +62,40 @@ SKIP_XCODE_VERSION_CHECK=1 ./swift/utils/build-script --swift-darwin-supported-a
    --build-subdir=buildbot_osx --swift-enable-ast-verifier=0 --no-swift-stdlib-assertions \
    --skip-test-lldb --skip-test-swift --skip-test-llbuild --skip-test-lldb --skip-test-cmark \
    --sccache
-``` 
+```
+
+After project is built `./llvm-project/llvm` should be opened in CLion. To import 
+project, next CMake options should be used (*Preferences > Build, Execution, Deployment > CMake*):
+
+```plaintext
+-GNinja
+-DLLVM_ENABLE_PROJECTS="libcxx;clang;lldb"
+-DCMAKE_BUILD_TYPE="DEBUG"
+-DCMAKE_CXX_FLAGS="-g -O0"
+-DCMAKE_CXX_FLAGS_RELEASE="-g -O0"
+-DLLVM_TARGETS_TO_BUILD="X86;AArch64"
+-DLLVM_DIR=/Users/kirill.shmakov/Repos/swift-project/build/buildbot_osx/llvm-macosx-x86_64/lib/cmake/llvm
+-DClang_DIR=/Users/kirill.shmakov/Repos/swift-project/build/buildbot_osx/llvm-macosx-x86_64/lib/cmake/clang
+-DLLVM_CMAKE_DIR=/Users/kirill.shmakov/Repos/swift-project/llvm-project/llvm/cmake/modules/
+-DLLVM_ENABLE_ASSERTIONS=YES
+-DLLVM_ENABLE_LIBXML2=NO
+-DLLVM_INCLUDE_EXAMPLES=OFF
+-DLLVM_INCLUDE_BENCHMARKS=OFF
+-DLLVM_INCLUDE_TESTS=OFF
+-DLLVM_PACKAGE_VERSION="Apple clang version 11.0.3"
+-DLLVM_TOOLS_BINARY_DIR=/Users/kirill.shmakov/Repos/swift-project/build/buildbot_osx/llvm-macosx-x86_64/bin
+-DLLVM_LIBRARY_DIRS=/tmp/dummy
+-DSWIFT_PATH_TO_CMARK_BUILD=/Users/kirill.shmakov/Repos/swift-project/build/buildbot_osx/cmark-macosx-x86_64/
+-DSWIFT_INCLUDE_TOOLS=YES
+-DSWIFT_INCLUDE_APINOTES=YES
+-DSWIFT_BUILD_STDLIB=YES
+-DLLDB_BUILD_FRAMEWORK=YES
+-DLLDB_USE_SYSTEM_DEBUGSERVER=OFF
+-DLLDB_ENABLE_LIBEDIT=NO
+-DLLDB_ENABLE_CURSES=NO
+-DLLDB_ENABLE_LZMA=NO
+```
+
+After import completed it is possible to build `lldb` with local changes 
+from within CLion (just select *lldb* run configuration). Results would 
+be stored at `./llvm-project/llvm/cmake-build-debug`. 
