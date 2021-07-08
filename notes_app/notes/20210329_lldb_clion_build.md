@@ -7,15 +7,15 @@
 ## Check Out
 
 There are two main repositories for llvm-project: core one 
-[github.com/llvm/llvm-project](github.com/llvm/llvm-project) 
+[github.com/llvm/llvm-project](https://github.com/llvm/llvm-project) 
 and another, managed by Apple 
-[github.com/apple/llvm-project](github.com/apple/llvm-project). 
+[github.com/apple/llvm-project](https://github.com/apple/llvm-project). 
 Apple uses core repository as a base for its development branches and 
 upstreams its fixes. For space optimization, it is convenient to check 
 out both `llvm` origins into one location. 
 
 For building `lldb` with Swift support, one needs to check out Swift's repo 
-[github.com/apple/swift](github.com/apple/swift) and to clone the rest with 
+[github.com/apple/swift](https://github.com/apple/swift) and to clone the rest with 
 command `./swift/utils/update-checkout --clone-with-ssh`.
 Resulting checkout should look similar to 
 
@@ -74,26 +74,18 @@ project, next CMake options should be used (*Preferences > Build, Execution, Dep
 -DCMAKE_CXX_FLAGS="-g -O0"
 -DCMAKE_CXX_FLAGS_RELEASE="-g -O0"
 -DLLVM_TARGETS_TO_BUILD="X86;AArch64"
--DLLVM_DIR=/Users/kirill.shmakov/Repos/swift-project/build/buildbot_osx/llvm-macosx-x86_64/lib/cmake/llvm
--DClang_DIR=/Users/kirill.shmakov/Repos/swift-project/build/buildbot_osx/llvm-macosx-x86_64/lib/cmake/clang
--DLLVM_CMAKE_DIR=/Users/kirill.shmakov/Repos/swift-project/llvm-project/llvm/cmake/modules/
 -DLLVM_ENABLE_ASSERTIONS=YES
 -DLLVM_ENABLE_LIBXML2=NO
 -DLLVM_INCLUDE_EXAMPLES=OFF
 -DLLVM_INCLUDE_BENCHMARKS=OFF
 -DLLVM_INCLUDE_TESTS=OFF
--DLLVM_PACKAGE_VERSION="Apple clang version 11.0.3"
 -DLLVM_TOOLS_BINARY_DIR=/Users/kirill.shmakov/Repos/swift-project/build/buildbot_osx/llvm-macosx-x86_64/bin
--DLLVM_LIBRARY_DIRS=/tmp/dummy
--DSWIFT_PATH_TO_CMARK_BUILD=/Users/kirill.shmakov/Repos/swift-project/build/buildbot_osx/cmark-macosx-x86_64/
--DSWIFT_INCLUDE_TOOLS=YES
--DSWIFT_INCLUDE_APINOTES=YES
--DSWIFT_BUILD_STDLIB=YES
 -DLLDB_BUILD_FRAMEWORK=YES
 -DLLDB_USE_SYSTEM_DEBUGSERVER=OFF
 -DLLDB_ENABLE_LIBEDIT=NO
 -DLLDB_ENABLE_CURSES=NO
 -DLLDB_ENABLE_LZMA=NO
+-DLLVM_EXTERNAL_SWIFT_SOURCE_DIR=/Users/kirill.shmakov/Repos/swift-project/swift
 ```
 
 After import completed it is possible to build `lldb` with local changes 
